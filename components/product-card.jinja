@@ -6,8 +6,7 @@
 {% set can_preorder = product.can_be_preordered %}
 {% set is_in_stock_or_preorderable = product.is_infinite or product.quantity > 0 or can_preorder %}
 {% set is_out_of_stock = (product.is_infinite == false and product.quantity <= 0) and not can_preorder %}
-{% set cap_top = 'customer-choices-cap-top.png' | asset_url %}
-{% set cap_bottom = 'customer-choices-cap-bottom.png' | asset_url %}
+{% set cap_bottom = 'image 126.png' | asset_url %}
 {% set product_image = '' %}
 {% if product.images or product.videos %}
     {% if product.main_image %}
@@ -37,7 +36,9 @@
                 >
                 <span class="product-card-bundle-offer" data-bundle-offer-product-id="{{ product.id }}"></span>
             </a>
+        </div>
 
+        <div class="khalab-product-card-actions">
             <a href="/products/{{ product.slug }}" class="khalab-product-card-action khalab-product-card-action--view" aria-label="{{ _('View product') }}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M12 5C7 5 2.73 8.11 1 12.5C2.73 16.89 7 20 12 20C17 20 21.27 16.89 23 12.5C21.27 8.11 17 5 12 5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,12 +61,14 @@
                     </a>
                     {% set loader_size = 'sm' %}{% set loader_class = 'loader d-none' %}{% include 'components/khalab-loader.jinja' %}
                 </span>
+            {% else %}
+                <span class="khalab-product-card-action khalab-product-card-action--wishlist khalab-product-card-action--placeholder" aria-hidden="true"></span>
             {% endif %}
         </div>
 
         <img src="{{ cap_bottom }}" alt="" class="khalab-product-card-cap khalab-product-card-cap--bottom" loading="lazy" draggable="false">
 
-        <div class="khalab-product-card-body">
+        <div class="khalab-product-card-info">
             {% if has_preorder %}
                 <div class="khalab-product-card-preorder">
                     {% set preorder_badge_variant = 'product_card' %}
@@ -102,26 +105,26 @@
                     <span class="khalab-product-card-price">{{ product.formatted_price }}</span>
                 {% endif %}
             </div>
-        </div>
 
-        <div class="khalab-product-card-footer">
-            {% if is_out_of_stock %}
-                <a href="/products/{{ product.slug }}" class="khalab-product-card-cta">
-                    <img src="{{ 'u_bell.svg' | asset_url }}" alt="" width="18" height="18">
-                    <span>{{ _("Notify me when available") }}</span>
-                </a>
-            {% elif product.has_options or product.has_fields or product.product_class == 'dynamic_bundle' %}
-                <a href="/products/{{ product.slug }}" class="khalab-product-card-cta">
-                    <img src="{{ 'buy-now.svg' | asset_url }}" alt="" width="18" height="18">
-                    <span>{{ _("Preorder now") if has_preorder else _("add to cart") }}</span>
-                </a>
-            {% else %}
-                <button type="button" class="khalab-product-card-cta product-card-add-to-cart" onclick="productCartAddToCart(this,'{{ product.id }}')">
-                    {% set loader_size = 'sm' %}{% set loader_class = 'add-to-cart-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
-                    <img src="{{ 'buy-now.svg' | asset_url }}" alt="" width="18" height="18" class="khalab-product-card-cta-icon">
-                    <span>{{ _("Buy now") if not has_preorder else _("Preorder now") }}</span>
-                </button>
-            {% endif %}
+            <div class="khalab-product-card-cta-wrap">
+                {% if is_out_of_stock %}
+                    <a href="/products/{{ product.slug }}" class="khalab-product-card-cta">
+                        <img src="{{ 'u_bell.svg' | asset_url }}" alt="" width="18" height="18">
+                        <span>{{ _("Notify me when available") }}</span>
+                    </a>
+                {% elif product.has_options or product.has_fields or product.product_class == 'dynamic_bundle' %}
+                    <a href="/products/{{ product.slug }}" class="khalab-product-card-cta">
+                        <img src="{{ 'buy-now.svg' | asset_url }}" alt="" width="18" height="18">
+                        <span>{{ _("Preorder now") if has_preorder else _("add to cart") }}</span>
+                    </a>
+                {% else %}
+                    <button type="button" class="khalab-product-card-cta product-card-add-to-cart" onclick="productCartAddToCart(this,'{{ product.id }}')">
+                        {% set loader_size = 'sm' %}{% set loader_class = 'add-to-cart-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
+                        <img src="{{ 'buy-now.svg' | asset_url }}" alt="" width="18" height="18" class="khalab-product-card-cta-icon">
+                        <span>{{ _("Buy now") if not has_preorder else _("Preorder now") }}</span>
+                    </button>
+                {% endif %}
+            </div>
         </div>
     </div>
 </article>
