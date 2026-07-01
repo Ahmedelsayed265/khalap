@@ -83,6 +83,42 @@
       --khalab-font-camel: 'Year of Camel', serif;
     }
 
+    body.khalab-page-loading {
+      overflow: hidden;
+    }
+
+    .khalab-page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--khalab-olive, #2e3326);
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    .khalab-page-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .khalab-page-loader__spinner {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 56px;
+      height: 56px;
+      border: 3px solid rgba(229, 225, 211, 0.18);
+      border-top-color: var(--khalab-sage, #d4d5ac);
+      border-radius: 50%;
+      animation: khalab-page-loader-spin 0.75s linear infinite;
+    }
+
+    @keyframes khalab-page-loader-spin {
+      to { transform: rotate(360deg); }
+    }
+
     @font-face {
       font-family: 'Khalap';
       src: url('{{ 'khalap.ttf' | asset_url }}') format('truetype');
@@ -139,7 +175,7 @@
 
   <link rel="stylesheet" href="{{ ('main.css?v=' ~ ver) | asset_url }}" />
 
-  <link rel="stylesheet" type="text/css" href="{{ 'custom.css?v=1.157' | asset_url }}" />
+  <link rel="stylesheet" type="text/css" href="{{ 'custom.css?v=1.158' | asset_url }}" />
 
   {% if session.lang == 'ar' %}
     <link rel="stylesheet" href="{{ 'main.rtl.css?v=1.25' | asset_url }}">
@@ -153,7 +189,27 @@
 
 </head>
 
-<body class="{{ session.locale.language.direction }}" data-template="{{ session.template }}" {% if template == 'category' and category is not none %} data-category-id="{{ category.id }}" {% endif %}>
+<body class="{{ session.locale.language.direction }} khalab-page-loading" data-template="{{ session.template }}" {% if template == 'category' and category is not none %} data-category-id="{{ category.id }}" {% endif %}>
+<div id="khalab-page-loader" class="khalab-page-loader" role="status" aria-live="polite" aria-busy="true" aria-label="{{ _('Loading') }}">
+  <span class="khalab-page-loader__spinner" aria-hidden="true"></span>
+</div>
+<script>
+(function () {
+  function hidePageLoader() {
+    var loader = document.getElementById('khalab-page-loader');
+    if (!loader || loader.classList.contains('is-hidden')) return;
+    loader.classList.add('is-hidden');
+    loader.setAttribute('aria-busy', 'false');
+    document.body.classList.remove('khalab-page-loading');
+  }
+
+  if (document.readyState === 'complete') {
+    hidePageLoader();
+  } else {
+    window.addEventListener('load', hidePageLoader, { once: true });
+  }
+})();
+</script>
 <div class="khalab-page-grid" aria-hidden="true"></div>
 
 <style>

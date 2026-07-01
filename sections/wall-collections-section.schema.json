@@ -1,0 +1,49 @@
+{
+  "section_id": "uuid",
+  "template": "sections/wall-collections-section.jinja",
+  "icon": "fal fa-image",
+  "name": {
+    "ar": "مجموعات جدارية",
+    "en": "Wall Collections"
+  },
+  "settings": [
+    {
+      "id": "background_image",
+      "type": "image",
+      "label": {
+        "ar": "صورة القسم",
+        "en": "Section image"
+      },
+      "info": {
+        "ar": "ارفع صورة التصميم كاملة (الخلفية + اللوحات)",
+        "en": "Upload the full design image (background + posters)"
+      }
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      },
+      "default": "مجموعات جدارية مختارة"
+    },
+    {
+      "id": "cta_text",
+      "type": "text",
+      "label": {
+        "ar": "نص الزر",
+        "en": "Button text"
+      },
+      "default": "أطلب الآن"
+    },
+    {
+      "id": "cta_url",
+      "type": "url",
+      "label": {
+        "ar": "رابط الزر",
+        "en": "Button link"
+      }
+    }
+  ]
+}

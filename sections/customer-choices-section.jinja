@@ -1,0 +1,166 @@
+{% set default_items = [
+    {'label': 'مختارة بعناية', 'rating': '5', 'price': '200', 'compare_price': '1070.5', 'url': '/products'},
+    {'label': 'الأكثر طلباً', 'rating': '5', 'price': '200', 'compare_price': '1070.5', 'url': '/products'},
+    {'label': 'الأعلى تقييماً', 'rating': '4', 'price': '200', 'compare_price': '1070.5', 'url': '/products'}
+] %}
+{% set cms_items = safeget(settings, 'items', []) %}
+{% set choice_items = cms_items if cms_items | length > 0 else default_items %}
+{% set section_title = settings.title or 'لوحات اختارها عملاء خلاب بكثرة، مناسبة لمن يبحث عن خيارات مضمونة وجاهزة.' %}
+{% set cap_top = 'customer-choices-cap-top.png' | asset_url %}
+{% set cap_bottom = 'customer-choices-cap-bottom.png' | asset_url %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-customer-choices khalab-section-solid"
+    aria-label="{{ section_title }}">
+    <div class="khalab-customer-choices-inner">
+        <header class="khalab-customer-choices-header">
+            <h2 class="khalab-customer-choices-title">{{ section_title }}</h2>
+        </header>
+
+        {% if choice_items | length > 0 %}
+            <div class="khalab-customer-choices-stage">
+                <div class="khalab-customer-choices-swiper swiper" role="region" aria-roledescription="carousel" aria-label="{{ section_title }}">
+                    <div class="swiper-wrapper">
+                        {% for item in choice_items %}
+                            {% set raw_image = item.image %}
+                            {% set image_src = '' %}
+                            {% if raw_image %}
+                                {% if raw_image is string %}
+                                    {% set image_src = raw_image %}
+                                {% elif raw_image.url is defined and raw_image.url %}
+                                    {% set image_src = raw_image.url %}
+                                {% elif raw_image.src is defined and raw_image.src %}
+                                    {% set image_src = raw_image.src %}
+                                {% elif raw_image.path is defined and raw_image.path %}
+                                    {% set image_src = raw_image.path %}
+                                {% elif raw_image.image is defined %}
+                                    {% if raw_image.image is string %}
+                                        {% set image_src = raw_image.image %}
+                                    {% elif raw_image.image.url is defined %}
+                                        {% set image_src = raw_image.image.url %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% set card_label = item.label or 'مختارة بعناية' %}
+                            {% set card_url = item.url or '/products' %}
+                            {% set card_price = item.price or '' %}
+                            {% set card_compare = item.compare_price or '' %}
+                            {% set card_rating = (item.rating | default('5')) | int %}
+                            {% if card_rating < 0 %}
+                                {% set card_rating = 0 %}
+                            {% elif card_rating > 5 %}
+                                {% set card_rating = 5 %}
+                            {% endif %}
+                            {% set is_lower = loop.index0 % 2 == 1 %}
+
+                            <div class="swiper-slide khalab-customer-choices-slide{% if is_lower %} is-lower{% else %} is-higher{% endif %}">
+                                <a href="{{ card_url }}" class="khalab-customer-choices-card">
+                                    <span class="khalab-customer-choices-card-inner">
+                                        <span class="khalab-customer-choices-card-media">
+                                            {% if image_src %}
+                                                <img
+                                                    src="{{ image_url(image_src, w=876, q=90, f='auto') }}"
+                                                    alt="{{ card_label }}"
+                                                    class="khalab-customer-choices-card-photo"
+                                                    loading="{% if loop.index0 < 2 %}eager{% else %}lazy{% endif %}"
+                                                    draggable="false"
+                                                >
+                                            {% else %}
+                                                <span class="khalab-customer-choices-card-placeholder" aria-hidden="true"></span>
+                                            {% endif %}
+                                        </span>
+
+                                        <img
+                                            src="{{ cap_top }}"
+                                            alt=""
+                                            class="khalab-customer-choices-card-cap khalab-customer-choices-card-cap--top"
+                                            loading="{% if loop.index0 < 2 %}eager{% else %}lazy{% endif %}"
+                                            draggable="false"
+                                        >
+                                        <img
+                                            src="{{ cap_bottom }}"
+                                            alt=""
+                                            class="khalab-customer-choices-card-cap khalab-customer-choices-card-cap--bottom"
+                                            loading="{% if loop.index0 < 2 %}eager{% else %}lazy{% endif %}"
+                                            draggable="false"
+                                        >
+
+                                        <span class="khalab-customer-choices-card-head">
+                                            <span class="khalab-customer-choices-card-label">{{ card_label | safe }}</span>
+                                            {% if card_rating > 0 %}
+                                                <span class="khalab-customer-choices-card-stars" aria-label="{{ card_rating }} / 5">
+                                                    {% for star in range(1, 6) %}
+                                                        <img
+                                                            src="{{ 'iconoir_star-solid.svg' | asset_url }}"
+                                                            alt=""
+                                                            class="khalab-customer-choices-card-star{% if star > card_rating %} is-muted{% endif %}"
+                                                            width="18"
+                                                            height="18"
+                                                            loading="lazy"
+                                                            draggable="false"
+                                                        >
+                                                    {% endfor %}
+                                                </span>
+                                            {% endif %}
+                                        </span>
+
+                                        <span class="khalab-customer-choices-card-foot">
+                                            <span class="khalab-customer-choices-card-prices">
+                                                {% if card_price %}
+                                                    <span class="khalab-customer-choices-card-price">{{ card_price }} 
+                                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect width="28" height="28" fill="url(#pattern0_2171_580)"/>
+                                                            <defs>
+                                                            <pattern id="pattern0_2171_580" patternContentUnits="objectBoundingBox" width="1" height="1">
+                                                            <use xlink:href="#image0_2171_580" transform="matrix(0.00205339 0 0 0.00184805 0 -0.0026694)"/>
+                                                            </pattern>
+                                                            <image id="image0_2171_580" width="487" height="544" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
+                                                {% endif %}
+                                                {% if card_compare %}
+                                                    <span class="khalab-customer-choices-card-compare">{{ card_compare }} 
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="20" height="20" fill="url(#pattern0_2171_582)" fill-opacity="0.43"/>
+<defs>
+<pattern id="pattern0_2171_582" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_2171_582" transform="matrix(0.00210084 0 0 0.00183824 -0.0115546 0)"/>
+</pattern>
+<image id="image0_2171_582" width="487" height="544" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
+</defs>
+</svg>
+</span>
+                                                {% endif %}
+                                            </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if choice_items | length > 1 %}
+                    <button type="button" class="khalab-customer-choices-nav khalab-customer-choices-nav--prev" aria-label="{{ _('Previous') }}">
+                        <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                            <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="khalab-customer-choices-nav khalab-customer-choices-nav--next" aria-label="{{ _('Next') }}">
+                        <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                            <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script src="{{ 'customer-choices-gallery.js' | asset_url }}" defer></script>

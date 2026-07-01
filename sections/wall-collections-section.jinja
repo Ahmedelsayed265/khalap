@@ -1,0 +1,38 @@
+{% set section_title = settings.title or 'مجموعات جدارية مختارة' %}
+{% set cta_text = settings.cta_text or 'أطلب الآن' %}
+{% set cta_url = settings.cta_url or '/products' %}
+{% set bg_image = settings.background_image %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-wall-collections khalab-section-solid"
+    aria-label="{{ section_title }}"
+>
+    <div class="khalab-wall-collections-frame">
+        {% if bg_image %}
+            <img
+                src="{{ image_url(bg_image, w=1920, q=90, f='auto') }}"
+                alt=""
+                class="khalab-wall-collections-img"
+                loading="lazy"
+            >
+        {% else %}
+            <span class="khalab-wall-collections-img khalab-wall-collections-img--fallback" aria-hidden="true"></span>
+        {% endif %}
+
+        <div class="khalab-wall-collections-copy">
+            <h2 class="khalab-wall-collections-title">{{ section_title }}</h2>
+            <a href="{{ cta_url }}" class="khalab-wall-collections-cta">
+                <span class="khalab-wall-collections-cta-icon" aria-hidden="true">
+                    <svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M57.3333 43L28.6666 43M39.4166 32.25L28.6666 43L39.4166 53.75" stroke="#323824" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M60.9166 74.039C55.4719 77.1897 49.2905 78.8438 42.9999 78.8335C23.2092 78.8335 7.16658 62.7909 7.16659 43.0001C7.16659 23.2094 23.2092 7.16679 42.9999 7.16679C62.7907 7.16679 78.8333 23.2094 78.8333 43.0001C78.8333 49.5254 77.0882 55.6493 74.0388 60.9168" stroke="#323824" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
+                </span>
+                <span class="khalab-wall-collections-cta-text">{{ cta_text }}</span>
+            </a>
+        </div>
+    </div>
+</section>

@@ -33,9 +33,6 @@
         </nav>
     </section>
 
-    {% set title=category.name %}{% set description=category.description %}{% include 'components/breadcrumb-subTitle-detail.jinja' %}
-    
-
     {% if category.sub_categories | length > 0 %}
         <div class="container pt-2 category-page-slider">
             <div class="home-categories-section section-padding-space">
@@ -111,28 +108,41 @@
         </div>
     {% endif %}
 
-    <div class="container d-flex flex-row">
-        {% if  products.filters|length > 0 %}
-            {% set async=true %} {% include 'vitrin:products/filters.jinja' %}
-            
-        {% endif %}
-        <div class="products-container flex-grow-1 pt-4">
-            <div>
-                {% set count=products.count %}{% set has_products_filtration=(products.filters|length > 0) %}{% include 'components/products-filter.jinja' %}
-            </div>
-            <div id="products-list" class="row products-list">
-                {% for product in products.results %}
+    <section class="khalab-products-section khalab-products-page khalab-section-solid" aria-label="{{ category.name }}">
+        <div class="khalab-products-inner">
+            <header class="khalab-products-header">
+                <div class="khalab-products-title-wrap">
+                    <h1 class="khalab-products-title">{{ category.name }}</h1>
+                </div>
+            </header>
 
-                    <div class="prod-col {% if products.filters|length > 0 %}prod-col-attr{% endif %} prod-col-tb">
-                        {% set product=product %}{% set index=key %}{% include 'components/product-card.jinja' %}
+            <div class="khalab-products-toolbar-wrap{% if products.filters|length > 0 %} has-filters{% endif %}">
+                <div class="container-fluid khalab-products-layout">
+                    {% if products.filters|length > 0 %}
+                        {% set async=true %}{% include 'vitrin:products/filters.jinja' %}
+                    {% endif %}
+
+                    <div class="products-container flex-grow-1">
+                        <div class="khalab-products-toolbar">
+                            {% set count=products.count %}{% set has_products_filtration=(products.filters|length > 0) %}{% include 'components/products-filter.jinja' %}
+                        </div>
+
+                        <div id="products-list" class="khalab-products-grid products-list row">
+                            {% for product in products.results %}
+                                <div class="prod-col {% if products.filters|length > 0 %}prod-col-attr{% endif %} prod-col-tb">
+                                    {% set product=product %}{% set index=key %}{% include 'components/product-card.jinja' %}
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                {% endfor %}
+            <div class="khalab-products-pagination">
+                {% set totalPages=products.pages_count %}{% set currentPage=products.page %}{% include 'components/pagination.jinja' %}
             </div>
         </div>
-    </div>
-
-    {% set totalPages=products.pages_count %}{% set currentPage=products.page %}{% include 'components/pagination.jinja' %}
+    </section>
 
     <div class="container">
       {% set entity = category %}

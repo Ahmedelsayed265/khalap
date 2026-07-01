@@ -118,7 +118,7 @@
                                             </button>
                                             <button type="button" class="btn btn-sm btn-link gift-card-delete-btn" onclick="deleteGiftCard()" title="{{ _('Delete') }}">
                                                 <span class="icon-trash-alt"></span>
-                                                <img class="delete-gift-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="15" height="15"/>
+                                                {% set loader_size = 'sm' %}{% set loader_variant = 'dark' %}{% set loader_class = 'delete-gift-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
                                             </button>
                                         </div>
                                     </div>
@@ -164,7 +164,7 @@
                                 <div class="d-flex">
                                     <input class="form-control send-coupon" type="text" placeholder="{{ _("Enter discount coupon") }}" />
                                     <button type="button" class="btn btn-primary" onclick="sendCoupon()">
-                                        <img class="send-coupon-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="15" height="15"/>
+                                        {% set loader_size = 'sm' %}{% set loader_variant = 'dark' %}{% set loader_class = 'send-coupon-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
                                     {{ _("Send") }}
                                     </button>
                                 </div>
@@ -177,7 +177,7 @@
                                 <span>{{ cart.coupon.code }}</span>&nbsp;
                                 <a onclick="deleteCoupon()" style="color: inherit; cursor: pointer">
                                     <span class="icon-trash-alt"></span>
-                                    <img class="delete-coupon-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="15" height="15"/>
+                                    {% set loader_size = 'sm' %}{% set loader_variant = 'dark' %}{% set loader_class = 'delete-coupon-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
                                 </a>
                             </div>
                         {% endif %}
@@ -312,7 +312,7 @@
 
         function addDeleteProgressImage(){
             $('.cart-product-delete a .prefix', document).addClass('d-none');
-            $('.cart-product-delete a .prefix', document).html('<img class="send-coupon-progress" src="{{ 'spinner.gif' | asset_url }}" width="15" height="15"/>');
+            $('.cart-product-delete a .prefix', document).html('<span class="khalab-loader khalab-loader--sm khalab-loader--dark send-coupon-progress" role="status" aria-label="{{ _('Loading') }}"></span>');
         }
 
         $(document).on('click','.cart-product-delete a', function(event) {

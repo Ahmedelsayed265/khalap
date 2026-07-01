@@ -280,7 +280,7 @@
                                                 </div>
                                                 <div class="form-notify-me-submit-button-row">
                                                     <button type="button" class="btn btn-primary btn-send-notify" onclick="sendProductNotifyMe()">
-                                                    <img class="send-notify-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="15" height="15"/>
+                                                    {% set loader_size = 'sm' %}{% set loader_variant = 'dark' %}{% set loader_class = 'send-notify-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
                                                     {{ _("Send") }}
                                                     </button>
                                                 </div>
@@ -304,7 +304,7 @@
                                             <button style="margin-bottom: 20px" class="btn btn-add-to-cart" type="button" onclick="productAddToCart()">
                                                 <div class="add-to-cart-icon fa fa-shopping-cart" style="mask: url({{ 'shopping-cart.svg' | asset_url }}) no-repeat center;"></div>
 
-                                                <img class="add-to-cart-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="25" height="25"/>
+                                                {% set loader_size = 'lg' %}{% set loader_class = 'add-to-cart-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
 
                                         {% if product.preorder_campaign %}{{ _("Preorder now") }}{% else %}{{ _("add to cart") }}{% endif %}
                                             </button>
@@ -316,7 +316,7 @@
                                         <button class="btn btn-buy-now d-none" type="button" onclick="zidProductBuyNow()">
                                             <div class="buy-now-icon" style="mask: url({{ 'buy-now.svg' | asset_url }}) no-repeat center;"></div>
 
-                                            <img class="buy-now-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="25" height="25" />
+                                            {% set loader_size = 'lg' %}{% set loader_class = 'buy-now-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
 
                                             <span>{{ _("Buy now") }}</span>
                                         </button>
@@ -329,7 +329,7 @@
                                                 {% else %}
                                                 <a class="icon-heart-mask" href="{{ url_for('login_page', query_params={"redirect_to": session.path} ) }}"></a>
                                                 {% endif %}
-                                                <img class="loader d-none" src="{{ 'spinner.gif' | asset_url }}" width="20" height="20"/>
+                                                {% set loader_size = 'md' %}{% set loader_class = 'loader d-none' %}{% include 'components/khalab-loader.jinja' %}
                                             </span>
                                         {% endif %}
                                 </div>

@@ -8,28 +8,12 @@
   },
   "settings": [
     {
-      "id": "background_image",
-      "type": "image",
-      "label": {
-        "ar": "صورة الخلفية",
-        "en": "Background image"
-      },
-      "info": {
-        "ar": "صورة داخلية للغرفة — تُغطى بطبقة زيتونية داكنة",
-        "en": "Interior room photo with dark overlay"
-      }
-    },
-    {
-      "id": "surface_image",
-      "type": "image",
-      "label": {
-        "ar": "صورة سطح الطاولة",
-        "en": "Table surface image"
-      },
-      "info": {
-        "ar": "الطاولة/السطح الخشبي خلف البطاقات",
-        "en": "Shared wooden table behind cards"
-      }
+        "id": "background_image",
+        "type": "image",
+        "label": {
+            "ar": "صورة الخلفية",
+            "en": "Background image"
+        }
     },
     {
       "id": "show_title",

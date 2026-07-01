@@ -1,0 +1,5 @@
+<span
+    class="khalab-loader khalab-loader--{{ loader_size | default('md') }}{% if loader_variant | default('') %} khalab-loader--{{ loader_variant }}{% endif %}{% if loader_class | default('') %} {{ loader_class }}{% endif %}"
+    role="status"
+    aria-label="{{ _('Loading') }}"
+></span>

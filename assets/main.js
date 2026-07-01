@@ -183,7 +183,7 @@ function productCartAddToCart(elm, product_id) {
     $('.add-to-cart-progress', elm).addClass('d-none');
 
     if (elm) {
-      var getParentDiv = $(elm).parent().parent();
+      var getParentDiv = $(elm).closest('.khalab-product-card-inner, .product-item');
 
       var image = $('#product-card-img-' + product_id, getParentDiv);
       var cart = $('.a-shopping-cart');

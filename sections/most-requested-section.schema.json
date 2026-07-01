@@ -1,0 +1,56 @@
+{
+  "section_id": "uuid",
+  "template": "sections/most-requested-section.jinja",
+  "icon": "fal fa-star",
+  "name": {
+    "ar": "الأكثر طلباً",
+    "en": "Most Requested"
+  },
+  "settings": [
+    {
+      "id": "side_image",
+      "type": "image",
+      "label": {
+        "ar": "الصورة الجانبية",
+        "en": "Side image"
+      }
+    },
+    {
+      "id": "logo",
+      "type": "image",
+      "label": {
+        "ar": "الشعار",
+        "en": "Logo"
+      },
+      "info": {
+        "ar": "PNG شفاف — إن تُرك فارغاً يُستخدم khalap.png",
+        "en": "Transparent PNG — defaults to khalap.png if empty"
+      }
+    },
+    {
+      "id": "text",
+      "type": "textarea",
+      "label": {
+        "ar": "النص",
+        "en": "Text"
+      },
+      "info": {
+        "ar": "كل سطر يظهر في سطر منفصل",
+        "en": "Each line appears on its own row"
+      },
+      "default": "الأكثر\nطلباً\nفي\nخلاب"
+    },
+    {
+      "id": "circle_logo",
+      "type": "image",
+      "label": {
+        "ar": "الشعار الدائري",
+        "en": "Circle logo"
+      },
+      "info": {
+        "ar": "PNG شفاف بدون خلفية",
+        "en": "Transparent PNG with no background"
+      }
+    }
+  ]
+}

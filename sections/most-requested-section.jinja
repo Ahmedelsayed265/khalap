@@ -1,0 +1,57 @@
+{% set default_text = 'الأكثر\nطلباً\nفي\nخلاب' %}
+{% set display_text = settings.text or default_text %}
+{% set text_lines = display_text.replace('\r\n', '\n').replace('\r', '\n').split('\n') %}
+{% set logo_src = settings.logo or ('khalap.png' | asset_url) %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-most-requested khalab-section-solid"
+    aria-label="{{ display_text | replace('\n', ' ') | trim }}"
+>
+    <div class="khalab-most-requested-inner">
+        <div class="khalab-most-requested-panel">
+            <div class="khalab-most-requested-content">
+                <img
+                    src="{% if settings.logo %}{{ image_url(settings.logo, w=560, q=90, f='auto') }}{% else %}{{ logo_src }}{% endif %}"
+                    alt=""
+                    class="khalab-most-requested-logo"
+                    loading="lazy"
+                >
+
+                <div class="khalab-most-requested-text">
+                    {% for line in text_lines %}
+                        {% set line_text = line | trim %}
+                        {% if line_text %}
+                            <span class="khalab-most-requested-text-line">{{ line_text }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {% if settings.circle_logo %}
+                    <img
+                        src="{{ image_url(settings.circle_logo, w=220, q=90, f='auto') }}"
+                        alt=""
+                        class="khalab-most-requested-circle-logo"
+                        loading="lazy"
+                    >
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="khalab-most-requested-media">
+            <div class="khalab-most-requested-media-card">
+                {% if settings.side_image %}
+                    <div class="khalab-most-requested-media-frame">
+                        <img
+                            src="{{ image_url(settings.side_image, w=900, q=90, f='auto') }}"
+                            alt=""
+                            class="khalab-most-requested-side-img"
+                            loading="lazy"
+                        >
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

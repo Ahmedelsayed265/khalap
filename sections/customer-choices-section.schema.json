@@ -1,0 +1,90 @@
+{
+  "section_id": "uuid",
+  "template": "sections/customer-choices-section.jinja",
+  "icon": "fal fa-heart",
+  "name": {
+    "ar": "اختيارات العملاء",
+    "en": "Customer Choices"
+  },
+  "settings": [
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      },
+      "default": "لوحات اختارها عملاء خلاب بكثرة، مناسبة لمن يبحث عن خيارات مضمونة وجاهزة."
+    },
+    {
+      "id": "items",
+      "type": "list",
+      "label": {
+        "ar": "الكروت",
+        "en": "Cards"
+      },
+      "settings": [
+        {
+          "id": "image",
+          "type": "image",
+          "label": {
+            "ar": "صورة الكارد",
+            "en": "Card image"
+          }
+        },
+        {
+          "id": "label",
+          "type": "text",
+          "label": {
+            "ar": "النص العلوي",
+            "en": "Top label"
+          },
+          "default": "مختارة بعناية"
+        },
+        {
+          "id": "rating",
+          "type": "select",
+          "label": {
+            "ar": "التقييم",
+            "en": "Rating"
+          },
+          "options": [
+            { "value": "0", "label": { "ar": "بدون نجوم", "en": "No stars" } },
+            { "value": "1", "label": { "ar": "1", "en": "1" } },
+            { "value": "2", "label": { "ar": "2", "en": "2" } },
+            { "value": "3", "label": { "ar": "3", "en": "3" } },
+            { "value": "4", "label": { "ar": "4", "en": "4" } },
+            { "value": "5", "label": { "ar": "5", "en": "5" } }
+          ],
+          "default": "5"
+        },
+        {
+          "id": "price",
+          "type": "text",
+          "label": {
+            "ar": "السعر",
+            "en": "Price"
+          },
+          "default": "200"
+        },
+        {
+          "id": "compare_price",
+          "type": "text",
+          "label": {
+            "ar": "السعر قبل الخصم",
+            "en": "Compare price"
+          }
+        },
+        {
+          "id": "url",
+          "type": "url",
+          "label": {
+            "ar": "الرابط",
+            "en": "Link"
+          },
+          "default": "/products"
+        }
+      ]
+    }
+  ]
+}

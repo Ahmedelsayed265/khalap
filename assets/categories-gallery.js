@@ -2,48 +2,12 @@
   'use strict';
 
   var AUTOPLAY_MS = 4500;
-  var CARD_WIDTH = 411;
-  var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
   function circularDiff(index, active, count) {
     var diff = index - active;
     if (diff > count / 2) diff -= count;
     if (diff < -count / 2) diff += count;
     return diff;
-  }
-
-  function isRtl() {
-    return (
-      document.documentElement.getAttribute('dir') === 'rtl' ||
-      getComputedStyle(document.documentElement).direction === 'rtl'
-    );
-  }
-
-  function getSpacing(gallery) {
-    if (!gallery) return 132;
-    return Math.min(156, Math.max(96, gallery.offsetWidth * 0.118));
-  }
-
-  function cardMetrics(distance) {
-    if (distance > 2) {
-      return { scale: 0.45, opacity: 0, blur: 8, visible: false };
-    }
-
-    var scale = Math.max(0.55, 1 - distance * 0.21);
-    var opacity = Math.max(0, 1 - distance * 0.175);
-    var blur = distance * 1.75;
-
-    if (distance === 1) {
-      scale = 0.74;
-      opacity = 0.9;
-      blur = 1.5;
-    } else if (distance === 2) {
-      scale = 0.58;
-      opacity = 0.65;
-      blur = 3.5;
-    }
-
-    return { scale: scale, opacity: opacity, blur: blur, visible: true };
   }
 
   function initSection(section) {
@@ -54,13 +18,11 @@
     var gallery = section.querySelector('.khalab-categories-gallery');
     var prevBtn = section.querySelector('.khalab-categories-nav--prev');
     var nextBtn = section.querySelector('.khalab-categories-nav--next');
-    var rtl = isRtl();
 
     var state = {
       index: 0,
       count: slides.length,
       paused: false,
-      spacing: getSpacing(gallery),
     };
 
     var autoplayTimer = null;
@@ -86,34 +48,29 @@
       }, AUTOPLAY_MS);
     }
 
-    function applySlideStyles(animate) {
-      state.spacing = getSpacing(gallery);
-      var dir = rtl ? -1 : 1;
-
+    function updateSlideClasses() {
       slides.forEach(function (slide, i) {
         var diff = circularDiff(i, state.index, state.count);
-        var metrics = cardMetrics(Math.abs(diff));
         var link = slide.querySelector('.khalab-categories-card');
-        var x = diff * state.spacing * dir;
 
-        slide.style.setProperty('--cat-x', x + 'px');
-        slide.style.setProperty('--cat-scale', String(metrics.scale));
-        slide.style.setProperty('--cat-opacity', String(metrics.opacity));
-        slide.style.setProperty('--cat-blur', metrics.blur + 'px');
-        slide.style.setProperty('--cat-z', String(10 - Math.abs(diff)));
+        slide.classList.remove(
+          'is-active',
+          'is-prev',
+          'is-next',
+          'is-far-prev',
+          'is-far-next',
+          'is-hidden'
+        );
 
-        slide.classList.toggle('is-active', diff === 0);
-        slide.classList.toggle('is-visible', metrics.visible);
-        slide.style.pointerEvents = metrics.visible && metrics.opacity > 0.2 ? 'auto' : 'none';
+        if (link) link.tabIndex = diff === 0 ? 0 : -1;
 
-        if (link) {
-          link.tabIndex = diff === 0 ? 0 : -1;
-        }
+        if (diff === 0) slide.classList.add('is-active');
+        else if (diff === -1) slide.classList.add('is-prev');
+        else if (diff === 1) slide.classList.add('is-next');
+        else if (diff === -2) slide.classList.add('is-far-prev');
+        else if (diff === 2) slide.classList.add('is-far-next');
+        else slide.classList.add('is-hidden');
       });
-
-      if (track) {
-        track.classList.toggle('is-animating', animate !== false);
-      }
     }
 
     function setActive(index, animate) {
@@ -121,30 +78,26 @@
       if (next === state.index && animate !== false) return;
 
       state.index = next;
-      applySlideStyles(animate);
+      updateSlideClasses();
+
+      if (track) {
+        track.classList.toggle('is-animating', animate !== false);
+      }
 
       if (animate !== false) {
         startAutoplay();
       }
     }
 
-    function stepNext() {
-      setActive(state.index + 1, true);
-    }
-
-    function stepPrev() {
-      setActive(state.index - 1, true);
-    }
-
     if (prevBtn) {
       prevBtn.addEventListener('click', function () {
-        stepPrev();
+        setActive(state.index - 1, true);
       });
     }
 
     if (nextBtn) {
       nextBtn.addEventListener('click', function () {
-        stepNext();
+        setActive(state.index + 1, true);
       });
     }
 
@@ -179,10 +132,8 @@
             startAutoplay();
             return;
           }
-
-          var forward = rtl ? dx > 0 : dx < 0;
-          if (forward) stepNext();
-          else stepPrev();
+          if (dx < 0) setActive(state.index + 1, true);
+          else setActive(state.index - 1, true);
         },
         { passive: true }
       );
@@ -204,10 +155,6 @@
       if (!section.contains(event.relatedTarget)) {
         state.paused = false;
       }
-    });
-
-    window.addEventListener('resize', function () {
-      applySlideStyles(false);
     });
 
     setActive(defaultActive, false);

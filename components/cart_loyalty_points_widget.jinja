@@ -177,7 +177,7 @@
                                 <option value="0"> {{ _('Choose') }} </option>
                             </select>
                             <button class="loyalty-points-redemption-methods-submit btn btn-primary" disabled="disabled" type="button" onClick="addRedemption(event)">
-                                <img class="loyalty-points-redemption-send-progress d-none" src="/img/spinner.gif" width="15" height="15"/>
+                                {% set loader_size = 'sm' %}{% set loader_variant = 'dark' %}{% set loader_class = 'loyalty-points-redemption-send-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
                                 {{ _('Use') }}
                             </button>
                         </div>
@@ -191,7 +191,7 @@
                             {{ cart.currency.cart_currency.code }}
                         </span>
                         <button type="button" class="btn btn-link" onClick="removeRedemption()">
-                            <img class="loyalty-points-redemption-remove-progress d-none" src="/img/spinner.gif" width="15" height="15"/>
+                            {% set loader_size = 'sm' %}{% set loader_variant = 'dark' %}{% set loader_class = 'loyalty-points-redemption-remove-progress d-none' %}{% include 'components/khalab-loader.jinja' %}
                             {{ _('Cancel') }}
                         </button>
                     </div>

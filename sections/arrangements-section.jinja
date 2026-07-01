@@ -1,0 +1,143 @@
+{% set default_items = [
+    {'title': 'مجموعات مودرن', 'url': '/products', 'layout': 'auto'},
+    {'title': 'مجموعات للمداخل', 'url': '/products', 'layout': 'auto'},
+    {'title': 'مجموعات طبيعة', 'url': '/products', 'layout': 'auto'},
+    {'title': 'مجموعات مخطوطات', 'url': '/products', 'layout': 'auto'}
+] %}
+{% set cms_items = safeget(settings, 'items', []) %}
+{% set arrangement_items = cms_items if cms_items | length > 0 else default_items %}
+{% set section_title = settings.title or 'ترتيبات جاهزة من لوحتين أو أكثر، مصمّمة لتمنح جدارك توازنًا وأناقة من أول اختيار.' %}
+{% set button_text = settings.button_text or 'استكشف' %}
+{% set card_outline = 'arrangements-card-outline.png' | asset_url %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-arrangements khalab-section-solid"
+    style="--khalab-arrangements-grid: url('{{ 'grid_patern.svg' | asset_url }}'); --khalab-arrangements-card-outline: url('{{ card_outline }}');"
+    aria-label="{{ section_title }}"
+>
+    <div class="khalab-arrangements-bg" aria-hidden="true"></div>
+
+    <div class="khalab-arrangements-inner">
+        <header class="khalab-arrangements-header">
+            <h2 class="khalab-arrangements-title">{{ section_title }}</h2>
+        </header>
+
+        <div class="khalab-arrangements-stage">
+            <div class="khalab-arrangements-swiper swiper" role="region" aria-roledescription="carousel" aria-label="{{ section_title }}">
+                <div class="swiper-wrapper">
+                    {% for item in arrangement_items %}
+                        {% set raw_image = item.image %}
+                        {% set image_src = '' %}
+                        {% if raw_image %}
+                            {% if raw_image is string %}
+                                {% set image_src = raw_image %}
+                            {% elif raw_image.url is defined and raw_image.url %}
+                                {% set image_src = raw_image.url %}
+                            {% elif raw_image.src is defined and raw_image.src %}
+                                {% set image_src = raw_image.src %}
+                            {% elif raw_image.path is defined and raw_image.path %}
+                                {% set image_src = raw_image.path %}
+                            {% elif raw_image.image is defined %}
+                                {% if raw_image.image is string %}
+                                    {% set image_src = raw_image.image %}
+                                {% elif raw_image.image.url is defined %}
+                                    {% set image_src = raw_image.image.url %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% set item_url = item.url %}
+                        {% if item_url is mapping %}
+                            {% set item_url = item_url.url | default(item_url.href | default('/products')) %}
+                        {% endif %}
+                        {% set item_url = item_url or '/products' %}
+                        {% set item_title = item.title or 'مجموعات مودرن' %}
+                        {% set layout_mode = item.layout | default('auto') | string | trim | lower %}
+                        {% if layout_mode in ['auto', 'none', ''] %}
+                            {% if loop.index0 % 2 == 0 %}
+                                {% set layout_mode = 'caption_top' %}
+                            {% else %}
+                                {% set layout_mode = 'media_top' %}
+                            {% endif %}
+                        {% elif layout_mode == 'caption top' %}
+                            {% set layout_mode = 'caption_top' %}
+                        {% elif layout_mode == 'media top' %}
+                            {% set layout_mode = 'media_top' %}
+                        {% endif %}
+                        {% set is_lower = loop.index0 % 2 == 0 %}
+                        {% set shape_bottom = loop.index0 % 2 == 1 %}
+                        {% set placeholder_tone = loop.index0 % 4 %}
+
+                        <div class="swiper-slide khalab-arrangements-slide{% if is_lower %} is-lower{% else %} is-higher{% endif %}">
+                            <a
+                                href="{{ item_url }}"
+                                class="khalab-arrangements-card khalab-arrangements-card--{{ layout_mode }}{% if shape_bottom %} is-shape-bottom{% else %} is-shape-top{% endif %}"
+                            >
+                                <span class="khalab-arrangements-card-inner">
+                                    {% if layout_mode == 'caption_top' %}
+                                        <span class="khalab-arrangements-card-cap">
+                                            <span class="khalab-arrangements-card-title">{{ item_title }}</span>
+                                            <span class="khalab-arrangements-card-cta">
+                                                <span class="khalab-arrangements-card-cta-text">{{ button_text }}</span>
+                                                <span class="khalab-arrangements-card-cta-icon" aria-hidden="true">
+                                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                        <path d="M1 5H9M9 5L5 1M9 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </span>
+                                            </span>
+                                        </span>
+                                        <span class="khalab-arrangements-card-window">
+                                            {% if image_src %}
+                                                <img src="{{ image_url(image_src, w=742, q=90, f='auto') }}" alt="" class="khalab-arrangements-card-img" loading="{% if loop.index0 < 2 %}eager{% else %}lazy{% endif %}" draggable="false">
+                                            {% else %}
+                                                <span class="khalab-arrangements-card-placeholder khalab-arrangements-card-placeholder--{{ placeholder_tone }}" aria-hidden="true"></span>
+                                            {% endif %}
+                                        </span>
+                                    {% else %}
+                                        <span class="khalab-arrangements-card-window">
+                                            {% if image_src %}
+                                                <img src="{{ image_url(image_src, w=742, q=90, f='auto') }}" alt="" class="khalab-arrangements-card-img" loading="{% if loop.index0 < 2 %}eager{% else %}lazy{% endif %}" draggable="false">
+                                            {% else %}
+                                                <span class="khalab-arrangements-card-placeholder khalab-arrangements-card-placeholder--{{ placeholder_tone }}" aria-hidden="true"></span>
+                                            {% endif %}
+                                        </span>
+                                        <span class="khalab-arrangements-card-cap">
+                                            <span class="khalab-arrangements-card-title">{{ item_title }}</span>
+                                            <span class="khalab-arrangements-card-cta">
+                                                <span class="khalab-arrangements-card-cta-text">{{ button_text }}</span>
+                                                <span class="khalab-arrangements-card-cta-icon" aria-hidden="true">
+                                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                                        <path d="M1 5H9M9 5L5 1M9 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    {% endif %}
+                                </span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if arrangement_items | length > 1 %}
+                <button type="button" class="khalab-arrangements-nav khalab-arrangements-nav--prev" aria-label="{{ _('Previous') }}">
+                    <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                        <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button type="button" class="khalab-arrangements-nav khalab-arrangements-nav--next" aria-label="{{ _('Next') }}">
+                    <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                        <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script src="{{ 'arrangements-gallery.js' | asset_url }}" defer></script>

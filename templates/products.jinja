@@ -6,48 +6,42 @@
 	<link rel="stylesheet" type="text/css" href="{{ 'toastr.min.css' | asset_url }}"/>
 {% endblock %}
 
-
 {% block main_content %}
-
-
-    <section class="breadcrumb-section">
-        <nav aria-label="breadcrumb">
-
-            <ol class="breadcrumb">
-            <div class="container d-flex flex-wrap">
-                <li class="breadcrumb-item" aria-current="page"><a href="/">{{ _("Home") }} </a></li>
-                <li class="breadcrumb-item active " aria-current="page">{{ _("All products") }} </li>
+<section class="khalab-products-section khalab-products-page khalab-section-solid" aria-label="{{ _('All products') }}">
+    <div class="khalab-products-inner">
+        <header class="khalab-products-header">
+            <div class="khalab-products-title-wrap">
+                <h1 class="khalab-products-title">{{ _("All products") }}</h1>
             </div>
+        </header>
 
-            </ol>
+        <div class="khalab-products-toolbar-wrap{% if products.filters|length > 0 %} has-filters{% endif %}">
+            <div class="container-fluid khalab-products-layout">
+                {% if products.filters|length > 0 %}
+                    {% set async=true %}{% include 'vitrin:products/filters.jinja' %}
+                {% endif %}
 
-        </nav>
-    </section>
-
-
-
-     <div class="container d-flex flex-row">
-        {% if  products.filters|length > 0 %}
-            {% set async=true %} {% include 'vitrin:products/filters.jinja' %}
-        {% endif %}
-        <div class="products-container flex-grow-1 pt-4">
-            <div>
-                {% set count=products.count %}{% set has_products_filtration=(products.filters|length > 0) %}{% include 'components/products-filter.jinja' %}
-            </div>
-            <div id="products-list" class="row products-list">
-                {% for product in safeget(products, "results", []) %}
-
-                    <div class="prod-col {% if products.filters|length > 0 %}prod-col-attr{% endif %} prod-col-tb">
-                        {% set product=product %}{% set index=key %}{% include 'components/product-card.jinja' %}
+                <div class="products-container flex-grow-1">
+                    <div class="khalab-products-toolbar">
+                        {% set count=products.count %}{% set has_products_filtration=(products.filters|length > 0) %}{% include 'components/products-filter.jinja' %}
                     </div>
 
-                {% endfor %}
+                    <div id="products-list" class="khalab-products-grid products-list row">
+                        {% for product in safeget(products, "results", []) %}
+                            <div class="prod-col {% if products.filters|length > 0 %}prod-col-attr{% endif %} prod-col-tb">
+                                {% set product=product %}{% set index=key %}{% include 'components/product-card.jinja' %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="khalab-products-pagination">
+            {% set totalPages=products.pages_count %}{% set currentPage=products.page %}{% include 'components/pagination.jinja' %}
+        </div>
     </div>
-
-    {% set totalPages=products.pages_count %}{% set currentPage=products.page %}{% include 'components/pagination.jinja' %}
-
+</section>
 {% endblock %}
 
 {% block footer %} {% include 'footer.jinja' %} {% endblock %}
@@ -71,11 +65,9 @@
                 $('#product-pagination').css('opacity', '1');
             }
 
-            // Reload bundle offers for newly loaded products
             if (window.bundleOffersLoader) {
                 window.bundleOffersLoader.reload();
             }
         }
-
     </script>
 {% endblock %}

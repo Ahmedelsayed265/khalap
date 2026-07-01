@@ -1,0 +1,96 @@
+{
+  "section_id": "uuid",
+  "template": "sections/arrangements-section.jinja",
+  "icon": "fal fa-layer-group",
+  "name": {
+    "ar": "ترتيبات جاهزة",
+    "en": "Ready Arrangements"
+  },
+  "settings": [
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      },
+      "default": "ترتيبات جاهزة من لوحتين أو أكثر، مصمّمة لتمنح جدارك توازنًا وأناقة من أول اختيار."
+    },
+    {
+      "id": "button_text",
+      "type": "text",
+      "label": {
+        "ar": "نص زر الاستكشاف",
+        "en": "Explore button text"
+      },
+      "default": "استكشف"
+    },
+    {
+      "id": "items",
+      "type": "list",
+      "label": {
+        "ar": "المجموعات",
+        "en": "Collections"
+      },
+      "settings": [
+        {
+          "id": "image",
+          "type": "image",
+          "label": {
+            "ar": "صورة المجموعة",
+            "en": "Collection image"
+          }
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": {
+            "ar": "اسم المجموعة",
+            "en": "Collection name"
+          },
+          "default": "مجموعات مودرن"
+        },
+        {
+          "id": "url",
+          "type": "url",
+          "label": {
+            "ar": "رابط المجموعة",
+            "en": "Collection link"
+          }
+        },
+        {
+          "id": "layout",
+          "type": "select",
+          "label": {
+            "ar": "ترتيب المحتوى",
+            "en": "Content layout"
+          },
+          "options": [
+            {
+              "value": "auto",
+              "label": {
+                "ar": "تلقائي (متناوب)",
+                "en": "Auto (alternating)"
+              }
+            },
+            {
+              "value": "media_top",
+              "label": {
+                "ar": "صورة أعلى",
+                "en": "Image on top"
+              }
+            },
+            {
+              "value": "caption_top",
+              "label": {
+                "ar": "العنوان أعلى",
+                "en": "Caption on top"
+              }
+            }
+          ],
+          "default": "auto"
+        }
+      ]
+    }
+  ]
+}

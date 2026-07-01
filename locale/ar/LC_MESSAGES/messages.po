@@ -35,7 +35,7 @@ msgid "Added to cart successfully"
 msgstr "تم إضافة المنتج للسلة بنجاح"
 
 msgid "All products"
-msgstr "جميع المنتجات"
+msgstr "صفحة استعراض المنتجات"
 
 msgid "All reviews"
 msgstr "جميع التقييمات"
@@ -59,7 +59,7 @@ msgid "Blog"
 msgstr "المدونة"
 
 msgid "Buy now"
-msgstr "اشترِ الآن"
+msgstr "أدفع الآن"
 
 msgid "Cancel"
 msgstr "إلغاء"

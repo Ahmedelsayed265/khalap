@@ -1,0 +1,33 @@
+{% set section_title = settings.title or 'صفحة استعراض المنتجات' %}
+{% set view_all_url = settings.view_all_url or '/products' %}
+{% set view_all_text = settings.view_all_text or 'عرض الكل' %}
+{% set max_products = (settings.max_products | default(4)) | int %}
+{% set product_results = safeget(settings, 'products.results', []) %}
+
+{% if product_results | length > 0 %}
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-products-section khalab-section-solid"
+    aria-label="{{ section_title }}"
+>
+    <div class="khalab-products-inner">
+        <header class="khalab-products-header">
+            <div class="khalab-products-title-wrap">
+                <h2 class="khalab-products-title">{{ section_title }}</h2>
+            </div>
+            {% if view_all_url and view_all_text %}
+                <a href="{{ view_all_url }}" class="khalab-products-view-all">{{ view_all_text }}</a>
+            {% endif %}
+        </header>
+
+        <div class="khalab-products-grid products-list">
+            {% for product in product_results[:max_products] %}
+                <div class="prod-col">
+                    {% set index = loop.index0 %}{% include 'components/product-card.jinja' %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
