@@ -1,0 +1,39 @@
+{% set default_items = [
+    'مجموعات جدارية',
+    'طباعة عالية الجودة',
+    'طلبات خاصة',
+    'شحن لكل العالم',
+    'خدمة عملاء'
+] %}
+{% set marquee_items = settings.items if settings.items and settings.items | length > 0 else [] %}
+{% set center_text = settings.center_text or 'مقاسات متعددة' %}
+{% set marquee_speed = settings.speed | default(45) | int %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-features-marquee"
+    style="--khalab-marquee-duration: {{ marquee_speed }}s; --khalab-features-pattern: url('{{ 'features-pattern.svg' | asset_url }}');"
+>
+    <div class="khalab-features-marquee-inner">
+        <div class="khalab-features-marquee-viewport">
+            <div class="khalab-features-marquee-track">
+                {% for copy in [1, 2] %}
+                    <div class="khalab-features-marquee-group">
+                        {% if marquee_items | length > 0 %}
+                            {% for item in marquee_items %}
+                                <span class="khalab-features-marquee-item">{{ item.text }}</span>
+                                
+                            {% endfor %}
+                        {% else %}
+                            {% for item in default_items %}
+                                <span class="khalab-features-marquee-item">{{ item }}</span>
+                                
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

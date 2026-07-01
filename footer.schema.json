@@ -1,0 +1,301 @@
+{
+  "icon": "fa fa-square",
+  "name": {
+    "ar": "اسفل الصفحة",
+    "en": "Footer"
+  },
+  "groups": [
+    {
+      "id": "brand",
+      "icon": "font_awesome",
+      "name": {
+        "ar": "القسم العلوي",
+        "en": "Brand section"
+      },
+      "settings": [
+        {
+          "id": "logo",
+          "type": "image",
+          "label": {
+            "ar": "الشعار",
+            "en": "Logo"
+          },
+          "info": {
+            "ar": "PNG شفاف — إن تُرك فارغاً يُستخدم khalap.png",
+            "en": "Transparent PNG — defaults to khalap.png if empty"
+          }
+        },
+        {
+          "id": "logo_en",
+          "type": "text",
+          "label": {
+            "ar": "النص الإنجليزي تحت الشعار",
+            "en": "English text under logo"
+          },
+          "default": "KHALLAB"
+        },
+        {
+          "id": "background_image",
+          "type": "image",
+          "label": {
+            "ar": "خلفية الفوتر",
+            "en": "Footer background"
+          },
+          "info": {
+            "ar": "الافتراضي bg.png",
+            "en": "Defaults to bg.png"
+          }
+        },
+        {
+          "id": "headline",
+          "type": "text",
+          "label": {
+            "ar": "العنوان الرئيسي",
+            "en": "Headline"
+          },
+          "default": "لأن كل مكان يستحق لوحة تليق به"
+        },
+        {
+          "id": "description",
+          "type": "textarea",
+          "label": {
+            "ar": "الوصف",
+            "en": "Description"
+          },
+          "default": "صنعنا خلاب عشان نجيبلك الفن اللي مش بس يزين الجدار، لكن يضيف روح للمكان كله ويخلي كل زاير يحس بالفرق من أول نظرة."
+        },
+        {
+          "id": "cta_primary_text",
+          "type": "text",
+          "label": {
+            "ar": "نص الزر الأول",
+            "en": "Primary button text"
+          },
+          "default": "اشترك الآن"
+        },
+        {
+          "id": "cta_primary_url",
+          "type": "url",
+          "label": {
+            "ar": "رابط الزر الأول",
+            "en": "Primary button link"
+          }
+        },
+        {
+          "id": "cta_secondary_text",
+          "type": "text",
+          "label": {
+            "ar": "نص الزر الثاني",
+            "en": "Secondary button text"
+          },
+          "default": "تخصيص لوحة"
+        },
+        {
+          "id": "cta_secondary_url",
+          "type": "url",
+          "label": {
+            "ar": "رابط الزر الثاني",
+            "en": "Secondary button link"
+          },
+          "default": "/products"
+        }
+      ]
+    },
+    {
+      "id": "links_1",
+      "icon": "font_awesome",
+      "name": {
+        "ar": "خدمة العملاء",
+        "en": "Customer service"
+      },
+      "settings": [
+        {
+          "id": "hide",
+          "type": "checkbox",
+          "label": {
+            "ar": "إخفاء",
+            "en": "Hide"
+          }
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "Title"
+          },
+          "default": "خدمة العملاء"
+        },
+        {
+          "id": "links",
+          "type": "list",
+          "label": {
+            "ar": "الروابط",
+            "en": "Links"
+          },
+          "settings": [
+            {
+              "id": "title",
+              "type": "text",
+              "label": {
+                "ar": "العنوان",
+                "en": "Title"
+              }
+            },
+            {
+              "id": "url",
+              "type": "url",
+              "label": {
+                "ar": "الرابط",
+                "en": "Link"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "links_2",
+      "icon": "font_awesome",
+      "name": {
+        "ar": "روابط تهمك",
+        "en": "Important links"
+      },
+      "settings": [
+        {
+          "id": "hide",
+          "type": "checkbox",
+          "label": {
+            "ar": "إخفاء",
+            "en": "Hide"
+          }
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "Title"
+          },
+          "default": "روابط تهمك"
+        },
+        {
+          "id": "links",
+          "type": "list",
+          "label": {
+            "ar": "الروابط",
+            "en": "Links"
+          },
+          "settings": [
+            {
+              "id": "title",
+              "type": "text",
+              "label": {
+                "ar": "العنوان",
+                "en": "Title"
+              }
+            },
+            {
+              "id": "url",
+              "type": "url",
+              "label": {
+                "ar": "الرابط",
+                "en": "Link"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "icon": "font_awesome",
+      "name": {
+        "ar": "وسائل التواصل",
+        "en": "Social media"
+      },
+      "settings": [
+        {
+          "id": "hide",
+          "type": "checkbox",
+          "label": {
+            "ar": "إخفاء",
+            "en": "Hide"
+          }
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": {
+            "ar": "العنوان",
+            "en": "Title"
+          },
+          "default": "اكتشف عروضنا علي"
+        },
+        {
+          "id": "phone",
+          "type": "text",
+          "label": {
+            "ar": "رقم الهاتف",
+            "en": "Phone number"
+          },
+          "info": {
+            "ar": "اتركه فارغاً لاستخدام رقم المتجر الافتراضي",
+            "en": "Leave empty to use store default"
+          }
+        },
+        {
+          "id": "email",
+          "type": "text",
+          "label": {
+            "ar": "البريد الإلكتروني",
+            "en": "Email"
+          },
+          "info": {
+            "ar": "اتركه فارغاً لاستخدام بريد المتجر الافتراضي",
+            "en": "Leave empty to use store default"
+          }
+        }
+      ]
+    },
+    {
+      "id": "legal",
+      "icon": "font_awesome",
+      "name": {
+        "ar": "حقوق النشر",
+        "en": "Legal"
+      },
+      "settings": [
+        {
+          "id": "copyright",
+          "type": "textarea",
+          "label": {
+            "ar": "نص حقوق النشر (اختياري)",
+            "en": "Copyright text (optional)"
+          },
+          "info": {
+            "ar": "اتركه فارغاً لاستخدام نص المتجر الافتراضي",
+            "en": "Leave empty to use store default"
+          }
+        },
+        {
+          "id": "privacy_label",
+          "type": "text",
+          "label": {
+            "ar": "نص سياسة الخصوصية",
+            "en": "Privacy policy label"
+          },
+          "default": "سياسة الخصوصية"
+        },
+        {
+          "id": "privacy_url",
+          "type": "url",
+          "label": {
+            "ar": "رابط سياسة الخصوصية",
+            "en": "Privacy policy link"
+          }
+        }
+      ]
+    }
+  ]
+}

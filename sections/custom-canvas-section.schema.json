@@ -1,0 +1,79 @@
+{
+    "section_id": "uuid",
+    "template": "sections/custom-canvas-section.jinja",
+    "icon": "fal fa-paint-brush",
+    "name": {
+        "ar": "لوحة حسب فكرتك",
+        "en": "Custom Canvas CTA"
+    },
+    "settings": [
+        {
+            "id": "title",
+            "type": "text",
+            "label": {
+                "ar": "العنوان",
+                "en": "Title"
+            },
+            "default": "هل تبحث عن لوحة تشبه فكرتك؟"
+        },
+        {
+            "id": "subtitle",
+            "type": "text",
+            "label": {
+                "ar": "النص التوضيحي",
+                "en": "Subtitle"
+            },
+            "default": "أرسل لنا فكرتك أو صورة الجدار، ونساعدك في اختيار أو تنفيذ لوحة كانفس تناسب مساحتك وذوقك"
+        },
+        {
+            "id": "illustration_image",
+            "type": "image",
+            "label": {
+                "ar": "صورة اليد والإطارات",
+                "en": "Hand and frames illustration"
+            },
+            "info": {
+                "ar": "PNG بخلفية شفافة",
+                "en": "Transparent PNG recommended"
+            }
+        },
+        {
+            "id": "illustration_mobile",
+            "type": "image",
+            "label": {
+                "ar": "صورة الجوال (اختياري)",
+                "en": "Mobile illustration (optional)"
+            }
+        },
+        {
+            "id": "background_image",
+            "type": "image",
+            "label": {
+                "ar": "خلفية القسم",
+                "en": "Section background"
+            },
+            "info": {
+                "ar": "الافتراضي bg.png",
+                "en": "Defaults to bg.png"
+            }
+        },
+        {
+            "id": "cta_text",
+            "type": "text",
+            "label": {
+                "ar": "نص الزر",
+                "en": "Button text"
+            },
+            "default": "كلمنا الآن"
+        },
+        {
+            "id": "cta_url",
+            "type": "url",
+            "label": {
+                "ar": "رابط الزر",
+                "en": "Button link"
+            },
+            "default": "/contact-us"
+        }
+    ]
+}

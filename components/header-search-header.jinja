@@ -1,0 +1,145 @@
+<div class="search-header header-theme-bg-primary khalab-header">
+    <div class="container-fluid khalab-header-container">
+        <div class="khalab-header-bar">
+            <div class="khalab-header-logo">
+                <a href="/" class="khalab-logo-link">
+                    {% if settings.header_logo_home %}
+                        {% set homeLogo = settings.header_logo_home %}
+                    {% endif %}
+
+                    {% if settings.header_logo %}
+                        {% set logoUrl = settings.header_logo %}
+                    {% else %}
+                        {% set logoUrl = store.logo %}
+                    {% endif %}
+
+                    {% if settings.header_logo_mobile %}
+                        {% set logoUrlMobile = settings.header_logo_mobile %}
+                    {% elif store.settings.branding.mobile_app_logo %}
+                        {% set logoUrlMobile = store.settings.branding.mobile_app_logo %}
+                    {% endif %}
+
+                    <img class="image-logo khalab-logo{% if logoUrlMobile is defined and logoUrlMobile is not none %} d-none d-lg-block{% endif %}{% if homeLogo is defined and homeLogo is not none %} khalab-logo-default{% endif %}"
+                         src="{{ image_url(logoUrl, h=175, q=100) }}"
+                         alt="{{ store.name }}"
+                         decoding="async"
+                         fetchpriority="high">
+
+                    {% if homeLogo is defined and homeLogo is not none %}
+                        <img class="image-logo khalab-logo khalab-logo-home d-none"
+                             src="{{ image_url(homeLogo, h=175, q=100) }}"
+                             alt="{{ store.name }}"
+                             decoding="async"
+                             fetchpriority="high">
+                    {% endif %}
+
+                    {% if logoUrlMobile %}
+                        <img class="image-logo khalab-logo d-block d-lg-none"
+                             src="{{ image_url(logoUrlMobile, h=175, q=100) }}"
+                             alt="{{ store.name }}"
+                             decoding="async"
+                             fetchpriority="high">
+                    {% endif %}
+                </a>
+            </div>
+
+            <nav class="khalab-nav-pill" aria-label="{{ _('Main navigation') }}">
+                <div class="khalab-nav-pill-inner">  
+                    <div class="khalab-nav-pill-group khalab-nav-pill-group--icons">
+                        <button onclick="openSlidingMenu()" class="khalab-nav-icon-btn" type="button" aria-label="{{ _('Menu') }}">
+                            <svg width="45" height="46" viewBox="0 0 45 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M38.9062 13.417C38.9062 13.7982 38.7581 14.1639 38.4944 14.4335C38.2306 14.703 37.873 14.8545 37.5 14.8545H7.5C7.12704 14.8545 6.76935 14.703 6.50563 14.4335C6.24191 14.1639 6.09375 13.7982 6.09375 13.417C6.09375 13.0357 6.24191 12.6701 6.50563 12.4005C6.76935 12.1309 7.12704 11.9795 7.5 11.9795H37.5C37.873 11.9795 38.2306 12.1309 38.4944 12.4005C38.7581 12.6701 38.9062 13.0357 38.9062 13.417ZM38.9062 23.0003C38.9062 23.3816 38.7581 23.7472 38.4944 24.0168C38.2306 24.2864 37.873 24.4378 37.5 24.4378H7.5C7.12704 24.4378 6.76935 24.2864 6.50563 24.0168C6.24191 23.7472 6.09375 23.3816 6.09375 23.0003C6.09375 22.6191 6.24191 22.2534 6.50563 21.9839C6.76935 21.7143 7.12704 21.5628 7.5 21.5628H37.5C37.873 21.5628 38.2306 21.7143 38.4944 21.9839C38.7581 22.2534 38.9062 22.6191 38.9062 23.0003ZM38.9062 32.5837C38.9062 32.9649 38.7581 33.3305 38.4944 33.6001C38.2306 33.8697 37.873 34.0212 37.5 34.0212H7.5C7.12704 34.0212 6.76935 33.8697 6.50563 33.6001C6.24191 33.3305 6.09375 32.9649 6.09375 32.5837C6.09375 32.2024 6.24191 31.8368 6.50563 31.5672C6.76935 31.2976 7.12704 31.1462 7.5 31.1462H37.5C37.873 31.1462 38.2306 31.2976 38.4944 31.5672C38.7581 31.8368 38.9062 32.2024 38.9062 32.5837Z" fill="#D4D5AC"/>
+                            </svg>
+                        </button>
+                        
+                        <button class="khalab-nav-icon-btn" type="button" onclick="openSearchModal()" aria-label="{{ _('Search') }}">
+                            <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.1668 34.4997C22.5689 34.4993 25.873 33.3603 28.5527 31.2643L36.9784 39.69L39.6886 36.9798L31.2629 28.5542C33.36 25.8742 34.4996 22.5693 34.5002 19.1663C34.5002 10.7119 27.6212 3.83301 19.1668 3.83301C10.7124 3.83301 3.8335 10.7119 3.8335 19.1663C3.8335 27.6208 10.7124 34.4997 19.1668 34.4997ZM19.1668 7.66634C25.5091 7.66634 30.6668 12.8241 30.6668 19.1663C30.6668 25.5086 25.5091 30.6663 19.1668 30.6663C12.8246 30.6663 7.66683 25.5086 7.66683 19.1663C7.66683 12.8241 12.8246 7.66634 19.1668 7.66634Z" fill="#D4D5AC"/>
+                                <path d="M21.8728 16.4569C22.5992 17.1852 22.9998 18.1474 22.9998 19.1671H26.8332C26.8345 18.1598 26.6364 17.1622 26.2502 16.2319C25.864 15.3015 25.2974 14.4569 24.583 13.7467C21.6812 10.8487 16.6499 10.8487 13.75 13.7467L16.4563 16.4607C17.913 15.0079 20.4238 15.0117 21.8728 16.4569Z" fill="#D4D5AC"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="khalab-nav-pill-group khalab-nav-links d-none d-lg-flex">
+                        {% include 'components/header-khalab-nav-menu.jinja' %}
+                    </div>
+                    
+                    <a href="{{ settings.header_buy_now_url or '/products' }}" class="khalab-nav-cta">
+                        {{ settings.header_buy_now_text or 'أشتري الآن' }}
+                    </a>
+                </div>
+            </nav>  
+            
+            <div class="khalab-header-actions">
+                <button type="button" class="khalab-action-btn" onclick="handleLoginAction()" id="login-btn" aria-label="{{ _('Login') }}">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.68005 27.2841C7.36897 27.2841 7.0965 27.161 6.86274 26.9147C6.62809 26.6686 6.51074 26.393 6.51074 26.0881V23.1241C6.51074 21.4298 7.03696 19.9334 8.08939 18.6348C9.14272 17.3361 10.4965 16.5077 12.1507 16.1494C11.3925 16.6828 10.805 17.3543 10.3881 18.1641C9.9712 18.9739 9.76231 19.837 9.76142 20.7534V26.0827C9.76142 26.289 9.79473 26.4948 9.8614 26.7001C9.92808 26.9063 10.0223 27.1006 10.1441 27.2827L7.68005 27.2841ZM11.8241 27.2841C11.5049 27.2841 11.2281 27.1654 10.9934 26.9281C10.7587 26.6907 10.6414 26.4108 10.6414 26.0881V20.7547C10.6414 19.4214 11.1014 18.2961 12.0214 17.3787C12.9423 16.4606 14.0694 16.0014 15.4028 16.0014H20.7494C22.0685 16.0014 23.1872 16.4606 24.1054 17.3787C25.0236 18.297 25.4823 19.4228 25.4814 20.7561V22.5294C25.4814 23.8627 25.0227 24.9886 24.1054 25.9067C23.1881 26.825 22.0623 27.2841 20.7281 27.2841H11.8241ZM16.0001 13.6121C14.7619 13.6121 13.7112 13.1823 12.8481 12.3227C11.9858 11.4623 11.5547 10.4099 11.5547 9.16539C11.5547 7.92096 11.9858 6.869 12.8481 6.00941C13.7103 5.14986 14.761 4.71964 16.0001 4.71875C17.2392 4.71786 18.2898 5.14809 19.1521 6.00941C20.0143 6.87073 20.4454 7.92274 20.4454 9.16539C20.4454 10.4081 20.0143 11.4601 19.1521 12.3214C18.2898 13.1828 17.2392 13.613 16.0001 13.6121Z" fill="white"/>
+                    </svg>
+                </button>
+
+                <button type="button" class="khalab-action-btn" onclick="window.location.href='{{ url_for('profile') }}'" id="hello-btn" style="display: none;" aria-label="{{ _('Profile') }}">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.68005 27.2841C7.36897 27.2841 7.0965 27.161 6.86274 26.9147C6.62809 26.6686 6.51074 26.393 6.51074 26.0881V23.1241C6.51074 21.4298 7.03696 19.9334 8.08939 18.6348C9.14272 17.3361 10.4965 16.5077 12.1507 16.1494C11.3925 16.6828 10.805 17.3543 10.3881 18.1641C9.9712 18.9739 9.76231 19.837 9.76142 20.7534V26.0827C9.76142 26.289 9.79473 26.4948 9.8614 26.7001C9.92808 26.9063 10.0223 27.1006 10.1441 27.2827L7.68005 27.2841ZM11.8241 27.2841C11.5049 27.2841 11.2281 27.1654 10.9934 26.9281C10.7587 26.6907 10.6414 26.4108 10.6414 26.0881V20.7547C10.6414 19.4214 11.1014 18.2961 12.0214 17.3787C12.9423 16.4606 14.0694 16.0014 15.4028 16.0014H20.7494C22.0685 16.0014 23.1872 16.4606 24.1054 17.3787C25.0236 18.297 25.4823 19.4228 25.4814 20.7561V22.5294C25.4814 23.8627 25.0227 24.9886 24.1054 25.9067C23.1881 26.825 22.0623 27.2841 20.7281 27.2841H11.8241ZM16.0001 13.6121C14.7619 13.6121 13.7112 13.1823 12.8481 12.3227C11.9858 11.4623 11.5547 10.4099 11.5547 9.16539C11.5547 7.92096 11.9858 6.869 12.8481 6.00941C13.7103 5.14986 14.761 4.71964 16.0001 4.71875C17.2392 4.71786 18.2898 5.14809 19.1521 6.00941C20.0143 6.87073 20.4454 7.92274 20.4454 9.16539C20.4454 10.4081 20.0143 11.4601 19.1521 12.3214C18.2898 13.1828 17.2392 13.613 16.0001 13.6121Z" fill="white"/>
+                    </svg>
+                </button>
+
+                <div class="khalab-cart-wrap">
+                    <a class="khalab-action-btn a-shopping-cart" href="{{ url_for('cart_page') }}" aria-label="{{ _('Cart') }}">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.6666 10.6693H10.2799C8.99726 10.6693 8.35593 10.6693 7.8346 10.9026C7.37534 11.1087 6.9838 11.4406 6.70526 11.8599C6.38926 12.3346 6.28393 12.9666 6.07193 14.2333L4.82793 21.6999V21.7039C4.5426 23.4106 4.40126 24.2653 4.64793 24.9306C4.86526 25.5159 5.28126 26.0053 5.82126 26.3159C6.43726 26.6693 7.30393 26.6693 9.03593 26.6693H22.9626C24.6959 26.6693 25.5626 26.6693 26.1799 26.3159C26.7208 26.0059 27.1359 25.5162 27.3533 24.9319C27.5986 24.2653 27.4573 23.4119 27.1719 21.7053V21.7013L25.9266 14.2346C25.7159 12.9679 25.6106 12.3346 25.2946 11.8599C25.0161 11.4406 24.6245 11.1087 24.1653 10.9026C23.6453 10.6693 23.0026 10.6693 21.7186 10.6693H21.3333M10.6666 10.6693H21.3333M10.6666 10.6693C10.6666 9.25478 11.2285 7.89823 12.2287 6.89803C13.2289 5.89784 14.5854 5.33594 15.9999 5.33594C17.4144 5.33594 18.771 5.89784 19.7712 6.89803C20.7714 7.89823 21.3333 9.25478 21.3333 10.6693" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+
+                        <span class="cart-badge d-none"></span>
+                    </a>
+
+                    {% if store.settings.checkout.gift_order_settings.is_gift_order_customer_motivation_enabled == '1' %}
+                        <div id="tooltip" class="d-none popover" role="tooltip">
+                            <div class="arrow"></div>
+                            <div class="gift-popover-body">
+                                <img src="{{ 'gift-popover-icon.svg' | asset_url }}" width="24" height="24" alt="">
+                                <p class="h6 my-2">{{ _('Send as gift') }}</p>
+                                <button class="btn round primary d-block">
+                                    <a href="/cart" class="no-border d-block">{{ _('continue') }}</a>
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openSlidingMenu() {
+    if (window.slidingMenu && window.slidingMenu.open) {
+        window.slidingMenu.open();
+    } else if (typeof SlideMenu !== 'undefined') {
+        var element = document.getElementById('sliding-menu');
+        if (element) {
+            window.slidingMenu = new SlideMenu(element, {
+                position: (window.appDirection === 'ltr') ? 'left' : 'right',
+                showBackLink: true,
+                backLinkBefore: (window.appDirection === 'ltr') ? '<span class="icon-arrow_left slide-menu-arrow slide-menu-arrow-back"></span>' : '<span class="icon-arrow_right slide-menu-arrow slide-menu-arrow-back"></span>',
+                submenuLinkAfter: (window.appDirection === 'ltr') ? '<span class="icon-arrow_right slide-menu-arrow"></span>' : '<span class="icon-arrow_left slide-menu-arrow"></span>'
+            });
+
+            if (typeof $ !== 'undefined') {
+                element.addEventListener('sm.open', () => $('body').addClass('sidenav-open'));
+                element.addEventListener('sm.close', () => $('body').removeClass('sidenav-open'));
+            }
+
+            window.slidingMenu.open();
+        }
+    }
+}
+
+document.addEventListener('zid-customer-fetched', function (event) {
+    const customer = event.detail.customer;
+    if (customer && customer.name) {
+        document.getElementById('hello-btn').style.display = 'flex';
+        document.getElementById('login-btn').style.display = 'none';
+    }
+});
+</script>

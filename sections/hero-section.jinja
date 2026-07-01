@@ -1,0 +1,45 @@
+<section id="{{ sectionId }}" section-id="{{ sectionId }}" class="khalab-hero">
+    <div class="khalab-hero-bg" aria-hidden="true">
+        <img src="{{ 'glow.png' | asset_url }}" alt="" class="khalab-hero-glow">
+    </div>
+
+    <div class="khalab-hero-inner">
+        <div class="khalab-hero-stage">
+            <div class="khalab-hero-khalap-wrap" aria-hidden="true">
+                <img src="{{ 'khalap.png' | asset_url }}" alt="خلاب" class="khalab-hero-khalap">
+            </div>
+
+            <div class="khalab-hero-visual">
+                {% if settings.hero_image %}
+                    <div class="khalab-hero-figure-box">
+                        <picture class="khalab-hero-figure-wrap">
+                            {% if settings.hero_image_mobile %}
+                                <source media="(max-width: 768px)" srcset="{{ settings.hero_image_mobile }}">
+                            {% endif %}
+                            <img src="{{ settings.hero_image }}" alt="" class="khalab-hero-figure" loading="eager" fetchpriority="high">
+                        </picture>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="khalab-hero-copy">
+            <div class="khalab-hero-subtitle">
+                <img src="{{ 'stars.png' | asset_url }}" alt="" class="khalab-hero-star">
+                <p>{{ settings.subtitle or 'جدارك يستحق أكثر من فراغ' }}</p>
+                <img src="{{ 'stars.png' | asset_url }}" alt="" class="khalab-hero-star khalab-hero-star--mirror">
+            </div>
+
+            <a href="{{ settings.cta_url or '/products' }}" class="khalab-hero-cta">
+                <span>{{ settings.cta_text or 'اطلب الآن' }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 12H5M12 5L5 12L12 19"/>
+                </svg>
+            </a>
+        </div>
+
+        <div class="khalab-hero-footer">
+            <p>{{ settings.bottom_text or 'لوحات كانفس مختارة بعناية، تضيف للمكان معنى وأناقة وحضوراً يليق بذوقك' }}</p>
+        </div>
+    </div>
+</section>

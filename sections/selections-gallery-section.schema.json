@@ -1,0 +1,95 @@
+{
+    "section_id": "uuid",
+    "template": "sections/selections-gallery-section.jinja",
+    "icon": "fal fa-images",
+    "name": {
+        "ar": "مختارات خلاب",
+        "en": "Khalab Selections Gallery"
+    },
+    "settings": [
+        {
+            "id": "title",
+            "type": "text",
+            "label": {
+                "ar": "العنوان",
+                "en": "Title"
+            },
+            "default": "مختارات خلاب"
+        },
+        {
+            "id": "subtitle",
+            "type": "text",
+            "label": {
+                "ar": "النص التوضيحي",
+                "en": "Subtitle"
+            },
+            "default": "لوحات فنية مختارة تم اختيارها بعناية لتبدأ منها رحلتك مع جدار أجمل"
+        },
+        {
+            "id": "ruler_min_label",
+            "type": "text",
+            "label": {
+                "ar": "تسمية بداية المسطرة",
+                "en": "Ruler start label"
+            },
+            "default": "0"
+        },
+        {
+            "id": "ruler_max_label",
+            "type": "text",
+            "label": {
+                "ar": "تسمية نهاية المسطرة",
+                "en": "Ruler end label"
+            },
+            "default": "180"
+        },
+        {
+            "id": "items",
+            "type": "list",
+            "label": {
+                "ar": "المنتجات",
+                "en": "Products"
+            },
+            "settings": [
+                {
+                    "id": "frame_image",
+                    "type": "image",
+                    "label": {
+                        "ar": "صورة الإطار مع اليد",
+                        "en": "Frame with hand image"
+                    },
+                    "info": {
+                        "ar": "PNG بخلفية شفافة",
+                        "en": "Transparent PNG recommended"
+                    }
+                },
+                {
+                    "id": "url",
+                    "type": "url",
+                    "label": {
+                        "ar": "رابط المنتج",
+                        "en": "Product link"
+                    }
+                },
+                {
+                    "id": "price",
+                    "type": "text",
+                    "label": {
+                        "ar": "السعر",
+                        "en": "Price"
+                    },
+                    "default": "150 ر.س"
+                },
+                {
+                    "id": "degree",
+                    "type": "text",
+                    "label": {
+                        "ar": "قيمة على المسطرة",
+                        "en": "Ruler value"
+                    },
+                    "default": "150"
+                }
+            ]
+        }
+    ]
+}

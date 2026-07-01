@@ -1,0 +1,166 @@
+{% set default_items = [
+    {'label': 'الميزان', 'url': '/products'},
+    {'label': 'المخطوطات', 'url': '/products'},
+    {'label': 'التيبوغرافي', 'url': '/products'},
+    {'label': 'المدن', 'url': '/products'},
+    {'label': 'القطيفة', 'url': '/products'}
+] %}
+{% set cms_items = safeget(settings, 'items', []) %}
+{% set category_items = cms_items if cms_items | length > 0 else default_items %}
+{% set section_title = settings.title or 'أقسام خلاب' %}
+{% set section_subtitle = settings.subtitle or 'استكشف مجموعاتنا الفنية المصنّفة بعناية' %}
+{% set show_title = settings.show_title %}
+{% set cta_text = settings.cta_text or 'كل الأقسام' %}
+{% set cta_url = settings.cta_url or '/products' %}
+{% set bg_image = settings.background_image or ('bg.png' | asset_url) %}
+{% set default_active = ((category_items | length - 1) // 2) %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-categories"
+    style="--khalab-categories-mask: url('{{ 'categories-card-mask.svg' | asset_url }}');"
+    data-default-active="{{ default_active }}"
+    aria-label="{{ section_title }}"
+>
+    <div class="khalab-categories-bg" aria-hidden="true">
+        <img src="{{ bg_image }}" alt="" class="khalab-categories-bg-photo">
+        <span class="khalab-categories-bg-overlay"></span>
+        <span class="khalab-categories-bg-dots"></span>
+        <span class="khalab-categories-bg-vignette"></span>
+    </div>
+
+    <div class="khalab-categories-scan" aria-hidden="true">
+        <span class="khalab-categories-scan-box">
+            <span class="khalab-categories-scan-ticks"></span>
+        </span>
+    </div>
+
+    <div class="khalab-categories-inner">
+        {% if show_title %}
+            <header class="khalab-categories-header">
+                <div class="khalab-categories-title-wrap">
+                    <img src="{{ 'star.png' | asset_url }}" alt="" class="khalab-categories-star" width="42" height="42">
+                    <h2 class="khalab-categories-title">{{ section_title }}</h2>
+                    <img src="{{ 'star.png' | asset_url }}" alt="" class="khalab-categories-star khalab-categories-star--mirror" width="42" height="42">
+                </div>
+                {% if section_subtitle %}
+                    <p class="khalab-categories-subtitle">{{ section_subtitle }}</p>
+                {% endif %}
+            </header>
+        {% endif %}
+
+        <div class="khalab-categories-stage">
+            {% if settings.surface_image %}
+                <div class="khalab-categories-surface" aria-hidden="true">
+                    <img src="{{ image_url(settings.surface_image, w=1400, q=90, f='auto') }}" alt="" loading="lazy">
+                </div>
+            {% endif %}
+
+            <button
+                type="button"
+                class="khalab-categories-nav khalab-categories-nav--prev"
+                aria-label="{{ _('Previous') }}"
+            >
+                <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                    <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <button
+                type="button"
+                class="khalab-categories-nav khalab-categories-nav--next"
+                aria-label="{{ _('Next') }}"
+            >
+                <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                    <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <div class="khalab-categories-gallery" role="region" aria-roledescription="carousel" aria-label="{{ section_title }}">
+                <div class="khalab-categories-track">
+                    {% for item in category_items %}
+                        {% set raw_image = item.image %}
+                        {% set image_src = '' %}
+                        {% if raw_image %}
+                            {% if raw_image is string %}
+                                {% set image_src = raw_image %}
+                            {% elif raw_image.url is defined and raw_image.url %}
+                                {% set image_src = raw_image.url %}
+                            {% elif raw_image.src is defined and raw_image.src %}
+                                {% set image_src = raw_image.src %}
+                            {% elif raw_image.path is defined and raw_image.path %}
+                                {% set image_src = raw_image.path %}
+                            {% elif raw_image.image is defined %}
+                                {% if raw_image.image is string %}
+                                    {% set image_src = raw_image.image %}
+                                {% elif raw_image.image.url is defined %}
+                                    {% set image_src = raw_image.image.url %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% set item_url = item.url %}
+                        {% if item_url is mapping %}
+                            {% set item_url = item_url.url | default(item_url.href | default('/products')) %}
+                        {% endif %}
+                        {% set item_url = item_url or '/products' %}
+                        {% set item_label = item.label or 'المدن' %}
+
+                        <article class="khalab-categories-slide" data-index="{{ loop.index0 }}">
+                            <a href="{{ item_url }}" class="khalab-categories-card" tabindex="-1">
+                                <div class="khalab-categories-card-shell">
+                                    <div class="khalab-categories-card-media">
+                                        {% if image_src %}
+                                            <img
+                                                src="{{ image_url(image_src, w=820, q=90, f='auto') }}"
+                                                alt=""
+                                                class="khalab-categories-card-img"
+                                                loading="lazy"
+                                                draggable="false"
+                                            >
+                                        {% else %}
+                                            <span class="khalab-categories-card-placeholder" aria-hidden="true"></span>
+                                        {% endif %}
+                                    </div>
+                                    <span class="khalab-categories-card-shade" aria-hidden="true"></span>
+                                </div>
+
+                                <span class="khalab-categories-card-label">{{ item_label }}</span>
+
+                                <span class="khalab-categories-card-curve" aria-hidden="true">
+                                    <svg width="144" height="72" viewBox="0 0 144 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M143.978 71.8673L1.2587e-05 71.8673C45.9504 71.8673 32.2305 -5.62584e-06 71.9889 -1.25657e-05C111.747 -1.95055e-05 94.7599 71.8673 143.978 71.8673Z" fill="url(#khalab-cat-curve-{{ sectionId }}-{{ loop.index }})" fill-opacity="0.82"/>
+                                        <defs>
+                                            <linearGradient id="khalab-cat-curve-{{ sectionId }}-{{ loop.index }}" x1="71.9889" y1="71.8673" x2="71.9889" y2="0" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#323824"/>
+                                                <stop offset="1" stop-color="#D4D5AC"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                    <span class="khalab-categories-card-chevron">
+                                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none">
+                                            <path d="M1.5 2.5L7 7.5L12.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M1.5 6.5L7 11.5L12.5 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                </span>
+                            </a>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <a href="{{ cta_url }}" class="khalab-categories-cta">
+                <span class="khalab-categories-cta-text">{{ cta_text }}</span>
+                <span class="khalab-categories-cta-icon" aria-hidden="true">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M1 5H9M9 5L5 1M9 5L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script src="{{ 'categories-gallery.js' | asset_url }}" defer></script>

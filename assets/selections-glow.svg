@@ -1,0 +1,27 @@
+<svg width="1119" height="644" viewBox="0 0 1119 644" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_f_2082_87)">
+<g clip-path="url(#paint0_diamond_2082_87_clip_path)">
+<g transform="matrix(0.0080507 0.631975 -1.10397 0.0140631 571.576 96.3504)">
+<rect x="0" y="0" width="872.654" height="521.23" fill="url(#paint0_diamond_2082_87)" opacity="1" shape-rendering="crispEdges"/>
+<rect x="0" y="0" width="872.654" height="521.23" transform="scale(1 -1)" fill="url(#paint0_diamond_2082_87)" opacity="1" shape-rendering="crispEdges"/>
+<rect x="0" y="0" width="872.654" height="521.23" transform="scale(-1 1)" fill="url(#paint0_diamond_2082_87)" opacity="1" shape-rendering="crispEdges"/>
+<rect x="0" y="0" width="872.654" height="521.23" transform="scale(-1)" fill="url(#paint0_diamond_2082_87)" opacity="1" shape-rendering="crispEdges"/>
+</g>
+</g>
+<path d="M553.637 154.102C294.502 159.054 79.2392 56.0973 4 4V640H1115V4C1035.85 51.9708 812.773 149.15 553.637 154.102Z" fill="url(#paint0_diamond_2082_87)"/>
+</g>
+<defs>
+<filter id="filter0_f_2082_87" x="0" y="0" width="1119" height="644" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_2082_87"/>
+</filter>
+<clipPath id="paint0_diamond_2082_87_clip_path">
+<path d="M553.637 154.102C294.502 159.054 79.2392 56.0973 4 4V640H1115V4C1035.85 51.9708 812.773 149.15 553.637 154.102Z"/>
+</clipPath>
+<linearGradient id="paint0_diamond_2082_87" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D4D5AC" stop-opacity="0.68"/>
+<stop offset="0.716346" stop-color="#323824" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

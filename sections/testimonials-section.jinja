@@ -1,0 +1,108 @@
+{% set default_items = [
+    {
+        'quote': 'اللوحة غيّرت شكل الصالة بالكامل، جودة الطباعة فاقت التوقعات والتغليف كان محترم جداً.',
+        'name': 'محمد العتيبي',
+        'role': 'مهندس مدني'
+    },
+    {
+        'quote': 'طلبت لوحة مخصصة لصورتي، التنسيق مع الفريق كان سهل والنتيجة طلعت أجمل مما تخيلت.',
+        'name': 'فيصل الحربي',
+        'role': 'صاحب مكتب'
+    },
+    {
+        'quote': 'ألوان اللوحة متناسقة مع ديكور البيت، والتوصيل كان سريع. أنصح فيها بدون تردد.',
+        'name': 'ريم الشمري',
+        'role': 'ربة منزل'
+    },
+    {
+        'quote': 'خلاب فهم ذوقي من أول محادثة، واللوحة صارت أجمل قطعة في المدخل.',
+        'name': 'عبدالله القحطاني',
+        'role': 'مهندس معماري'
+    }
+] %}
+
+{% set section_title = settings.title or 'لوحة تبدأ بقصة… وتنتهي بتجربة لا تُنسى' %}
+{% set email_placeholder = settings.email_placeholder or 'أدخل بريدك الإلكتروني هنا' %}
+{% set form_action = settings.form_action or '/newsletter' %}
+{% set testimonial_items = settings.items if settings.items | length > 0 else default_items %}
+{% set card_positions = ['tl', 'tr', 'bl', 'br'] %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-testimonials khalab-section-solid"
+    aria-label="{{ section_title }}"
+>
+    <div class="khalab-testimonials-inner">
+        <header class="khalab-testimonials-header">
+            <h2 class="khalab-testimonials-title">{{ section_title }}</h2>
+
+            <form class="khalab-testimonials-subscribe" action="{{ form_action }}" method="post">
+                <label class="visually-hidden" for="{{ sectionId }}-email">{{ email_placeholder }}</label>
+                <input
+                    id="{{ sectionId }}-email"
+                    type="email"
+                    name="email"
+                    class="khalab-testimonials-subscribe-input"
+                    placeholder="{{ email_placeholder }}"
+                    required
+                    autocomplete="email"
+                >
+                <button type="submit" class="khalab-testimonials-subscribe-btn" aria-label="{{ _('Subscribe') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12H19M12 5L19 12L12 19"/>
+                    </svg>
+                </button>
+            </form>
+        </header>
+
+        <div class="khalab-testimonials-stage">
+            <div class="khalab-testimonials-spotlight" aria-hidden="true"></div>
+
+            {% if settings.center_image %}
+                <picture class="khalab-testimonials-figure-wrap">
+                    {% if settings.center_image_mobile %}
+                        <source media="(max-width: 768px)" srcset="{{ settings.center_image_mobile }}">
+                    {% endif %}
+                    <img
+                        src="{{ settings.center_image }}"
+                        alt=""
+                        class="khalab-testimonials-figure"
+                        loading="lazy"
+                    >
+                </picture>
+            {% endif %}
+
+            {% for item in testimonial_items[:4] %}
+                {% set card_pos = card_positions[loop.index0] %}
+                <article class="khalab-testimonials-card khalab-testimonials-card--{{ card_pos }}">
+                    <div class="khalab-testimonials-card-quote-wrap">
+                        <span class="khalab-testimonials-card-quote-mark khalab-testimonials-card-quote-mark--open" aria-hidden="true">“</span>
+                        <p class="khalab-testimonials-card-quote">{{ item.quote }}</p>
+                        <span class="khalab-testimonials-card-quote-mark khalab-testimonials-card-quote-mark--close" aria-hidden="true">”</span>
+                    </div>
+                    <div class="khalab-testimonials-card-footer">
+                        <div class="khalab-testimonials-card-author">
+                            {% if item.avatar %}
+                                <img src="{{ item.avatar }}" alt="" class="khalab-testimonials-card-avatar" loading="lazy">
+                            {% else %}
+                                <span class="khalab-testimonials-card-avatar khalab-testimonials-card-avatar--placeholder" aria-hidden="true"></span>
+                            {% endif %}
+                            <div class="khalab-testimonials-card-meta">
+                                <span class="khalab-testimonials-card-name">{{ item.name }}</span>
+                                {% if item.role %}
+                                    <span class="khalab-testimonials-card-role">{{ item.role }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="khalab-testimonials-card-stars" aria-hidden="true">
+                            {% for i in range(5) %}
+                                <img src="{{ 'star.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>

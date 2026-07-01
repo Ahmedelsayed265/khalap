@@ -1,0 +1,47 @@
+{% set section_title = settings.title or 'هل تبحث عن لوحة تشبه فكرتك؟' %}
+{% set section_subtitle = settings.subtitle or 'أرسل لنا فكرتك أو صورة الجدار، ونساعدك في اختيار أو تنفيذ لوحة كانفس تناسب مساحتك وذوقك' %}
+{% set cta_text = settings.cta_text or 'كلمنا الآن' %}
+{% set cta_url = settings.cta_url or '/contact-us' %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-custom-canvas khalab-section-solid"
+    aria-label="{{ section_title }}"
+>
+
+    <div class="khalab-custom-canvas-circle khalab-custom-canvas-circle--left" aria-hidden="true"></div>
+    <div class="khalab-custom-canvas-circle khalab-custom-canvas-circle--right" aria-hidden="true"></div>
+
+    <div class="khalab-custom-canvas-inner">
+        <header class="khalab-custom-canvas-header">
+            <div class="khalab-custom-canvas-title-wrap">
+                <span class="khalab-custom-canvas-title-glow" aria-hidden="true"></span>
+                <h2 class="khalab-custom-canvas-title">{{ section_title }}</h2>
+            </div>
+            {% if section_subtitle %}
+                <p class="khalab-custom-canvas-subtitle">{{ section_subtitle }}</p>
+            {% endif %}
+        </header>
+
+        <div class="khalab-custom-canvas-stage">
+            {% if settings.illustration_image %}
+                <picture class="khalab-custom-canvas-figure-wrap">
+                    {% if settings.illustration_mobile %}
+                        <source media="(max-width: 768px)" srcset="{{ settings.illustration_mobile }}">
+                    {% endif %}
+                    <img
+                        src="{{ settings.illustration_image }}"
+                        alt=""
+                        class="khalab-custom-canvas-figure"
+                        loading="lazy"
+                    >
+                </picture>
+            {% endif %}
+
+            <a href="{{ cta_url }}" class="khalab-custom-canvas-cta">
+                <span>{{ cta_text }}</span>
+            </a>
+        </div>
+    </div>
+</section>

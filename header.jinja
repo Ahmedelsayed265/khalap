@@ -1,0 +1,10 @@
+<header id="{{ sectionId }}" section-id="{{ sectionId }}" class="d-flex flex-column khalab-site-header">
+  {% include 'vitrin:shared/store_messages.jinja' %}
+
+  <div {% if settings.header_sticky %}id="fixed-header"{% endif %} class="khalab-fixed-header">
+    {% set header_settings=settings %}{% include 'components/header-search-header.jinja' %}
+  </div>
+
+  {% set menu_settings=settings %}{% include 'components/header-sliding-menu.jinja' %}
+  {% include 'components/search-modal.jinja' %}
+</header>

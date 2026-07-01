@@ -1,0 +1,46 @@
+<ul class="khalab-nav-menu" role="menubar">
+    {% for menu in store.settings.menus.main_menu.items %}
+        {% if menu.url %}
+            {% set menu_href = menu.url | localized_url if menu.resource_type != 'url' else menu.url %}
+            <li class="khalab-nav-menu-item{% if menu.items | length > 0 %} khalab-nav-menu-item--has-submenu{% endif %}{% if safeget(menu, 'url') == '/c/' or safeget(menu, 'url') == '/categories/' %} all-categories{% endif %}">
+                <a href="{{ menu_href }}"
+                   class="khalab-nav-link{% if menu.items | length > 0 %} khalab-nav-link--mega{% endif %}"
+                   title="{{ menu.label }}"
+                   {% if menu.items | length > 0 %}aria-haspopup="true"{% endif %}>
+                    <span>{{ menu.label }}</span>
+                </a>
+
+                {% if menu.items | length > 0 %}
+                    <div class="khalab-nav-submenu sub-menu-block">
+                        <div class="khalab-nav-submenu-inner khalab-header-container">
+                            <div class="khalab-nav-submenu-grid">
+                                {% for menu_sub in menu.items %}
+                                    {% set menu_sub_href = menu_sub.url | localized_url if menu_sub.resource_type != 'url' else menu_sub.url %}
+                                    <div class="khalab-nav-submenu-col">
+                                        {% if menu_sub.items | length > 0 %}
+                                            <h5 class="khalab-nav-submenu-head">
+                                                <a href="{{ menu_sub_href }}">{{ menu_sub.label }}</a>
+                                            </h5>
+                                            <ul class="khalab-nav-submenu-list">
+                                                {% for menu_sub_sub in menu_sub.items %}
+                                                    {% set menu_sub_sub_href = menu_sub_sub.url | localized_url if menu_sub_sub.resource_type != 'url' else menu_sub_sub.url %}
+                                                    <li>
+                                                        <a href="{{ menu_sub_sub_href }}">{{ menu_sub_sub.label }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <h5 class="khalab-nav-submenu-head khalab-nav-submenu-head--solo">
+                                                <a href="{{ menu_sub_href }}">{{ menu_sub.label }}</a>
+                                            </h5>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

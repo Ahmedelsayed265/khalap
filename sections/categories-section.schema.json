@@ -1,0 +1,114 @@
+{
+  "section_id": "uuid",
+  "template": "sections/categories-section.jinja",
+  "icon": "fal fa-th-large",
+  "name": {
+    "ar": "أقسام خلاب",
+    "en": "Khalab Categories"
+  },
+  "settings": [
+    {
+      "id": "background_image",
+      "type": "image",
+      "label": {
+        "ar": "صورة الخلفية",
+        "en": "Background image"
+      },
+      "info": {
+        "ar": "صورة داخلية للغرفة — تُغطى بطبقة زيتونية داكنة",
+        "en": "Interior room photo with dark overlay"
+      }
+    },
+    {
+      "id": "surface_image",
+      "type": "image",
+      "label": {
+        "ar": "صورة سطح الطاولة",
+        "en": "Table surface image"
+      },
+      "info": {
+        "ar": "الطاولة/السطح الخشبي خلف البطاقات",
+        "en": "Shared wooden table behind cards"
+      }
+    },
+    {
+      "id": "show_title",
+      "type": "checkbox",
+      "label": {
+        "ar": "إظهار العنوان",
+        "en": "Show title"
+      },
+      "default": false
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": {
+        "ar": "العنوان",
+        "en": "Title"
+      },
+      "default": "أقسام خلاب"
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": {
+        "ar": "النص التوضيحي",
+        "en": "Subtitle"
+      },
+      "default": "استكشف مجموعاتنا الفنية المصنّفة بعناية"
+    },
+    {
+      "id": "cta_text",
+      "type": "text",
+      "label": {
+        "ar": "نص زر كل الأقسام",
+        "en": "All categories button text"
+      },
+      "default": "كل الأقسام"
+    },
+    {
+      "id": "cta_url",
+      "type": "url",
+      "label": {
+        "ar": "رابط زر كل الأقسام",
+        "en": "All categories button link"
+      }
+    },
+    {
+      "id": "items",
+      "type": "list",
+      "label": {
+        "ar": "الأقسام",
+        "en": "Categories"
+      },
+      "settings": [
+        {
+          "id": "image",
+          "type": "image",
+          "label": {
+            "ar": "صورة القسم",
+            "en": "Category image"
+          }
+        },
+        {
+          "id": "label",
+          "type": "text",
+          "label": {
+            "ar": "اسم القسم",
+            "en": "Category name"
+          },
+          "default": "المدن"
+        },
+        {
+          "id": "url",
+          "type": "url",
+          "label": {
+            "ar": "رابط القسم",
+            "en": "Category link"
+          }
+        }
+      ]
+    }
+  ]
+}

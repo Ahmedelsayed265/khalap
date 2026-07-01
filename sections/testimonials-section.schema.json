@@ -1,0 +1,100 @@
+{
+    "section_id": "uuid",
+    "template": "sections/testimonials-section.jinja",
+    "icon": "fal fa-quote-right",
+    "name": {
+        "ar": "آراء العملاء",
+        "en": "Testimonials"
+    },
+    "settings": [
+        {
+            "id": "title",
+            "type": "text",
+            "label": {
+                "ar": "العنوان",
+                "en": "Title"
+            },
+            "default": "لوحة تبدأ بقصة… وتنتهي بتجربة لا تُنسى"
+        },
+        {
+            "id": "email_placeholder",
+            "type": "text",
+            "label": {
+                "ar": "نص حقل البريد",
+                "en": "Email placeholder"
+            },
+            "default": "أدخل بريدك الإلكتروني هنا"
+        },
+        {
+            "id": "form_action",
+            "type": "url",
+            "label": {
+                "ar": "رابط النشرة البريدية",
+                "en": "Newsletter form action"
+            },
+            "default": "/newsletter"
+        },
+        {
+            "id": "center_image",
+            "type": "image",
+            "label": {
+                "ar": "الصورة المركزية",
+                "en": "Center illustration"
+            },
+            "info": {
+                "ar": "PNG بخلفية شفافة",
+                "en": "Transparent PNG recommended"
+            }
+        },
+        {
+            "id": "center_image_mobile",
+            "type": "image",
+            "label": {
+                "ar": "صورة الجوال (اختياري)",
+                "en": "Mobile illustration (optional)"
+            }
+        },
+        {
+            "id": "items",
+            "type": "list",
+            "label": {
+                "ar": "التقييمات",
+                "en": "Reviews"
+            },
+            "settings": [
+                {
+                    "id": "quote",
+                    "type": "textarea",
+                    "label": {
+                        "ar": "الرأي",
+                        "en": "Quote"
+                    }
+                },
+                {
+                    "id": "name",
+                    "type": "text",
+                    "label": {
+                        "ar": "الاسم",
+                        "en": "Name"
+                    }
+                },
+                {
+                    "id": "role",
+                    "type": "text",
+                    "label": {
+                        "ar": "الوصف",
+                        "en": "Role"
+                    }
+                },
+                {
+                    "id": "avatar",
+                    "type": "image",
+                    "label": {
+                        "ar": "الصورة الشخصية",
+                        "en": "Avatar"
+                    }
+                }
+            ]
+        }
+    ]
+}

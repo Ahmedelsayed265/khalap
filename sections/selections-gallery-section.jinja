@@ -1,0 +1,137 @@
+{% set default_items = [
+    {'url': '/products', 'price': '150 ر.س', 'degree': '150'},
+    {'url': '/products', 'price': '180 ر.س', 'degree': '180'},
+    {'url': '/products', 'price': '220 ر.س', 'degree': '220'}
+] %}
+{% set cms_items = safeget(settings, 'items', []) %}
+{% set gallery_items = cms_items if cms_items | length > 0 else default_items %}
+{% set section_title = settings.title or 'مختارات خلاب' %}
+{% set section_subtitle = settings.subtitle or 'لوحات فنية مختارة تم اختيارها بعناية لتبدأ منها رحلتك مع جدار أجمل' %}
+{% set ruler_min = settings.ruler_min_label or '0' %}
+{% set ruler_max = settings.ruler_max_label or '180' %}
+{% set default_active = ((gallery_items | length - 1) // 2) %}
+{% set active_item = gallery_items[default_active] %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-selections"
+    data-ruler-min="{{ ruler_min }}"
+    data-ruler-max="{{ ruler_max }}"
+    data-default-active="{{ default_active }}"
+    aria-label="{{ section_title }}"
+>
+    <div class="khalab-selections-bg" aria-hidden="true">
+        <img src="{{ 'bg.png' | asset_url }}" alt="" class="khalab-selections-bg-texture">
+    </div>
+
+    <div class="khalab-selections-inner">
+        <header class="khalab-selections-header">
+            <div class="khalab-selections-title-wrap">
+                <img src="{{ 'star.png' | asset_url }}" alt="" class="khalab-selections-star" width="42" height="42">
+                <h2 class="khalab-selections-title">{{ section_title }}</h2>
+                <img src="{{ 'star.png' | asset_url }}" alt="" class="khalab-selections-star khalab-selections-star--mirror" width="42" height="42">
+            </div>
+            {% if section_subtitle %}
+                <p class="khalab-selections-subtitle">{{ section_subtitle }}</p>
+            {% endif %}
+        </header>
+
+        <div class="khalab-selections-stage">
+            <div class="khalab-selections-decor" aria-hidden="true">
+                <span class="khalab-selections-diamond khalab-selections-diamond--left"></span>
+                <span class="khalab-selections-diamond khalab-selections-diamond--right"></span>
+            </div>
+
+            <div class="khalab-selections-gallery" role="region" aria-roledescription="carousel" aria-label="{{ section_title }}">
+                <div class="khalab-selections-track">
+                    {% for item in gallery_items %}
+                        {% set raw_frame = item.frame_image | default(item.image, true) %}
+                        {% set frame_src = '' %}
+                        {% if raw_frame %}
+                            {% if raw_frame is string %}
+                                {% set frame_src = raw_frame %}
+                            {% elif raw_frame.url is defined and raw_frame.url %}
+                                {% set frame_src = raw_frame.url %}
+                            {% elif raw_frame.src is defined and raw_frame.src %}
+                                {% set frame_src = raw_frame.src %}
+                            {% elif raw_frame.path is defined and raw_frame.path %}
+                                {% set frame_src = raw_frame.path %}
+                            {% elif raw_frame.image is defined %}
+                                {% if raw_frame.image is string %}
+                                    {% set frame_src = raw_frame.image %}
+                                {% elif raw_frame.image.url is defined %}
+                                    {% set frame_src = raw_frame.image.url %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% set item_url = item.url %}
+                        {% if item_url is mapping %}
+                            {% set item_url = item_url.url | default(item_url.href | default('/products')) %}
+                        {% endif %}
+                        {% set item_url = item_url or '/products' %}
+                        {% set item_price = item.price or '150 ر.س' %}
+                        {% set item_degree = item.degree or '150' %}
+                        <article
+                            class="khalab-selections-slide{% if loop.index0 == default_active %} is-active{% endif %}{% if frame_src %} has-frame{% endif %}"
+                            data-index="{{ loop.index0 }}"
+                            data-price="{{ item_price }}"
+                            data-degree="{{ item_degree }}"
+                        >
+                            <a href="{{ item_url }}" class="khalab-selections-slide-link" tabindex="{% if loop.index0 == default_active %}0{% else %}-1{% endif %}">
+                                {% if frame_src %}
+                                    <img
+                                        src="{{ image_url(frame_src, w=900, q=90, f='auto') }}"
+                                        alt=""
+                                        class="khalab-selections-frame-img"
+                                        loading="{% if loop.index0 == default_active %}eager{% else %}lazy{% endif %}"
+                                        draggable="false"
+                                    >
+                                {% else %}
+                                    <div class="khalab-selections-frame-placeholder" aria-hidden="true">
+                                        <span class="khalab-selections-frame-placeholder-inner"></span>
+                                    </div>
+                                {% endif %}
+                            </a>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="khalab-selections-ruler-wrap">
+                <img
+                    src="{{ 'selections-ruler-design.svg' | asset_url }}"
+                    alt=""
+                    class="khalab-selections-ruler-art"
+                    draggable="false"
+                >
+
+                <span class="khalab-ruler-label khalab-ruler-label--min">{{ ruler_min }}</span>
+                <span class="khalab-ruler-label khalab-ruler-label--max">{{ ruler_max }}</span>
+
+                <span class="khalab-ruler-pointer" aria-hidden="true"></span>
+
+                <button
+                    type="button"
+                    class="khalab-ruler-knob"
+                    aria-label="{{ _('Browse selections') }}"
+                    aria-valuemin="0"
+                    aria-valuemax="{{ gallery_items | length - 1 }}"
+                    aria-valuenow="{{ default_active }}"
+                >
+                    <img src="{{ 'star.png' | asset_url }}" alt="" width="36" height="36" draggable="false">
+                </button>
+
+                <div class="khalab-selections-price-wrap">
+                    <span class="khalab-selections-price-arrow" aria-hidden="true"></span>
+                    <div class="khalab-selections-price" aria-live="polite">
+                        {{ active_item.price if active_item.price is defined else '150 ر.س' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ 'selections-gallery.js' | asset_url }}" defer></script>
