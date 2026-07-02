@@ -220,6 +220,11 @@ function removeFromCart(product_id) {
     .then(res => removeFromCartProducts(res, product_id_str));
 }
 
+function getWishlistToggleButtons(container) {
+  const $container = container instanceof jQuery ? container : $(container);
+  return $container.find('.icon-heart-mask, [zid-visible-wishlist], [zid-hidden-wishlist]');
+}
+
 function fillWishlistItems(items) {
   items.forEach(product => {
     const container = $(`.add-to-wishlist[data-wishlist-id=${product.id}]`)[0];
@@ -246,7 +251,7 @@ function addToWishlist(elm, productId) {
   const container = $(elm).closest('.add-to-wishlist');
 
   // Hide ALL heart buttons and show loader
-  container.find('.icon-heart-mask').each(function() {
+  getWishlistToggleButtons(container).each(function() {
     this.style.setProperty('display', 'none', 'important');
   });
   container.find('.loader').removeClass('d-none');
@@ -291,7 +296,7 @@ function removeFromWishlist(elm, productId) {
   const container = $(elm).closest('.add-to-wishlist');
 
   // Hide ALL heart buttons and show loader
-  container.find('.icon-heart-mask').each(function() {
+  getWishlistToggleButtons(container).each(function() {
     this.style.setProperty('display', 'none', 'important');
   });
   container.find('.loader').removeClass('d-none');

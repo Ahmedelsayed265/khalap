@@ -8,26 +8,67 @@
 <section
     id="{{ sectionId }}"
     section-id="{{ sectionId }}"
-    class="khalab-products-section khalab-section-solid"
+    class="khalab-products-section khalab-products-section--home khalab-section-solid"
     aria-label="{{ section_title }}"
 >
     <div class="khalab-products-inner">
         <header class="khalab-products-header">
-            <div class="khalab-products-title-wrap">
+            <div class="khalab-products-title-shape">
+                <div class="khalab-products-title-frame" aria-hidden="true">
+                    <span class="khalab-products-title-bar khalab-products-title-bar--top"></span>
+                    <span class="khalab-products-title-bar khalab-products-title-bar--bottom"></span>
+                    <span class="khalab-products-title-tick" style="--x: 6%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 11%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 16%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 21%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 79%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 84%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 89%;"></span>
+                    <span class="khalab-products-title-tick" style="--x: 94%;"></span>
+                </div>
                 <h2 class="khalab-products-title">{{ section_title }}</h2>
             </div>
+
             {% if view_all_url and view_all_text %}
                 <a href="{{ view_all_url }}" class="khalab-products-view-all">{{ view_all_text }}</a>
             {% endif %}
         </header>
 
-        <div class="khalab-products-grid products-list">
-            {% for product in product_results[:max_products] %}
-                <div class="prod-col">
-                    {% set index = loop.index0 %}{% include 'components/product-card.jinja' %}
+        <div class="khalab-products-stage">
+            <div
+                class="khalab-products-swiper swiper"
+                role="region"
+                aria-roledescription="carousel"
+                aria-label="{{ section_title }}"
+            >
+                <div class="swiper-wrapper">
+                    {% for product in product_results[:max_products] %}
+                        <div class="swiper-slide khalab-products-slide">
+                            <div class="prod-col">
+                                {% set index = loop.index0 %}{% include 'components/product-card.jinja' %}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
+
+            {% if product_results[:max_products] | length > 1 %}
+                <button type="button" class="khalab-products-nav khalab-products-nav--prev" aria-label="{{ _('Previous') }}">
+                    <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                        <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button type="button" class="khalab-products-nav khalab-products-nav--next" aria-label="{{ _('Next') }}">
+                    <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                        <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            {% endif %}
         </div>
     </div>
 </section>
+
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script src="{{ 'products-section-gallery.js' | asset_url }}" defer></script>
 {% endif %}

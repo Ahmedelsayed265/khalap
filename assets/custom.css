@@ -4807,11 +4807,21 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   margin: 0;
 }
 
+.product-item.khalab-product-card {
+  max-width: none;
+}
+
+.product-item.khalab-product-card img.khalab-product-card-photo,
+.product-item.khalab-product-card img.khalab-product-card-vector {
+  max-width: none;
+  max-height: none;
+}
+
 .khalab-product-card-inner {
-  position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 520px;
+  overflow: hidden;
   filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.38));
   transition:
     transform 0.25s ease,
@@ -4823,17 +4833,20 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.44));
 }
 
+.khalab-product-card-top {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .khalab-product-card-media {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 50%;
-  width: 92%;
-  height: 80%;
-  transform: translateX(-50%);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: -88px;
   overflow: hidden;
-  border-radius: 4px;
   background: linear-gradient(180deg, #efd8c4 0%, #e8d2bc 100%);
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
 }
 
 .khalab-product-card-media-link {
@@ -4846,29 +4859,17 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: cover;
   object-position: center;
 }
 
-.khalab-product-card-cap {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-  user-select: none;
-}
-
-.khalab-product-card-cap--bottom {
-  bottom: 0;
-}
-
 .khalab-product-card-actions {
   position: absolute;
-  z-index: 5;
+  z-index: 2;
   top: 10px;
-  left: 20px;
+  left: 10px;
   right: 10px;
   display: flex;
   align-items: center;
@@ -4878,34 +4879,79 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   pointer-events: none;
 }
 
+.khalab-product-card-bottom {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: -2px;
+}
+
+.khalab-product-card-vector {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  pointer-events: none;
+  user-select: none;
+}
+
 .khalab-product-card-action {
   pointer-events: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   color: #323824;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
   text-decoration: none;
   cursor: pointer;
   transition:
     transform 0.2s ease,
-    background 0.2s ease;
+    background 0.2s ease,
+    box-shadow 0.2s ease;
   flex-shrink: 0;
 }
 
 .khalab-product-card-action:hover {
-  transform: scale(1.04);
+  transform: scale(1.05);
   background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+.khalab-product-card-action-icon {
+  display: block;
+  width: 22px;
+  height: auto;
+  max-height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.khalab-product-card-action--view .khalab-product-card-action-icon {
+  width: 24px;
+  max-height: 16px;
 }
 
 .khalab-product-card-action--wishlist {
   position: relative;
   padding: 0;
+}
+
+.khalab-product-card-action--wishlist [zid-visible-wishlist] {
+  display: none;
+}
+
+.khalab-product-card-action--wishlist [zid-hidden-wishlist] {
+  display: inline-flex;
+}
+
+.khalab-product-card-action--wishlist [zid-visible-guest] {
+  display: none;
 }
 
 .khalab-product-card-action--placeholder {
@@ -4917,8 +4963,8 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -4940,35 +4986,31 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
 
 .khalab-product-card-info {
   position: absolute;
-  z-index: 3;
-  left: 11%;
-  right: 11%;
-  bottom: 5%;
-  height: 36%;
+  bottom: 0;
+  height: fit-content;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: clamp(4px, 0.8vw, 8px);
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 22% 14px 14%;
   text-align: center;
-  pointer-events: none;
-}
-
-.khalab-product-card-info a,
-.khalab-product-card-info button {
-  pointer-events: auto;
+  box-sizing: border-box;
 }
 
 .khalab-product-card-preorder {
-  margin-bottom: 2px;
+  margin-bottom: 0;
 }
 
 .khalab-product-card-title {
   margin: 0;
+  padding: 0 4px;
   font-family: var(--khalab-font-camel);
-  font-size: clamp(13px, 1.25vw, 16px);
+  font-size: 24px;
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.3;
   color: #323824;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -4982,15 +5024,20 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
 }
 
 .khalab-product-card-subtitle {
-  margin: 0;
+  margin: -2px 0 0;
   font-family: var(--khalab-font-camel);
-  font-size: 10px;
-  line-height: 1.3;
+  font-size: 11px;
+  line-height: 1.25;
   color: rgba(50, 56, 36, 0.72);
 }
 
 .khalab-product-card-rating {
   min-height: 12px;
+  margin: -2px 0;
+}
+
+.khalab-product-card-rating .icon-star1 {
+  font-size: 11px;
 }
 
 .khalab-product-card-prices {
@@ -4998,70 +5045,80 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  width: 100%;
-  padding: 6px 12px;
-  border-radius: 28px;
+  gap: 3px;
+  width: fit-content;
+  max-width: 92%;
+  min-width: 58%;
+  margin-top: 2px;
+  padding: 7px 18px;
+  border-radius: 32px;
   background: linear-gradient(
     271.31deg,
     rgba(212, 213, 172, 0) 13.82%,
-    rgba(255, 255, 255, 0.72) 50.39%,
+    rgba(255, 255, 255, 0.88) 50.39%,
     rgba(234, 234, 214, 0) 99.3%
   );
 }
 
 .khalab-product-card-price {
   font-family: "Khalap", var(--khalab-font-camel), serif;
-  font-size: clamp(17px, 1.6vw, 22px);
+  font-size: 40px;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0.02em;
   color: #1a1f16;
+  white-space: nowrap;
 }
 
 .khalab-product-card-compare {
   font-family: var(--khalab-font-camel);
-  font-size: 10px;
+  font-size: 20px;
   line-height: 1.2;
-  color: rgba(50, 56, 36, 0.48);
+  color: rgba(50, 56, 36, 0.5);
   text-decoration: line-through;
+  white-space: nowrap;
 }
 
 .khalab-product-card-cta-wrap {
   width: 100%;
-  margin-top: auto;
-  padding-top: 2px;
+  padding-bottom: 4px;
 }
 
 .khalab-product-card-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   width: 100%;
-  min-height: 34px;
+  min-height: 36px;
   padding: 0 10px;
   border: 0;
   background: transparent;
   font-family: var(--khalab-font-camel);
-  font-size: clamp(12px, 1.1vw, 14px);
+  font-size: 20px;
+  margin-top: 20px;
   font-weight: 500;
-  line-height: 1;
-  color: var(--khalab-cream, #e5e1d3);
+  line-height: 1.2;
+  color: #323824;
   text-decoration: none;
   cursor: pointer;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 .khalab-product-card-cta img,
 .khalab-product-card-cta-icon {
-  width: 17px;
-  height: 17px;
-  filter: brightness(0) invert(1);
-  opacity: 0.92;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 .khalab-product-card .product-card-bundle-offer {
   z-index: 3;
+}
+
+.khalab-product-card .product-card-bundle-offer,
+.khalab-product-card [class*="badge"] {
+  z-index: 2;
 }
 
 .products-list .prod-col .khalab-product-card,
@@ -5069,11 +5126,61 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   max-width: none;
 }
 
+@media (max-width: 767px) {
+  .khalab-product-card-actions {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+  }
+
+  .khalab-product-card-action {
+    width: 36px;
+    height: 36px;
+  }
+
+  .khalab-product-card-wishlist-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .khalab-product-card-info {
+    gap: 6px;
+    padding: 21% 12px 12%;
+  }
+
+  .khalab-product-card-prices {
+    min-width: 64%;
+    padding: 6px 14px;
+  }
+}
+
 /* Khalab products section */
 .khalab-products-section {
   position: relative;
   padding: clamp(36px, 5vw, 72px) 0 clamp(48px, 6vw, 88px);
   overflow: hidden;
+}
+
+.khalab-products-section--home {
+  background: linear-gradient(180deg, #323824 -41.74%, rgba(255, 255, 255, 0) 100%);
+}
+
+.khalab-products-section--home::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: clamp(28px, 5vw, 56px);
+  z-index: 0;
+  width: min(92%, 760px);
+  height: clamp(120px, 18vw, 180px);
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(212, 213, 172, 0.14) 0%,
+    rgba(212, 213, 172, 0.04) 42%,
+    transparent 72%
+  );
+  pointer-events: none;
 }
 
 .khalab-products-inner {
@@ -5084,12 +5191,65 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   padding: 0 clamp(16px, 3vw, 40px);
 }
 
+.khalab-products-section--home .khalab-products-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 20px);
+  margin-bottom: clamp(28px, 4vw, 44px);
+  text-align: center;
+}
+
 .khalab-products-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
   margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.khalab-products-title-shape {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 680px);
+  min-height: clamp(72px, 10vw, 96px);
+  padding: clamp(18px, 2.5vw, 24px) clamp(28px, 5vw, 48px);
+}
+
+.khalab-products-title-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.khalab-products-title-bar {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: rgba(229, 225, 211, 0.42);
+}
+
+.khalab-products-title-bar--top {
+  top: 28%;
+}
+
+.khalab-products-title-bar--bottom {
+  bottom: 28%;
+}
+
+.khalab-products-title-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  width: 1px;
+  transform: translateX(-50%);
+  background: rgba(229, 225, 211, 0.32);
 }
 
 .khalab-products-title-wrap {
@@ -5103,6 +5263,8 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
 }
 
 .khalab-products-title {
+  position: relative;
+  z-index: 1;
   margin: 0;
   font-family: "Khalap", var(--khalab-font-camel), serif;
   font-size: clamp(24px, 3vw, 38px);
@@ -5110,6 +5272,7 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
   line-height: 1.3;
   letter-spacing: 0.01em;
   color: var(--khalab-cream-soft, #e5e1d3);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
 }
 
 .khalab-products-view-all {
@@ -5124,9 +5287,86 @@ body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home {
     opacity 0.2s ease;
 }
 
+.khalab-products-section--home .khalab-products-view-all {
+  align-self: center;
+}
+
 .khalab-products-view-all:hover {
   color: var(--khalab-cream, #e5e1d3);
   opacity: 0.9;
+}
+
+.khalab-products-stage {
+  position: relative;
+  overflow: hidden;
+  padding: 0 clamp(4px, 1vw, 8px);
+}
+
+.khalab-products-swiper {
+  overflow: hidden;
+  padding: 8px 0 24px;
+}
+
+.khalab-products-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.khalab-products-swiper .swiper-slide,
+.khalab-products-slide {
+  height: auto;
+  box-sizing: border-box;
+}
+
+.khalab-products-slide .prod-col {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+}
+
+.khalab-products-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: rgba(46, 51, 38, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--khalab-cream-soft, #e5e1d3);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.khalab-products-nav--prev {
+  left: clamp(0px, 0.5vw, 4px);
+}
+
+.khalab-products-nav--next {
+  right: clamp(0px, 0.5vw, 4px);
+}
+
+.khalab-products-nav:hover {
+  background: rgba(46, 51, 38, 0.92);
+  border-color: rgba(255, 255, 255, 0.32);
+  transform: translateY(-1px);
+}
+
+.khalab-products-nav.swiper-button-disabled {
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 .khalab-products-grid {
@@ -5235,5 +5475,20 @@ body:has(.khalab-products-page) .subTitle-detail {
   .khalab-products-header {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .khalab-products-title-shape {
+    width: 100%;
+    padding-inline: clamp(16px, 4vw, 24px);
+  }
+
+  .khalab-products-title-tick {
+    opacity: 0.85;
+  }
+
+  .khalab-products-nav {
+    width: 38px;
+    height: 38px;
+    margin-top: -19px;
   }
 }
