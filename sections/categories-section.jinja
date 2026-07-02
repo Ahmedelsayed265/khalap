@@ -7,7 +7,7 @@
 ] %}
 {% set cms_items = safeget(settings, 'items', []) %}
 {% set category_items = cms_items if cms_items | length > 0 else default_items %}
-{% set section_title = settings.title or 'أقسام خلاب' %}
+{% set section_title = settings.title or 'تسوق حسب مساحتك' %}
 {% set section_subtitle = settings.subtitle or 'استكشف مجموعاتنا الفنية المصنّفة بعناية' %}
 {% set show_title = settings.show_title %}
 {% set cta_text = settings.cta_text or 'كل الأقسام' %}
@@ -36,10 +36,34 @@
     <div class="khalab-categories-inner">
         {% if show_title %}
             <header class="khalab-categories-header">
-                <div class="khalab-categories-title-wrap">
-                    <img src="{{ 'star.png' | asset_url }}" alt="" class="khalab-categories-star" width="42" height="42">
-                    <h2 class="khalab-categories-title">{{ section_title }}</h2>
-                    <img src="{{ 'star.png' | asset_url }}" alt="" class="khalab-categories-star khalab-categories-star--mirror" width="42" height="42">
+                <div class="khalab-categories-title-shape">
+                    <div class="khalab-categories-title-frame" aria-hidden="true">
+                        <span class="khalab-categories-title-glow"></span>
+                        <span class="khalab-categories-title-bar khalab-categories-title-bar--top"></span>
+                        <span class="khalab-categories-title-bar khalab-categories-title-bar--bottom"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 5%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 10%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 15%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 20%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 25%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 30%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 35%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 40%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 45%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 50%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 55%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 60%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 65%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 70%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 75%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 80%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 85%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 90%;"></span>
+                        <span class="khalab-categories-title-tick" style="--x: 95%;"></span>
+                    </div>
+                    <div class="khalab-categories-title-wrap">
+                        <h2 class="khalab-categories-title">{{ section_title }}</h2>
+                    </div>
                 </div>
                 {% if section_subtitle %}
                     <p class="khalab-categories-subtitle">{{ section_subtitle }}</p>

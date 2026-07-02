@@ -1,0 +1,132 @@
+{% set default_images = [
+    {'image': ''},
+    {'image': ''},
+    {'image': ''}
+] %}
+{% set stack_positions = ['prev', 'active', 'next'] %}
+{% set cms_slides = safeget(settings, 'slides', []) %}
+{% set section_quote = settings.quote or 'نؤمن أن الجمال لا يُعلّق على الجدران فقط بل يعيش في كل زاوية تُحبها' %}
+{% set cms_quotes = safeget(settings, 'quotes', []) %}
+{% set quote_ns = namespace(lines=[]) %}
+{% if cms_quotes | length > 0 %}
+    {% for item in cms_quotes %}
+        {% set line = item.text or item.quote or '' %}
+        {% if line %}
+            {% set quote_ns.lines = quote_ns.lines + [line] %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% if quote_ns.lines | length == 0 %}
+    {% set quote_ns.lines = [section_quote] %}
+{% endif %}
+{% set quote_lines = quote_ns.lines %}
+{% set cta_text = settings.cta_text or 'كلمنا الآن' %}
+{% set cta_url = settings.cta_url or '/contact-us' %}
+{% set placeholder_image = image_url(('product-img.svg' | asset_url), w=560, q=90, f='auto') %}
+
+<section
+    id="{{ sectionId }}"
+    section-id="{{ sectionId }}"
+    class="khalab-featured-showcase khalab-section-solid"
+    aria-label="{{ cta_text }}"
+    style="--khalab-featured-showcase-grid: url('{{ 'grid_patern.svg' | asset_url }}');"
+>
+    {% if settings.background_image %}
+        <div class="khalab-featured-showcase-bg" aria-hidden="true">
+            <img src="{{ settings.background_image }}" alt="" class="khalab-featured-showcase-bg-texture" loading="lazy">
+        </div>
+    {% endif %}
+
+    <div class="khalab-featured-showcase-inner">
+        <div class="khalab-featured-showcase-glass">
+            <div class="khalab-featured-showcase-layout">
+                <div class="khalab-featured-showcase-gallery-col">
+                    <div class="khalab-featured-showcase-stack" aria-hidden="true">
+                        {% for slot_index in range(3) %}
+                            {% set item = cms_slides[slot_index] if cms_slides | length > slot_index else default_images[slot_index] %}
+                            {% set raw_image = item.image %}
+                            {% set image_src = placeholder_image %}
+                            {% if raw_image %}
+                                {% if raw_image is string %}
+                                    {% set image_src = image_url(raw_image, w=560, q=90, f='auto') %}
+                                {% elif raw_image.url is defined and raw_image.url %}
+                                    {% set image_src = image_url(raw_image.url, w=560, q=90, f='auto') %}
+                                {% elif raw_image.src is defined and raw_image.src %}
+                                    {% set image_src = image_url(raw_image.src, w=560, q=90, f='auto') %}
+                                {% endif %}
+                            {% endif %}
+
+                            <article class="khalab-featured-showcase-stack-item is-{{ stack_positions[slot_index] }}">
+                                <img
+                                    src="{{ image_src }}"
+                                    alt=""
+                                    class="khalab-featured-showcase-photo"
+                                    loading="eager"
+                                    draggable="false"
+                                >
+                            </article>
+                        {% endfor %}
+                    </div>
+                    <span class="khalab-featured-showcase-gallery-glow" aria-hidden="true"></span>
+                </div>
+
+                <div class="khalab-featured-showcase-content">
+                    {% if quote_lines | length > 1 %}
+                        <div class="khalab-featured-showcase-nav">
+                            <button type="button" class="khalab-featured-showcase-nav-btn khalab-featured-showcase-nav-btn--prev" aria-label="{{ _('Previous') }}">
+                                <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                                    <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="khalab-featured-showcase-nav-btn khalab-featured-showcase-nav-btn--next" aria-label="{{ _('Next') }}">
+                                <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                                    <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    {% endif %}
+
+                    <div
+                        class="khalab-featured-showcase-quotes-swiper swiper"
+                        role="region"
+                        aria-roledescription="carousel"
+                        aria-label="{{ _('Quotes') }}"
+                    >
+                        <div class="swiper-wrapper">
+                            {% for line in quote_lines %}
+                                <div class="swiper-slide khalab-featured-showcase-quote-slide">
+                                    <blockquote class="khalab-featured-showcase-quote-wrap">
+                                        <span class="khalab-featured-showcase-quote-mark khalab-featured-showcase-quote-mark--open" aria-hidden="true">“</span>
+                                        <p class="khalab-featured-showcase-quote">{{ line }}</p>
+                                        <span class="khalab-featured-showcase-quote-mark khalab-featured-showcase-quote-mark--close" aria-hidden="true">”</span>
+                                    </blockquote>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <a href="{{ cta_url }}" class="khalab-featured-showcase-cta">
+                        <span class="khalab-featured-showcase-cta-text">{{ cta_text }}</span>
+                        <span class="khalab-featured-showcase-cta-icon" aria-hidden="true">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M7 3V10.5M7 10.5L4 7.5M7 10.5L10 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}"></script>
+<script src="{{ 'featured-showcase-gallery.js' | asset_url }}"></script>
+<script>
+  (function () {
+    var section = document.getElementById('{{ sectionId }}');
+    if (window.khalabInitFeaturedShowcase && section) {
+      window.khalabInitFeaturedShowcase(section);
+    }
+  })();
+</script>
