@@ -41,14 +41,14 @@
             <h2 class="khalab-related-products-title">{{ zone_related_title }}</h2>
             {% if product.related_products | length > 1 %}
               <div class="khalab-related-products-nav-group">
-                <button type="button" class="khalab-related-products-nav khalab-related-products-nav--prev" aria-label="{{ _('Previous') }}">
+                <button type="button" class="khalab-related-products-nav khalab-related-products-nav--next" aria-label="{{ _('Next') }}">
+                    <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                      <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                 <button type="button" class="khalab-related-products-nav khalab-related-products-nav--prev" aria-label="{{ _('Previous') }}">
                   <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
                     <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-                <button type="button" class="khalab-related-products-nav khalab-related-products-nav--next" aria-label="{{ _('Next') }}">
-                  <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
-                    <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
               </div>

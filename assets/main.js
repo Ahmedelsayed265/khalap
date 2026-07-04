@@ -227,7 +227,12 @@ function removeFromCart(product_id) {
 
 function getWishlistToggleButtons(container) {
   const $container = container instanceof jQuery ? container : $(container);
-  return $container.find('.icon-heart-mask, [zid-visible-wishlist], [zid-hidden-wishlist]');
+  return $container.find('.khalab-wishlist-btn, .khalab-product-card-wishlist-btn, .icon-heart-mask, [zid-visible-wishlist], [zid-hidden-wishlist]');
+}
+
+function isProductInWishlist(wishlistIds, productId) {
+  const normalizedId = String(productId);
+  return wishlistIds.some(id => String(id) === normalizedId);
 }
 
 function setWishlistActive(container, active) {
@@ -236,79 +241,109 @@ function setWishlistActive(container, active) {
 
   $container.toggleClass('is-wishlisted', !!active);
 
-  const productId = $container.attr('data-wishlist-id');
-  if (productId) {
-    $container.find(`[zid-visible-wishlist="${productId}"]`).toggleClass('filled', !!active);
-    $container.find(`[zid-hidden-wishlist="${productId}"]`).removeClass('filled');
-  }
+  const addLabel = $container.data('label-add') || 'Add to wishlist';
+  const removeLabel = $container.data('label-remove') || 'Remove from wishlist';
+  $container
+    .find('button.khalab-wishlist-btn, button.khalab-product-card-wishlist-btn')
+    .attr('aria-label', active ? removeLabel : addLabel);
 
   const heart = $container.find('> a.icon-heart-mask')[0];
   if (heart) {
     heart.classList.toggle('filled', !!active);
   }
+}
+
+function setWishlistLoading(container, loading) {
+  const $container = container instanceof jQuery ? container : $(container);
+  if (!$container.length) return;
 
   getWishlistToggleButtons($container).each(function() {
-    this.style.removeProperty('display');
+    this.style.setProperty('visibility', loading ? 'hidden' : 'visible', 'important');
+    this.style.setProperty('pointer-events', loading ? 'none' : 'auto', 'important');
   });
+  $container.find('.loader').toggleClass('d-none', !loading);
 }
 
 function fillWishlistItems(items) {
   items.forEach(product => {
-    const container = $(`.add-to-wishlist[data-wishlist-id=${product.id}]`);
+    const container = $(`.add-to-wishlist[data-wishlist-id="${product.id}"]`);
     if (!container.length) return;
     setWishlistActive(container, true);
   });
 }
 
+function normalizeWishlistIds(wishlistResponse) {
+  let wishlistProductIds = [];
+
+  if (wishlistResponse && wishlistResponse.results && Array.isArray(wishlistResponse.results)) {
+    wishlistProductIds = wishlistResponse.results.map(item => item.id ?? item.product_id ?? item);
+  } else if (Array.isArray(wishlistResponse)) {
+    wishlistProductIds = wishlistResponse.map(item =>
+      item && typeof item === 'object' ? (item.id ?? item.product_id ?? item) : item
+    );
+  }
+
+  return wishlistProductIds.filter(id => id != null && id !== '');
+}
+
+function initWishlistStates() {
+  if (!window.zid?.account?.wishlists) return;
+
+  window.zid.account.wishlists()
+    .then(wishlistResponse => {
+      const wishlistProductIds = normalizeWishlistIds(wishlistResponse);
+
+      document.querySelectorAll('.add-to-wishlist').forEach(container => {
+        const productId = container.getAttribute('data-wishlist-id');
+        if (!productId) return;
+        setWishlistActive($(container), isProductInWishlist(wishlistProductIds, productId));
+      });
+    })
+    .catch(error => {
+      console.error('Failed to fetch wishlist:', error);
+    });
+}
+
 function addToWishlist(elm, productId) {
   const container = $(elm).closest('.add-to-wishlist');
+  const shouldRemove = container.hasClass('is-wishlisted');
 
-  // Hide ALL heart buttons and show loader
-  getWishlistToggleButtons(container).each(function() {
-    this.style.setProperty('display', 'none', 'important');
-  });
-  container.find('.loader').removeClass('d-none');
+  setWishlistLoading(container, true);
 
-  // Remove From Wishlist if already active
-  if (container.hasClass('is-wishlisted') || $(elm).hasClass('filled') || $(elm).is('[zid-visible-wishlist]')) {
+  if (shouldRemove) {
     return removeFromWishlist(elm, productId);
   }
 
-  zid.account.addToWishlists({ product_ids: [productId] }, { showErrorNotification: true }).then(response => {
-    if (response) {
-      container.find('.loader').addClass('d-none');
-      setWishlistActive(container, true);
-    } else {
+  zid.account.addToWishlists({ product_ids: [productId] }, { showErrorNotification: true })
+    .then(response => {
+      setWishlistActive(container, !!response);
+      setWishlistLoading(container, false);
+    })
+    .catch(error => {
+      console.error('Failed to add to wishlist:', error);
       setWishlistActive(container, false);
-      elm.style.setProperty('display', 'inline-flex', 'important');
-      container.find('.loader').addClass('d-none');
-    }
-  });
+      setWishlistLoading(container, false);
+    });
 }
 
 function removeFromWishlist(elm, productId) {
   const container = $(elm).closest('.add-to-wishlist');
 
-  // Hide ALL heart buttons and show loader
-  getWishlistToggleButtons(container).each(function() {
-    this.style.setProperty('display', 'none', 'important');
-  });
-  container.find('.loader').removeClass('d-none');
+  zid.account.removeFromWishlist(productId, { showErrorNotification: true })
+    .then(response => {
+      if (location.pathname === '/account-wishlist') {
+        location.reload();
+        return;
+      }
 
-  zid.account.removeFromWishlist(productId, { showErrorNotification: true }).then(response => {
-    container.find('.loader').addClass('d-none');
-
-    if (location.pathname === '/account-wishlist') {
-      location.reload();
-      return;
-    }
-
-    setWishlistActive(container, false);
-  }).catch(error => {
-    console.error('Failed to remove from wishlist:', error);
-    setWishlistActive(container, true);
-    container.find('.loader').addClass('d-none');
-  });
+      setWishlistActive(container, false);
+      setWishlistLoading(container, false);
+    })
+    .catch(error => {
+      console.error('Failed to remove from wishlist:', error);
+      setWishlistActive(container, true);
+      setWishlistLoading(container, false);
+    });
 }
 
 function shareWishlist() {
@@ -569,6 +604,7 @@ $('.search-input-input').on('keyup', function (e) {
 document.addEventListener('DOMContentLoaded', function () {
   fetchCart();
   productsQuestions.checkAddQuestionPossibility();
+  initWishlistStates();
 
   /* mobile slide menu */
   window.slidingMenuElement = document.getElementById('sliding-menu');
@@ -593,9 +629,11 @@ document.addEventListener('DOMContentLoaded', function () {
     $('body').removeClass('sidenav-open');
   });
 
-  $('.search-input-input').on('input', function (event) {
+  $('.search-input-input').not('#khalab-search-input').on('input', function (event) {
     fetchProductsSearchDebounce(event.currentTarget);
   });
+
+  initKhalabSearchModal();
 
   /* mobile slide menu */
   fixMenu();
@@ -604,34 +642,133 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 var fetchProductsSearchDebounce = debounce(function (target) {
-  fetchProductsSearch($(target).attr('data-cat-id'), $(target).val());
-}, 650);
+  fetchProductsSearch(target, $(target).attr('data-cat-id'), $(target).val());
+}, 450);
 
-function fetchProductsSearch(catId, query) {
-  if (!query || query.trim().length <= 0) {
-    $('.autocomplete-items').html('');
+function escapeSearchHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
+function getSearchProductImage(product) {
+  if (product.main_image && product.main_image.image) {
+    return product.main_image.image.small || product.main_image.image.medium || product.main_image.image.full_size || '';
+  }
+
+  if (product.images && product.images[0] && product.images[0].image) {
+    return product.images[0].image.small || product.images[0].image.medium || product.images[0].image.full_size || '';
+  }
+
+  return product.image || product.image_url || '';
+}
+
+function getSearchProducts(response) {
+  if (!response) return [];
+  if (Array.isArray(response)) return response;
+  if (Array.isArray(response.results)) return response.results;
+  if (response.data && Array.isArray(response.data.results)) return response.data.results;
+  if (response.data && Array.isArray(response.data)) return response.data;
+  if (Array.isArray(response.products)) return response.products;
+  return [];
+}
+
+function renderKhalabSearchResult(product) {
+  var imageUrl = getSearchProductImage(product);
+  var price = product.formatted_sale_price || product.formatted_price || product.price_string || '';
+  var oldPrice = product.formatted_sale_price && product.formatted_price
+    ? '<span class="khalab-search-result__old-price">' + escapeSearchHtml(product.formatted_price) + '</span>'
+    : '';
+  var image = imageUrl
+    ? '<img class="khalab-search-result__image" src="' + escapeSearchHtml(imageUrl) + '" alt="' + escapeSearchHtml(product.name || '') + '" loading="lazy">'
+    : '<span class="khalab-search-result__image khalab-search-result__image--empty"></span>';
+  var productUrl = product.html_url || (product.slug ? '/products/' + product.slug : '#');
+
+  return (
+    '<div class="khalab-search-result">' +
+      '<a class="khalab-search-result__link" href="' + escapeSearchHtml(productUrl) + '">' +
+        image +
+        '<span class="khalab-search-result__content">' +
+          '<span class="khalab-search-result__title">' + escapeSearchHtml(product.name || '') + '</span>' +
+          '<span class="khalab-search-result__prices">' +
+            '<span class="khalab-search-result__price">' + escapeSearchHtml(price) + '</span>' +
+            oldPrice +
+          '</span>' +
+        '</span>' +
+      '</a>' +
+    '</div>'
+  );
+}
+
+function getSearchResultsContainer(inputEl) {
+  if (!inputEl) return $('.autocomplete-items').first();
+
+  var modalContainer = $(inputEl).closest('.khalab-search-modal-autocomplete').find('.autocomplete-items');
+  if (modalContainer.length) return modalContainer;
+
+  var autocompleteContainer = $(inputEl).closest('.autocomplete').find('.autocomplete-items');
+  if (autocompleteContainer.length) return autocompleteContainer;
+
+  return $('.autocomplete-items').first();
+}
+
+function setKhalabSearchLoading(isLoading) {
+  var modal = document.getElementById('search-modal');
+  if (!modal) return;
+  modal.classList.toggle('khalab-search-modal--loading', !!isLoading);
+}
+
+function fetchProductsSearch(inputEl, catId, query) {
+  var $items = getSearchResultsContainer(inputEl);
+  var isModalSearch = inputEl && $(inputEl).closest('.khalab-search-modal').length > 0;
+  var trimmedQuery = (query || '').trim();
+
+  if (!trimmedQuery) {
+    $items.html('');
+    if (isModalSearch) setKhalabSearchLoading(false);
     return;
   }
 
-  zid.products
+  if (!window.zid || !window.zid.products || !window.zid.products.list) {
+    $items.html('');
+    if (isModalSearch) setKhalabSearchLoading(false);
+    return;
+  }
+
+  if (isModalSearch) setKhalabSearchLoading(true);
+
+  window.zid.products
     .list({
-      page_size: 5,
-      q: query,
-      categories: catId,
-    }, {showErrorNotification: true})
+      page_size: 6,
+      q: trimmedQuery,
+      categories: catId || undefined,
+    }, { showErrorNotification: false })
     .then(function (response) {
-      if (response && response.results) {
-        $('.autocomplete-items').html('');
+      var products = getSearchProducts(response);
+      $items.html('');
 
-        for (var i = 0; i < response.results.length; i++) {
-          var product = response.results[i];
-
-          $('.autocomplete-items').append(
-            '<div><a href="' + product.html_url + '">' + product.name + '</a></div>'
-          );
-        }
+      if (!products.length) {
+        var modal = document.getElementById('search-modal');
+        var noResults = (modal && modal.getAttribute('data-no-results')) || 'No results found';
+        $items.html('<div class="khalab-search-result khalab-search-result--message">' + escapeSearchHtml(noResults) + '</div>');
+        if (isModalSearch) setKhalabSearchLoading(false);
+        return;
       }
+
+      for (var i = 0; i < products.length; i++) {
+        $items.append(isModalSearch ? renderKhalabSearchResult(products[i]) : (
+          '<div><a href="' + escapeSearchHtml(products[i].html_url || '#') + '">' + escapeSearchHtml(products[i].name || '') + '</a></div>'
+        ));
+      }
+
+      if (isModalSearch) setKhalabSearchLoading(false);
+    })
+    .catch(function () {
+      $items.html('');
+      if (isModalSearch) setKhalabSearchLoading(false);
     });
 }
 
@@ -914,7 +1051,10 @@ function updateUIAfterLogin(customer) {
   });
 
   document.querySelectorAll('[zid-visible-customer="true"]').forEach(el => {
-    el.style.setProperty('display', 'inline-block', 'important');
+    const displayValue = el.classList.contains('khalab-wishlist-btn') || el.classList.contains('khalab-product-card-wishlist-btn')
+      ? 'inline-flex'
+      : 'inline-block';
+    el.style.setProperty('display', displayValue, 'important');
   });
 
   const addReviewLink = document.getElementById('add-review-link');
@@ -930,29 +1070,7 @@ function updateUIAfterLogin(customer) {
   }
 
   // Fetch wishlist and update button states
-  if (window.zid?.account?.wishlists) {
-    window.zid.account.wishlists().then(wishlistResponse => {
-      let wishlistProductIds = [];
-
-      if (wishlistResponse && wishlistResponse.results && Array.isArray(wishlistResponse.results)) {
-        wishlistProductIds = wishlistResponse.results.map(item => item.id);
-      } else if (Array.isArray(wishlistResponse)) {
-        wishlistProductIds = wishlistResponse;
-      }
-
-      if (wishlistProductIds.length > 0) {
-        fillWishlistItems(wishlistProductIds.map(id => ({ id: id })));
-      }
-
-      document.querySelectorAll('.add-to-wishlist').forEach(container => {
-        const productId = container.getAttribute('data-wishlist-id');
-        if (!productId) return;
-        setWishlistActive($(container), wishlistProductIds.includes(productId));
-      });
-    }).catch(error => {
-      console.error('Failed to fetch wishlist:', error);
-    });
-  }
+  initWishlistStates();
 
   // Retry loop to ensure wishlist visibility (handles race conditions with Zid scripts)
   let retryCount = 0;
@@ -974,7 +1092,10 @@ function updateUIAfterLogin(customer) {
     });
 
     document.querySelectorAll('[zid-visible-customer="true"]').forEach(el => {
-      el.style.setProperty('display', 'inline-block', 'important');
+      const displayValue = el.classList.contains('khalab-wishlist-btn') || el.classList.contains('khalab-product-card-wishlist-btn')
+        ? 'inline-flex'
+        : 'inline-block';
+      el.style.setProperty('display', displayValue, 'important');
     });
   };
 
@@ -1013,7 +1134,10 @@ function updateUIAfterLogin(customer) {
     const customerElements = document.querySelectorAll('[zid-visible-customer="true"]');
     customerElements.forEach(el => {
       if (window.getComputedStyle(el).display === 'none') {
-        el.style.setProperty('display', 'inline-block', 'important');
+        const displayValue = el.classList.contains('khalab-wishlist-btn') || el.classList.contains('khalab-product-card-wishlist-btn')
+          ? 'inline-flex'
+          : 'inline-block';
+        el.style.setProperty('display', displayValue, 'important');
       }
     });
   }, 1500);
@@ -1038,11 +1162,30 @@ window.addEventListener('vitrin:auth:success', async event => {
   window.location.reload();
 });
 
+function initKhalabSearchModal() {
+  var modal = document.getElementById('search-modal');
+  if (!modal) return;
+
+  if (modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+
+  var input = document.getElementById('khalab-search-input');
+  if (input && !input.dataset.khalabSearchBound) {
+    input.dataset.khalabSearchBound = '1';
+    input.addEventListener('input', function (event) {
+      fetchProductsSearchDebounce(event.currentTarget);
+    });
+  }
+}
+
 function openSearchModal() {
   const modal = document.getElementById('search-modal');
   if (!modal) return;
 
   modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('khalab-search-open');
   document.body.style.overflow = 'hidden';
 
   setTimeout(() => {
@@ -1054,8 +1197,15 @@ function closeSearchModal() {
   const modal = document.getElementById('search-modal');
   if (!modal) return;
 
-  modal.classList.remove('active');
+  modal.classList.remove('active', 'khalab-search-modal--loading');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('khalab-search-open');
   document.body.style.overflow = '';
+
+  const input = document.getElementById('khalab-search-input');
+  const results = modal.querySelector('.autocomplete-items');
+  if (input) input.value = '';
+  if (results) results.innerHTML = '';
 }
 
 function submitKhalabSearch(event) {
@@ -1072,8 +1222,15 @@ function submitKhalabSearch(event) {
   return false;
 }
 
+window.openSearchModal = openSearchModal;
+window.closeSearchModal = closeSearchModal;
+window.submitKhalabSearch = submitKhalabSearch;
+
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
-    closeSearchModal();
+    const modal = document.getElementById('search-modal');
+    if (modal?.classList.contains('active')) {
+      closeSearchModal();
+    }
   }
 });

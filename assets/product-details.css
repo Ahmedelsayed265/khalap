@@ -777,6 +777,7 @@
 
 .col-product-info {
     padding-top: 0px;
+    z-index: 9;
 }
 
 .col-product-info-single-image {

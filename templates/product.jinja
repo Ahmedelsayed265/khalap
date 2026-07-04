@@ -74,16 +74,11 @@
                                 <div class="khalab-pdp-header-actions">
                                     {% if store.settings.products.wishlist_enabled == true %}
                                         <span class="khalab-pdp-action-btn add-to-wishlist" data-wishlist-id="{{ product.id }}">
-                                            <span class="khalab-wishlist-toggle" zid-visible-customer="true">
-                                                <button type="button" zid-visible-wishlist="{{ product.id }}" class="khalab-wishlist-btn" onclick="addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Remove from wishlist') }}">
-                                                    <img src="{{ 'save-filled.svg' | asset_url }}" alt="" width="20" height="20">
-                                                </button>
-                                                <button type="button" zid-hidden-wishlist="{{ product.id }}" class="khalab-wishlist-btn" onclick="addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Add to wishlist') }}">
-                                                    <img src="{{ 'save.svg' | asset_url }}" alt="" width="20" height="20">
-                                                </button>
-                                            </span>
+                                            <button type="button" zid-visible-customer="true" class="khalab-wishlist-btn" onclick="addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Add to wishlist') }}">
+                                                {% include 'components/khalab-wishlist-icon.jinja' %}
+                                            </button>
                                             <a zid-visible-guest="true" class="khalab-wishlist-btn" href="{{ url_for('login_page', query_params={'redirect_to': session.path}) }}" onclick="event.preventDefault(); handleLoginAction('{{ session.path }}'); return false;" aria-label="{{ _('Add to wishlist') }}">
-                                                <img src="{{ 'save.svg' | asset_url }}" alt="" width="20" height="20">
+                                                {% include 'components/khalab-wishlist-icon.jinja' %}
                                             </a>
                                             {% set loader_size = 'sm' %}{% set loader_class = 'loader d-none' %}{% include 'components/khalab-loader.jinja' %}
                                         </span>
@@ -107,24 +102,39 @@
                                     <span class="khalab-pdp-row-label">{{ khalab_lbl_price }}</span>
                                     <div class="khalab-pdp-row-value">
                                         <div class="khalab-pdp-price-pill">
-                                            <h2 class="product-formatted-price khalab-pdp-price theme-text-primary">{% if product.selected_product.formatted_sale_price %}{{ product.selected_product.formatted_sale_price }}{% else %}{{ product.selected_product.formatted_price }}{% endif %}</h2>
                                             <del class="product-formatted-price-old khalab-pdp-price-old">{% if product.selected_product.formatted_sale_price %}{{ product.selected_product.formatted_price }}{% endif %}</del>
-                                            <span class="product-formatted-price-discount khalab-pdp-price-discount">{% if product.selected_product.formatted_sale_price %}{{ _("Discount") }} {{ product.discount_percentage }}%{% endif %}</span>
+                                            <div class="product_page_price_bage">
+                                                <h2 class="product-formatted-price khalab-pdp-price theme-text-primary">{% if product.selected_product.formatted_sale_price %}{{ product.selected_product.formatted_sale_price }}{% else %}{{ product.selected_product.formatted_price }}{% endif %}</h2>
+                                                <svg width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_1348_1053)">
+                                                    <path d="M20.7998 23.237H22.1332M23.4664 26.0792V33.1849H0.799805V13.2891H23.4664V20.3947" stroke="#323824" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M4.7998 13.2865V33.1824M5.77847 11.0212L9.36245 5.11358M6.2358 13.2865L4.7998 6.15811L28.2652 0.789062L31.0638 14.6849L23.4664 16.423M29.2452 5.65219L23.7024 1.8336M30.0838 9.82184L26.5012 15.728M24.7998 26.0768H18.7998L16.7998 23.2344L18.7998 20.3922H24.7998V26.0768Z" stroke="#323824" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M18.6763 7.34534L16.0683 7.94222L15.6963 9.48131L16.6283 10.7219L19.2363 10.1251L20.167 11.3657L19.795 12.9034L18.1136 13.2885M17.3723 7.64378L17.0923 6.25391" stroke="#323824" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </g>
+                                                    <defs>
+                                                    <clipPath id="clip0_1348_1053">
+                                                    <rect width="32" height="34" fill="white"/>
+                                                    </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </div>
                                         </div>
-                                        <div class="khalab-pdp-loyalty">
-                                            {% include 'vitrin:products/loyalty_points_widget.jinja' %}
-                                        </div>
+                                        
                                     </div>
+                                </div>
+                                
+                                <div class="khalab-pdp-loyalty">
+                                    {% include 'vitrin:products/loyalty_points_widget.jinja' %}
                                 </div>
 
                                 <div class="khalab-pdp-row-item div-product-sku {% if not product.selected_product.sku %}d-none{% endif %}">
                                     <span class="khalab-pdp-row-label">{{ khalab_lbl_sku }}</span>
                                     <div class="khalab-pdp-row-value">
-                                        <div class="khalab-pdp-sku-pill">
-                                            <button type="button" class="khalab-pdp-sku-copy" data-khalab-copy-sku aria-label="{{ _('Copy') }}">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                            </button>
+                                        <div class="product_page_price_bage">
                                             <span class="product-sku khalab-pdp-sku-text">{{ product.selected_product.sku }}</span>
+                                            <svg width="32" height="29" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M25.3333 24.1654H6.66667C4.53333 24.1654 4 22.5546 4 21.7487V7.2487C4 6.60776 4.28094 5.99307 4.78105 5.53985C5.28115 5.08664 5.95943 4.83203 6.66667 4.83203H20C20.7072 4.83203 21.3855 5.08664 21.8856 5.53985C22.3857 5.99307 22.6667 6.60776 22.6667 7.2487V14.4987M25.3333 24.1654C24.444 24.1654 22.6667 23.682 22.6667 21.7487V14.4987M25.3333 24.1654C27.4667 24.1654 28 22.5546 28 21.7487V14.4987H22.6667" stroke="#323824" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +161,7 @@
                                 <div class="khalab-pdp-row-item">
                                     <span class="khalab-pdp-row-label">{{ khalab_lbl_categories }}</span>
                                     <div class="khalab-pdp-row-value">
-                                        <div class="khalab-pdp-tags-pill">
+                                        <div class="khalab-pdp-tags-pill" style="margin-left: 12px;">
                                             {% for cat in product.categories %}
                                                 {% set cat_url = (cat.url | default('', true)) | trim or url_for('category_details', category_id=cat.id, slug=cat.slug or cat.id) %}
                                                 <a href="{{ cat_url }}" class="khalab-pdp-tag">{{ cat.name }}</a>{% if not loop.last %}<span class="khalab-pdp-tag-sep" aria-hidden="true">•</span>{% endif %}
@@ -930,8 +940,15 @@
         }
 
         $(document).ready(function() {
-            if (customerWishlistIds && Array.isArray(customerWishlistIds)) {
-                fillWishlistItems(customerWishlistIds.map(function(id) { return { id: id }; }));
+            if (customerWishlistIds && Array.isArray(customerWishlistIds) && typeof setWishlistActive === 'function') {
+                var pdpWishlist = $('.khalab-pdp-header-actions .add-to-wishlist[data-wishlist-id="{{ product.id }}"]');
+                if (pdpWishlist.length) {
+                    var inWishlist = customerWishlistIds.some(function(item) {
+                        var id = (item && typeof item === 'object') ? (item.id || item.product_id) : item;
+                        return String(id) === String('{{ product.id }}');
+                    });
+                    setWishlistActive(pdpWishlist, inWishlist);
+                }
             }
         });
 

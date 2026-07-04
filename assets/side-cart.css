@@ -380,26 +380,39 @@ body.rtl .khalab-side-cart-close.side-cart-close {
 .block-side-cart .cart-product-delete {
   position: absolute;
   top: 10px;
-  inset-inline-start: 10px;
+  inset-inline-end: 10px;
   width: auto;
   padding: 0;
   text-align: center;
+  z-index: 2;
 }
 
-.block-side-cart .cart-product-delete a {
+.block-side-cart .cart-product-delete a,
+.block-side-cart .khalab-cart-item-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.55);
-}
-
-.block-side-cart .cart-product-delete a:hover {
-  background: rgba(212, 213, 172, 0.55);
-}
-
-.block-side-cart .icon-delete:before {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(46, 51, 38, 0.14);
   color: var(--side-cart-text);
-  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.block-side-cart .cart-product-delete a:hover,
+.block-side-cart .khalab-cart-item-remove:hover {
+  background: rgba(212, 213, 172, 0.75);
+  border-color: rgba(46, 51, 38, 0.22);
+  color: var(--side-cart-text);
+}
+
+.block-side-cart .khalab-cart-item-remove-icon {
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 /* Quantity capsule */

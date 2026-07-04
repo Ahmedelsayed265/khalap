@@ -49,16 +49,11 @@
 
                 {% if store.settings.products.wishlist_enabled == true %}
                     <span class="khalab-product-card-action khalab-product-card-action--wishlist add-to-wishlist" data-wishlist-id="{{ product.id }}">
-                        <span class="khalab-wishlist-toggle" zid-visible-customer="true">
-                            <button type="button" zid-visible-wishlist="{{ product.id }}" class="khalab-product-card-wishlist-btn" onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Remove from wishlist') }}">
-                                <img src="{{ 'save-filled.svg' | asset_url }}" alt="" width="20" height="20" class="khalab-product-card-action-icon">
-                            </button>
-                            <button type="button" zid-hidden-wishlist="{{ product.id }}" class="khalab-product-card-wishlist-btn" onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Add to wishlist') }}">
-                                <img src="{{ 'save.svg' | asset_url }}" alt="" width="20" height="20" class="khalab-product-card-action-icon">
-                            </button>
-                        </span>
+                        <button type="button" zid-visible-customer="true" class="khalab-product-card-wishlist-btn" onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Add to wishlist') }}">
+                            {% set icon_class = 'khalab-product-card-action-icon' %}{% include 'components/khalab-wishlist-icon.jinja' %}
+                        </button>
                         <a zid-visible-guest="true" class="khalab-product-card-wishlist-btn" href="/auth/login?redirect_to={{ session.url.path }}" onclick="event.preventDefault(); event.stopPropagation(); handleLoginAction('', false); return false;" aria-label="{{ _('Add to wishlist') }}">
-                            <img src="{{ 'save.svg' | asset_url }}" alt="" width="20" height="20" class="khalab-product-card-action-icon">
+                            {% set icon_class = 'khalab-product-card-action-icon' %}{% include 'components/khalab-wishlist-icon.jinja' %}
                         </a>
                         {% set loader_size = 'sm' %}{% set loader_class = 'loader d-none' %}{% include 'components/khalab-loader.jinja' %}
                     </span>
