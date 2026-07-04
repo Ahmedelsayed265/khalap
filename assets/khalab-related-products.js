@@ -21,11 +21,14 @@
 
     new Swiper(swiperEl, {
       dir: isRtl ? 'rtl' : 'ltr',
-      slidesPerView: 1.12,
+      slidesPerView: 1.2,
       spaceBetween: 16,
       grabCursor: slideCount > 1,
       watchOverflow: true,
       speed: 550,
+      observer: true,
+      observeParents: true,
+      resizeObserver: true,
       navigation:
         slideCount > 1 && prevBtn && nextBtn
           ? {
@@ -34,9 +37,9 @@
             }
           : false,
       breakpoints: {
-        576: {
+        768: {
           slidesPerView: 2,
-          spaceBetween: 18,
+          spaceBetween: 20,
         },
         992: {
           slidesPerView: 3,

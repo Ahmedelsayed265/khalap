@@ -482,10 +482,13 @@
     toggle.addEventListener("click", function (event) {
       event.preventDefault();
       event.stopPropagation();
-      var open = !menu.hidden;
+      var wasOpen = !menu.hidden;
       closeAllMenus();
-      menu.hidden = open;
-      toggle.setAttribute("aria-expanded", open ? "false" : "true");
+      if (!wasOpen) {
+        pill.classList.add("is-open");
+        menu.hidden = false;
+        toggle.setAttribute("aria-expanded", "true");
+      }
     });
 
     menu.querySelectorAll("button").forEach(function (btn) {
@@ -501,6 +504,7 @@
         }
         pill.querySelector(".khalab-pdp-variant-pill-value").textContent =
           btn.textContent.trim();
+        pill.classList.remove("is-open");
         menu.hidden = true;
         toggle.setAttribute("aria-expanded", "false");
         window.setTimeout(function () {
@@ -536,6 +540,11 @@
       .querySelectorAll(".khalab-pdp-variant-pill-btn")
       .forEach(function (btn) {
         btn.setAttribute("aria-expanded", "false");
+      });
+    document
+      .querySelectorAll(".khalab-pdp-variant-pill.is-open")
+      .forEach(function (pill) {
+        pill.classList.remove("is-open");
       });
   }
 

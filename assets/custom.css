@@ -926,18 +926,28 @@ body {
 }
 
 /* Swap logos on home only when a dedicated home logo exists */
-body[data-template="home"] .khalab-fixed-header:not(.sticky) .khalab-logo-link:has(.khalab-logo-home) .khalab-logo-default,
-body[data-template="home"] .khalab-fixed-header:not(.sticky) .khalab-mobile-header-logo:has(.khalab-logo-mobile-home) .khalab-logo-mobile-default {
+body[data-template="home"]
+  .khalab-fixed-header:not(.sticky)
+  .khalab-logo-link:has(.khalab-logo-home)
+  .khalab-logo-default,
+body[data-template="home"]
+  .khalab-fixed-header:not(.sticky)
+  .khalab-mobile-header-logo:has(.khalab-logo-mobile-home)
+  .khalab-logo-mobile-default {
   display: none !important;
 }
 
 body[data-template="home"] .khalab-fixed-header:not(.sticky) .khalab-logo-home,
-body[data-template="home"] .khalab-fixed-header:not(.sticky) .khalab-logo-mobile-home {
+body[data-template="home"]
+  .khalab-fixed-header:not(.sticky)
+  .khalab-logo-mobile-home {
   display: block !important;
 }
 
 body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-home,
-body[data-template="home"] .khalab-fixed-header.sticky .khalab-logo-mobile-home {
+body[data-template="home"]
+  .khalab-fixed-header.sticky
+  .khalab-logo-mobile-home {
   display: none !important;
 }
 
@@ -1261,9 +1271,7 @@ body[data-template="home"] .khalab-fixed-header:not(.sticky) .khalab-nav-cta,
 body[data-template="home"]
   .khalab-fixed-header:not(.sticky)
   .khalab-nav-icon-btn,
-body[data-template="home"]
-  .khalab-fixed-header:not(.sticky)
-  .khalab-action-btn,
+body[data-template="home"] .khalab-fixed-header:not(.sticky) .khalab-action-btn,
 body[data-template="home"]
   .khalab-fixed-header:not(.sticky)
   .khalab-mobile-header-pill,
@@ -4371,6 +4379,19 @@ body.khalab-search-open {
   margin-top: clamp(12px, 2vw, 24px);
 }
 
+.khalab-testimonials-spotlight {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  z-index: 1;
+  width: clamp(300px, 40vw, 500px);
+  height: clamp(300px, 40vw, 500px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(229, 225, 211, 0.94);
+  pointer-events: none;
+}
+
 .khalab-testimonials-figure-wrap {
   position: absolute;
   left: 50%;
@@ -4532,13 +4553,21 @@ body.khalab-search-open {
 }
 
 @media (max-width: 991.98px) {
+  .khalab-testimonials-header {
+    margin-bottom: clamp(24px, 6vw, 48px);
+  }
+
   .khalab-testimonials-stage {
     min-height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding-bottom: 24px;
+    gap: 28px;
+    padding-bottom: 32px;
+  }
+
+  .khalab-testimonials-spotlight {
+    display: none;
   }
 
   .khalab-testimonials-figure-wrap {
@@ -4546,9 +4575,9 @@ body.khalab-search-open {
     left: auto;
     bottom: auto;
     transform: none;
-    order: 1;
-    width: min(100%, 480px);
-    margin-top: 12px;
+    order: 5;
+    width: min(100%, 420px);
+    margin-top: 4px;
   }
 
   .khalab-testimonials-card {
@@ -4558,11 +4587,21 @@ body.khalab-search-open {
     bottom: auto !important;
     left: auto !important;
     width: min(100%, 360px);
-    order: 2;
+    order: 1;
   }
 }
 
 @media (max-width: 575.98px) {
+  .khalab-testimonials-stage {
+    gap: 24px;
+    padding-bottom: 24px;
+  }
+
+  .khalab-testimonials-card {
+    width: 100%;
+    max-width: none;
+  }
+
   .khalab-testimonials-subscribe {
     width: 100%;
     padding-inline: 8px 8px 16px;
@@ -5233,7 +5272,6 @@ body.khalab-search-open {
   }
 
   .khalab-most-requested-media-frame {
-
     height: min(82%, 460px);
   }
 }
@@ -6555,7 +6593,7 @@ body.khalab-search-open {
   margin: 0;
   max-width: min(100%, 640px);
   font-family: "Khalap", var(--khalab-font-camel), serif;
-  font-size: 64px;
+  font-size: clamp(28px, 4.5vw, 64px);
   text-align: center;
   font-weight: 400;
   line-height: 1.45;
@@ -6621,13 +6659,51 @@ body.khalab-search-open {
   transform: scale(1.04);
 }
 
-@media (max-width: 575px) {
-  .khalab-related-products-header {
-    flex-wrap: wrap;
+@media (max-width: 991.98px) {
+  .khalab-product-page-promo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
   }
 
-  .khalab-related-products-nav-group {
+  .khalab-product-page-promo-frame-wrap {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: min(44vw, 190px);
+    margin: 0 auto -28px;
+    z-index: 4;
+  }
+
+  .khalab-product-page-promo-panel {
     width: 100%;
+    min-height: 0;
+    padding: clamp(40px, 9vw, 52px) clamp(18px, 4vw, 24px)
+      clamp(22px, 5vw, 28px);
+    padding-left: clamp(18px, 4vw, 24px);
+    align-items: center;
+    text-align: center;
+  }
+
+  .ltr .khalab-product-page-promo-panel {
+    padding-right: clamp(18px, 4vw, 24px);
+  }
+
+  .khalab-product-page-promo-title {
+    font-size: clamp(24px, 6vw, 34px);
+    line-height: 1.4;
+  }
+
+  .khalab-product-page-promo-form {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .khalab-related-products-nav-group {
     justify-content: flex-end;
   }
 
@@ -6635,28 +6711,33 @@ body.khalab-search-open {
     justify-content: flex-start;
   }
 
-  .khalab-product-page-promo-panel {
-    padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 24px);
-    padding-left: clamp(18px, 4vw, 24px);
-    align-items: stretch;
-    text-align: center;
+  .khalab-related-products-swiper {
+    overflow: hidden;
+    margin-inline: -4px;
+    padding-inline: 4px;
   }
 
-  .khalab-product-page-promo-frame-wrap {
-    width: min(52vw, 200px);
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-8deg);
-  }
-
-  .khalab-product-page-promo-form {
-    width: 100%;
+  .khalab-related-products-slide .khalab-product-card {
+    max-width: none;
   }
 
   .khalab-product-page-zone-hand-wrap {
     width: min(85vw, 360px);
     bottom: clamp(120px, 20vw, 200px);
     opacity: 0.85;
+  }
+
+  .khalab-product-page-promo-frame-wrap {
+    width: min(40vw, 160px);
+    margin-bottom: -22px;
+  }
+
+  .khalab-product-page-promo-title {
+    font-size: clamp(22px, 6.2vw, 28px);
+  }
+
+  .khalab-product-page-promo-panel {
+    padding-top: clamp(36px, 10vw, 44px);
   }
 }
 
@@ -7493,6 +7574,10 @@ body:has(.khalab-products-page) .category-page-slider {
   transition:
     background 0.2s ease,
     border-color 0.2s ease;
+
+  @media screen and (max-width: 767.98px) {
+    margin-bottom: 8px;
+  }
 }
 
 .khalab-slide-menu-account-btn:hover {
@@ -7589,16 +7674,25 @@ body.sidenav-open {
   width: 100%;
 }
 
-.khalab-pdp-gallery-col,
-.khalab-pdp-info-col {
+.khalab-pdp-gallery-col {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   width: 100%;
 }
 
+.khalab-pdp-gallery-col:has(.khalab-pdp-variant-pill.is-open) {
+  z-index: 40;
+}
+
 .khalab-pdp-info-col {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-width: 0;
+  width: 100%;
 }
 
 /* Gallery */
@@ -7607,7 +7701,7 @@ body.sidenav-open {
   flex-direction: column;
   gap: 14px;
   width: 100%;
-  z-index: 9;
+  overflow: visible;
 }
 
 .khalab-pdp-gallery-shell {
@@ -7748,6 +7842,7 @@ body.sidenav-open {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  align-content: center;
 }
 
 .khalab-pdp-gallery-thumb {
@@ -7798,7 +7893,8 @@ body.sidenav-open {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   width: 100%;
-  z-index: 999;
+  position: relative;
+  overflow: visible;
 }
 
 .khalab-pdp-variant-bar:empty {
@@ -7806,6 +7902,8 @@ body.sidenav-open {
 }
 
 .khalab-pdp-variant-pill {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
@@ -7821,6 +7919,10 @@ body.sidenav-open {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+.khalab-pdp-variant-pill.is-open {
+  z-index: 50;
+}
+
 .khalab-pdp-variant-pill-label {
   flex-shrink: 0;
   font-family: var(--khalab-font-camel, serif);
@@ -7832,9 +7934,14 @@ body.sidenav-open {
 
 .khalab-pdp-variant-pill-control {
   position: relative;
+  z-index: 1;
   flex: 1;
   min-width: 0;
   max-width: 68%;
+}
+
+.khalab-pdp-variant-pill.is-open .khalab-pdp-variant-pill-control {
+  z-index: 2;
 }
 
 .khalab-pdp-variant-pill-btn {
@@ -7878,7 +7985,7 @@ body.sidenav-open {
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   margin: 0;
   padding: 6px;
   list-style: none;
@@ -7905,10 +8012,6 @@ body.sidenav-open {
 }
 
 /* Info column glass panels */
-.khalab-pdp-info-col {
-  position: relative;
-}
-
 .khalab-pdp-header-glass {
   padding: 20px 22px;
   border-radius: 22px;
@@ -8083,7 +8186,7 @@ body.sidenav-open {
     rgba(212, 213, 172, 0.62) 100%
   );
   backdrop-filter: blur(40px);
-  padding: 10px 32px 10px  10px;
+  padding: 10px 32px 10px 10px;
   border-radius: 40px;
   align-items: center;
   justify-content: space-between;
@@ -8095,7 +8198,7 @@ body.sidenav-open {
   flex-shrink: 0;
   min-width: 88px;
   font-family: var(--khalab-font-camel, serif);
-  font-size: 32px;
+  font-size: clamp(22px, 2.6vw, 32px);
   color: rgba(229, 225, 211, 0.9);
   text-align: start;
 }
@@ -8147,12 +8250,12 @@ body.sidenav-open {
 .khalab-pdp-price {
   margin: 0;
   font-family: var(--khalab-font-camel, serif);
-  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-weight: 600;
 }
 
 .khalab-pdp-price-old {
-  font-size: 1.4rem;
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
   opacity: 0.65;
 }
 
@@ -8242,7 +8345,7 @@ body.sidenav-open {
   width: 100%;
   padding: 0;
   border: 0;
-  font-size: 32px;
+  font-size: clamp(15px, 1.5vw, 18px);
   color: inherit;
   background: linear-gradient(
     103.01deg,
@@ -8251,6 +8354,12 @@ body.sidenav-open {
   );
   backdrop-filter: blur(40px);
   box-shadow: 0px 4px 24px -1px #00000033;
+}
+
+.khalab-pdp-btn-label {
+  white-space: nowrap;
+  font-size: inherit;
+  line-height: 1.2;
 }
 
 .khalab-pdp-details-glass .khalab-pdp-actions {
@@ -8317,30 +8426,45 @@ body.sidenav-open {
   .khalab-pdp-gallery-main-wrap {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      "main main"
-      "colors thumbs";
+      "main colors"
+      "thumbs thumbs";
     gap: 10px;
   }
 
   .khalab-pdp-gallery-main {
-    grid-area: main;
+    min-height: 240px;
   }
 
   .khalab-pdp-color-mount {
-    grid-area: colors;
-    flex-direction: row;
-    justify-content: flex-start;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 0;
+    min-width: 44px;
+    padding: 4px 2px;
+    position: absolute;
+    top: 50px;
+    right: 22px;
   }
 
   .khalab-pdp-color-swatches {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .khalab-pdp-color-swatch {
+    width: 36px;
+    height: 36px;
   }
 
   .khalab-pdp-gallery-thumbs {
-    grid-area: thumbs;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .khalab-pdp-gallery-thumb {
+    padding: 6px;
+    border-radius: 12px;
   }
 
   .khalab-pdp-variant-bar,
@@ -8349,7 +8473,6 @@ body.sidenav-open {
   }
 
   .khalab-pdp-row-item {
-    flex-direction: column;
     align-items: stretch;
     gap: 8px;
   }
@@ -8360,9 +8483,76 @@ body.sidenav-open {
 }
 
 @media (max-width: 575.98px) {
+  .khalab-pdp-row-item {
+    padding: 8px 16px 8px 10px;
+    border-radius: 28px;
+    gap: 10px;
+  }
+
+  .khalab-pdp-row-label {
+    min-width: 72px;
+    display: flex;
+    line-height: 40px;
+  }
+
+  .khalab-pdp-tag {
+    font-size: 0.84rem;
+  }
+
+  .khalab-pdp-sku-text {
+    font-size: 0.8rem;
+  }
+
+  .khalab-pdp-loyalty {
+    font-size: 0.78rem;
+  }
+
+  .khalab-pdp .btn-add-to-cart,
+  .khalab-pdp .btn-buy-now,
+  .khalab-pdp-btn {
+    min-height: 48px;
+    font-size: 15px;
+  }
+
+  .khalab-pdp-btn-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
   .khalab-pdp-gallery-shell {
     padding: 14px;
     border-radius: 20px;
+  }
+
+  .khalab-pdp-gallery-main {
+    min-height: 200px;
+    border-radius: 18px;
+  }
+
+  .khalab-pdp-gallery-main-btn {
+    padding: 10px;
+  }
+
+  .khalab-pdp-gallery-main-img {
+    max-height: 320px;
+  }
+
+  .khalab-pdp-color-swatch {
+    width: 32px;
+    height: 32px;
+  }
+
+  .khalab-pdp-color-swatches {
+    gap: 8px;
+  }
+
+  .khalab-pdp-gallery-thumbs {
+    gap: 6px;
+  }
+
+  .khalab-pdp-gallery-thumb {
+    padding: 5px;
+    border-radius: 10px;
   }
 
   .khalab-pdp-header-glass,
