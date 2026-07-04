@@ -2523,13 +2523,59 @@ body.khalab-search-open {
 }
 
 @media (max-width: 991.98px) {
+  .khalab-features-marquee + .khalab-selections {
+    padding-top: clamp(12px, 3vw, 20px);
+  }
+
+  .khalab-selections {
+    padding-top: clamp(24px, 5vw, 40px);
+    padding-bottom: clamp(40px, 7vw, 56px);
+  }
+
+  .khalab-selections-header {
+    margin-bottom: clamp(22px, 4.5vw, 32px);
+    isolation: isolate;
+  }
+
+  .khalab-selections-title-wrap {
+    padding: 10px clamp(18px, 4vw, 28px);
+    gap: 10px;
+    max-width: calc(100% - 4px);
+    background: linear-gradient(
+      180deg,
+      rgba(212, 213, 172, 0.22) 0%,
+      rgba(212, 213, 172, 0.08) 100%
+    );
+  }
+
+  .khalab-selections-title {
+    font-family: var(--khalab-font-camel), serif;
+    font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.2;
+  }
+
+  .khalab-selections-star {
+    width: clamp(22px, 5vw, 30px);
+  }
+
+  .khalab-selections-subtitle {
+    margin-top: clamp(12px, 2.5vw, 18px);
+    font-size: clamp(13px, 3.4vw, 15px);
+    line-height: 1.65;
+    padding-inline: 6px;
+  }
+
   .khalab-selections-stage {
     padding-bottom: clamp(260px, 48vw, 380px);
   }
 
   .khalab-selections-gallery {
-    height: clamp(340px, 58vw, 460px);
-    margin-bottom: clamp(-120px, -18vw, -72px);
+    height: clamp(300px, 52vw, 420px);
+    margin-bottom: clamp(-108px, -16vw, -64px);
+  }
+
+  .khalab-selections-frame-img {
+    max-height: min(38vh, 300px);
   }
 
   .khalab-selections-slide.is-prev {
@@ -2543,19 +2589,45 @@ body.khalab-search-open {
   }
 
   .khalab-selections-ruler-wrap {
-    max-height: clamp(340px, 58vw, 480px);
+    max-height: clamp(320px, 54vw, 440px);
   }
 }
 
 @media (max-width: 575.98px) {
+  .khalab-selections {
+    padding-top: 16px;
+    padding-inline: 16px;
+  }
+
+  .khalab-selections-header {
+    margin-bottom: 18px;
+  }
+
+  .khalab-selections-title-wrap {
+    padding-inline: 16px;
+  }
+
+  .khalab-selections-title {
+    font-size: clamp(22px, 6.4vw, 28px);
+  }
+
+  .khalab-selections-subtitle {
+    font-size: clamp(12px, 3.6vw, 14px);
+    margin-top: 10px;
+  }
+
+  .khalab-selections-gallery {
+    height: clamp(280px, 68vw, 360px);
+  }
+
+  .khalab-selections-frame-img {
+    max-height: min(34vh, 260px);
+  }
+
   .khalab-selections-slide.is-prev,
   .khalab-selections-slide.is-next {
     opacity: 0.22;
     filter: blur(6px);
-  }
-
-  .khalab-selections-title-wrap {
-    padding-inline: 20px;
   }
 
   .khalab-selections-diamond {
@@ -3728,9 +3800,14 @@ body.khalab-search-open {
   height: clamp(72px, 10vw, 110px);
   transform: translate(-50%, -50%);
   border-radius: 60px;
-  background: var(--khalab-custom-pattern) center / 100% 100% no-repeat;
-  opacity: 0.55;
-  filter: blur(0.2px);
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(212, 213, 172, 0.12) 42%,
+    rgba(255, 255, 255, 0) 72%
+  );
+  opacity: 0.85;
+  filter: blur(8px);
   pointer-events: none;
 }
 
@@ -3743,11 +3820,18 @@ body.khalab-search-open {
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: 0.01em;
-  background: linear-gradient(180deg, #ffffff 27%, #d4d5ac 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--khalab-cream-soft, #e5e1d3);
   text-shadow: 0 2px 28px rgba(0, 0, 0, 0.18);
+}
+
+@supports (-webkit-background-clip: text) {
+  .khalab-custom-canvas-title {
+    background: linear-gradient(180deg, #ffffff 27%, #d4d5ac 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+  }
 }
 
 .khalab-custom-canvas-subtitle {
@@ -3824,6 +3908,33 @@ body.khalab-search-open {
 }
 
 @media (max-width: 767.98px) {
+  .khalab-custom-canvas {
+    padding-top: clamp(48px, 10vw, 72px);
+    padding-inline: 16px;
+  }
+
+  .khalab-custom-canvas-title-wrap {
+    padding-inline: 12px;
+    margin-bottom: 14px;
+  }
+
+  .khalab-custom-canvas-title {
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: var(--khalab-cream-soft, #e5e1d3);
+    font-family: var(--khalab-font-camel), serif;
+    font-size: clamp(26px, 7.2vw, 34px);
+    line-height: 1.4;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.22);
+  }
+
+  .khalab-custom-canvas-subtitle {
+    font-size: clamp(14px, 3.8vw, 16px);
+    line-height: 1.75;
+    padding-inline: 4px;
+  }
+
   .khalab-custom-canvas-circle--left {
     width: min(62vw, 280px);
     height: min(62vw, 280px);
@@ -4208,6 +4319,14 @@ body.khalab-search-open {
     gap: 16px;
   }
 
+  .khalab-featured-showcase-nav {
+    position: static;
+    justify-content: center;
+    width: 100%;
+    margin: 0 0 4px;
+    gap: 12px;
+  }
+
   .khalab-featured-showcase-stack {
     width: min(100%, 400px);
     max-width: 100%;
@@ -4238,9 +4357,22 @@ body.khalab-search-open {
     border-radius: 28px;
   }
 
+  .khalab-featured-showcase-content {
+    padding-top: 8px;
+    gap: 14px;
+  }
+
   .khalab-featured-showcase-nav {
-    top: -20px;
-    right: 0;
+    position: static;
+    justify-content: center;
+    width: 100%;
+    margin: 0 0 6px;
+    gap: 10px;
+  }
+
+  .khalab-featured-showcase-nav-btn {
+    width: 40px;
+    height: 40px;
   }
 
   .khalab-featured-showcase-stack {
@@ -4761,21 +4893,58 @@ body.khalab-search-open {
   height: 24px;
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
+  .khalab-wall-collections-frame {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+  }
+
   .khalab-wall-collections-copy {
-    top: clamp(24px, 6vw, 40px);
-    right: clamp(16px, 4vw, 24px);
-    max-width: min(100% - 32px, 300px);
+    position: relative;
+    order: -1;
+    top: auto;
+    right: auto;
+    left: auto;
+    width: 100%;
+    max-width: none;
+    padding: clamp(28px, 7vw, 40px) clamp(16px, 4vw, 24px)
+      clamp(18px, 4vw, 24px);
+    pointer-events: auto;
+    background: linear-gradient(
+      180deg,
+      #3a4230 0%,
+      rgba(58, 66, 48, 0.96) 100%
+    );
   }
 
   .khalab-wall-collections-title {
-    font-size: clamp(28px, 8vw, 42px);
+    font-size: clamp(26px, 7vw, 36px);
+    margin-bottom: 16px;
     max-width: none;
+    line-height: 1.2;
+  }
+
+  .khalab-wall-collections-cta {
+    width: min(100%, 240px);
+    height: 52px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .khalab-wall-collections-copy {
+    padding-top: clamp(24px, 6vw, 32px);
+  }
+
+  .khalab-wall-collections-title {
+    font-size: clamp(24px, 7.5vw, 32px);
+    margin-bottom: 14px;
   }
 
   .khalab-wall-collections-cta {
     width: min(100%, 220px);
-    height: 52px;
+    height: 50px;
+    font-size: 15px;
   }
 }
 
@@ -7366,9 +7535,67 @@ body:has(.khalab-products-page) .category-page-slider {
   }
 }
 
+@media (max-width: 991.98px) {
+  .khalab-selections + .khalab-products-section--home {
+    padding-top: clamp(16px, 3.5vw, 28px);
+  }
+
+  .khalab-selections:has(+ .khalab-products-section--home) {
+    padding-bottom: clamp(28px, 5vw, 40px);
+  }
+
+  .khalab-products-section--home {
+    padding-top: clamp(24px, 4.5vw, 36px);
+    padding-bottom: clamp(36px, 6vw, 56px);
+  }
+
+  .khalab-products-section--home::before {
+    top: clamp(12px, 2.5vw, 24px);
+    height: clamp(96px, 14vw, 132px);
+  }
+
+  .khalab-products-section--home .khalab-products-header {
+    gap: 10px;
+    margin-bottom: clamp(18px, 3.5vw, 26px);
+  }
+
+  .khalab-products-title-shape {
+    min-height: auto;
+    width: min(100%, 520px);
+    padding: clamp(26px, 5.5vw, 34px) clamp(18px, 4vw, 28px);
+  }
+
+  .khalab-products-title-bar--top {
+    top: 14%;
+  }
+
+  .khalab-products-title-bar--bottom {
+    bottom: 14%;
+  }
+
+  .khalab-products-title {
+    font-family: var(--khalab-font-camel), serif;
+    font-size: clamp(20px, 5vw, 26px);
+    line-height: 1.4;
+    max-width: min(100%, 340px);
+  }
+
+  .khalab-products-view-all {
+    font-size: clamp(13px, 3.4vw, 14px);
+  }
+}
+
 @media (max-width: 575px) {
   .khalab-products-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .khalab-products-section--home {
+    padding-top: 20px;
+  }
+
+  .khalab-selections + .khalab-products-section--home {
+    padding-top: 12px;
   }
 
   .khalab-products-header {
@@ -7378,11 +7605,29 @@ body:has(.khalab-products-page) .category-page-slider {
 
   .khalab-products-title-shape {
     width: 100%;
-    padding-inline: clamp(16px, 4vw, 24px);
+    padding: 22px clamp(14px, 4vw, 20px) 20px;
+  }
+
+  .khalab-products-title-bar--top {
+    top: 10%;
+  }
+
+  .khalab-products-title-bar--bottom {
+    bottom: 10%;
+  }
+
+  .khalab-products-title {
+    font-size: clamp(18px, 5.2vw, 22px);
+    line-height: 1.45;
+    max-width: min(100%, 280px);
   }
 
   .khalab-products-title-tick {
     opacity: 0.85;
+  }
+
+  .khalab-products-view-all {
+    margin-top: 2px;
   }
 
   .khalab-products-nav {
@@ -8444,6 +8689,7 @@ body.sidenav-open {
     position: absolute;
     top: 50px;
     right: 22px;
+    z-index: 99;
   }
 
   .khalab-pdp-color-swatches {

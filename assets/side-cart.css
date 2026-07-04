@@ -311,20 +311,26 @@ body.rtl .khalab-side-cart-close.side-cart-close {
 }
 
 .block-side-cart .cart-product-col-details h1 {
-  font-size: 1.75rem;
-  font-weight: 500;
-  line-height: 1.45;
+  font-family: var(--khalab-font-camel, "Year of Camel"), sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.55;
   color: var(--side-cart-text);
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .block-side-cart .cart-product-col-details h1 a {
   color: inherit;
   text-decoration: none;
+  font: inherit;
 }
 
 .block-side-cart .cart-product-prices {
@@ -369,12 +375,16 @@ body.rtl .khalab-side-cart-close.side-cart-close {
 
 .block-side-cart .cart-product-option-label {
   color: rgba(46, 51, 38, 0.62);
-  font-size: 0.95rem;
+  font-family: var(--khalab-font-camel, "Year of Camel"), sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .block-side-cart .cart-product-option-value {
   color: var(--side-cart-text);
-  font-size: 0.95rem;
+  font-family: var(--khalab-font-camel, "Year of Camel"), sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .block-side-cart .cart-product-delete {
@@ -736,5 +746,20 @@ body.rtl .khalab-side-cart-close.side-cart-close {
     width: 72px;
     min-width: 72px;
     height: 72px;
+  }
+
+  .block-side-cart .cart-product-col-details {
+    gap: 6px;
+    padding-inline-end: 34px;
+  }
+
+  .block-side-cart .cart-product-col-details h1 {
+    font-size: 0.94rem;
+    line-height: 1.6;
+    -webkit-line-clamp: 4;
+  }
+
+  .block-side-cart .cart-product-prices .totals {
+    font-size: 1rem;
   }
 }
