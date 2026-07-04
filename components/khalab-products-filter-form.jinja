@@ -1,0 +1,57 @@
+{% if session.lang == 'ar' %}
+  {% set pl_filter_title = 'فلتر النتائج' %}
+  {% set pl_price_label = 'السعر' %}
+  {% set pl_from_label = 'من' %}
+  {% set pl_to_label = 'إلى' %}
+  {% set pl_sale_label = 'عرض المنتجات المخفّضة فقط' %}
+  {% set pl_clear_label = 'مسح' %}
+  {% set pl_save_label = 'حفظ' %}
+{% else %}
+  {% set pl_filter_title = _('Filter results') %}
+  {% set pl_price_label = _('Price') %}
+  {% set pl_from_label = _('From') %}
+  {% set pl_to_label = _('To') %}
+  {% set pl_sale_label = _('Show discounted only') %}
+  {% set pl_clear_label = _('Clear') %}
+  {% set pl_save_label = _('Save') %}
+{% endif %}
+
+<form class="khalab-pl-filter-form" method="get" action="{{ session.url.path }}">
+  {% for input in session.url.query_params %}
+    <input type="hidden" name="{{ loop.index0 }}" value="{{ input }}">
+  {% endfor %}
+
+  <div class="form-products-filter">
+    <div class="khalab-pl-filter-section">
+      <span class="khalab-pl-filter-section-title">{{ pl_price_label }}</span>
+      <div class="khalab-pl-filter-price-row">
+        <div class="khalab-pl-filter-field">
+          <label for="khalab-price-min">{{ pl_from_label }}</label>
+          <input id="khalab-price-min" name="price_min" type="number" class="form-control khalab-pl-filter-input" placeholder="{{ session.currency.code }}" inputmode="decimal">
+        </div>
+        <div class="khalab-pl-filter-field">
+          <label for="khalab-price-max">{{ pl_to_label }}</label>
+          <input id="khalab-price-max" name="price_max" type="number" class="form-control khalab-pl-filter-input" placeholder="{{ session.currency.code }}" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+
+    <div class="khalab-pl-filter-section khalab-pl-filter-sale">
+      <label class="khalab-pl-filter-checkbox" for="khalab-filter-on-sale">
+        <input id="khalab-filter-on-sale" class="khalab-pl-filter-checkbox-input" type="checkbox" name="on_sale">
+        <span class="khalab-pl-filter-checkbox-box" aria-hidden="true"></span>
+        <span class="khalab-pl-filter-checkbox-label">{{ pl_sale_label }}</span>
+      </label>
+    </div>
+
+    <div class="khalab-pl-filter-actions">
+      <button id="products-list-filter-form-clear" type="button" class="khalab-pl-filter-btn khalab-pl-filter-btn--ghost" onclick="clearFilters()">
+        {{ pl_clear_label }}
+      </button>
+      <button id="products-list-filter-form-save" type="submit" class="khalab-pl-filter-btn khalab-pl-filter-btn--primary">
+        {{ pl_save_label }}
+      </button>
+    </div>
+  </div>
+</form>
+

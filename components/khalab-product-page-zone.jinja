@@ -1,0 +1,132 @@
+{# Product page: related products + hand bg + load more + subscribe promo #}
+{% if (product.related_products | length) > 0 or settings.product_page_promo_enabled %}
+  {% set _main_product = product %}
+
+  {% if session.lang == 'ar' %}
+    {% set zone_related_title = settings.product_page_related_title or 'قد يعجبك أيضاً' %}
+    {% set zone_more_text = settings.product_page_related_more_text or 'للمزيد من اللوحات' %}
+    {% set zone_promo_title = settings.product_page_promo_title or 'اشترك للحصول على خصم 10% على أول طلب لك' %}
+    {% set zone_email_placeholder = settings.product_page_promo_email_placeholder or 'أدخل بريدك الإلكتروني هنا' %}
+  {% else %}
+    {% set zone_related_title = settings.product_page_related_title or _('You may also like') %}
+    {% set zone_more_text = settings.product_page_related_more_text or _('More paintings') %}
+    {% set zone_promo_title = settings.product_page_promo_title or _('Subscribe to get 10% off your first order') %}
+    {% set zone_email_placeholder = settings.product_page_promo_email_placeholder or _('Enter your email here') %}
+  {% endif %}
+
+  {% set zone_more_url = settings.product_page_related_more_url or '/products' %}
+  {% set zone_form_action = settings.product_page_promo_form_action or '/newsletter' %}
+  {% set zone_hand_image = settings.product_page_related_background_image %}
+  {% set zone_frame_image = settings.product_page_promo_frame_image %}
+  {% set zone_show_promo = settings.product_page_promo_enabled is not sameas false and settings.product_page_promo_enabled != '0' %}
+
+  <section class="khalab-product-page-zone khalab-section-solid" aria-label="{{ zone_related_title }}">
+    <div class="khalab-product-page-zone-grid" aria-hidden="true"></div>
+
+    {% if zone_hand_image %}
+      <div class="khalab-product-page-zone-hand-wrap" aria-hidden="true">
+        <img
+          src="{{ image_url(zone_hand_image, w=900, q=90, f='auto') }}"
+          alt=""
+          class="khalab-product-page-zone-hand"
+          loading="lazy"
+        >
+      </div>
+    {% endif %}
+
+    <div class="khalab-product-page-zone-inner">
+      {% if (product.related_products | length) > 0 %}
+        <div class="khalab-related-products-block">
+          <header class="khalab-related-products-header">
+            <h2 class="khalab-related-products-title">{{ zone_related_title }}</h2>
+            {% if product.related_products | length > 1 %}
+              <div class="khalab-related-products-nav-group">
+                <button type="button" class="khalab-related-products-nav khalab-related-products-nav--prev" aria-label="{{ _('Previous') }}">
+                  <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                    <path d="M8.5 1.5L1.5 9L8.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button type="button" class="khalab-related-products-nav khalab-related-products-nav--next" aria-label="{{ _('Next') }}">
+                  <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                    <path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            {% endif %}
+          </header>
+
+          <div class="khalab-related-products-stage">
+            <div
+              id="related-products"
+              class="khalab-related-products-swiper swiper"
+              role="region"
+              aria-roledescription="carousel"
+              aria-label="{{ zone_related_title }}"
+            >
+              <div class="swiper-wrapper">
+                {% for rProduct in product.related_products %}
+                  <div class="swiper-slide khalab-related-products-slide">
+                    <div class="prod-col">
+                      {% set product=rProduct %}{% set index=loop.index0 %}{% include 'components/product-card.jinja' %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          {% if zone_more_url and zone_more_text %}
+            <div class="khalab-product-page-more-wrap">
+              <a href="{{ zone_more_url }}" class="khalab-product-page-more-btn">
+                <span class="khalab-product-page-more-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 2V12M7 12L3.5 8.5M7 12L10.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>{{ zone_more_text }}</span>
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if zone_show_promo %}
+        <div class="khalab-product-page-promo" id="khalab-product-page-promo">
+          {% if zone_frame_image %}
+            <div class="khalab-product-page-promo-frame-wrap" aria-hidden="true">
+              <img
+                src="{{ image_url(zone_frame_image, w=520, q=90, f='auto') }}"
+                alt=""
+                class="khalab-product-page-promo-frame"
+                loading="lazy"
+              >
+            </div>
+          {% endif %}
+
+          <div class="khalab-product-page-promo-panel">
+            <h3 class="khalab-product-page-promo-title">{{ zone_promo_title }}</h3>
+            <form class="khalab-product-page-promo-form" action="{{ zone_form_action }}" method="post">
+              <label class="visually-hidden" for="khalab-product-promo-email">{{ zone_email_placeholder }}</label>
+              <input
+                id="khalab-product-promo-email"
+                type="email"
+                name="email"
+                class="khalab-product-page-promo-input"
+                placeholder="{{ zone_email_placeholder }}"
+                required
+                autocomplete="email"
+              >
+              <button type="submit" class="khalab-product-page-promo-submit" aria-label="{{ _('Subscribe') }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12H19M12 5L19 12L12 19"/>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% set product = _main_product %}
+{% endif %}

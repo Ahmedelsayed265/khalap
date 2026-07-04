@@ -49,7 +49,7 @@
 
                 {% if store.settings.products.wishlist_enabled == true %}
                     <span class="khalab-product-card-action khalab-product-card-action--wishlist add-to-wishlist" data-wishlist-id="{{ product.id }}">
-                        <span zid-visible-customer="true">
+                        <span class="khalab-wishlist-toggle" zid-visible-customer="true">
                             <button type="button" zid-visible-wishlist="{{ product.id }}" class="khalab-product-card-wishlist-btn" onclick="event.preventDefault(); event.stopPropagation(); addToWishlist(this, '{{ product.id }}')" aria-label="{{ _('Remove from wishlist') }}">
                                 <img src="{{ 'save-filled.svg' | asset_url }}" alt="" width="20" height="20" class="khalab-product-card-action-icon">
                             </button>

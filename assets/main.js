@@ -202,7 +202,12 @@ function addToCart(product_id, quantity, onCompleted) {
     .then(function (response) {
       if (response) {
         setCartTotalAndBadge(response);
-        fetchCart();
+
+        if (typeof window.openSideCart === 'function') {
+          window.openSideCart();
+        } else {
+          fetchCart();
+        }
 
         if (onCompleted) {
           onCompleted();
@@ -225,25 +230,33 @@ function getWishlistToggleButtons(container) {
   return $container.find('.icon-heart-mask, [zid-visible-wishlist], [zid-hidden-wishlist]');
 }
 
+function setWishlistActive(container, active) {
+  const $container = container instanceof jQuery ? container : $(container);
+  if (!$container.length) return;
+
+  $container.toggleClass('is-wishlisted', !!active);
+
+  const productId = $container.attr('data-wishlist-id');
+  if (productId) {
+    $container.find(`[zid-visible-wishlist="${productId}"]`).toggleClass('filled', !!active);
+    $container.find(`[zid-hidden-wishlist="${productId}"]`).removeClass('filled');
+  }
+
+  const heart = $container.find('> a.icon-heart-mask')[0];
+  if (heart) {
+    heart.classList.toggle('filled', !!active);
+  }
+
+  getWishlistToggleButtons($container).each(function() {
+    this.style.removeProperty('display');
+  });
+}
+
 function fillWishlistItems(items) {
   items.forEach(product => {
-    const container = $(`.add-to-wishlist[data-wishlist-id=${product.id}]`)[0];
-    if (!container) return;
-
-    // Find the filled button (with zid-visible-wishlist attribute)
-    const filledButton = container.querySelector(`[zid-visible-wishlist="${product.id}"]`);
-    // Find the empty button (with zid-hidden-wishlist attribute or without filled class)
-    const emptyButton = container.querySelector(`[zid-hidden-wishlist="${product.id}"]`) ||
-                        container.querySelector('.icon-heart-mask:not(.filled)');
-
-    // Show filled button, hide empty button
-    if (filledButton) {
-      filledButton.style.setProperty('display', 'inline-block', 'important');
-      filledButton.classList.add('filled');
-    }
-    if (emptyButton) {
-      emptyButton.style.setProperty('display', 'none', 'important');
-    }
+    const container = $(`.add-to-wishlist[data-wishlist-id=${product.id}]`);
+    if (!container.length) return;
+    setWishlistActive(container, true);
   });
 }
 
@@ -256,37 +269,18 @@ function addToWishlist(elm, productId) {
   });
   container.find('.loader').removeClass('d-none');
 
-  // Remove From Wishlist if added
-  if ($(elm).hasClass('filled')) {
+  // Remove From Wishlist if already active
+  if (container.hasClass('is-wishlisted') || $(elm).hasClass('filled') || $(elm).is('[zid-visible-wishlist]')) {
     return removeFromWishlist(elm, productId);
   }
 
   zid.account.addToWishlists({ product_ids: [productId] }, { showErrorNotification: true }).then(response => {
     if (response) {
       container.find('.loader').addClass('d-none');
-
-      // Hide the empty button, show the filled button
-      const filledButton = container.find(`[zid-visible-wishlist="${productId}"]`)[0];
-      const emptyButton = container.find(`[zid-hidden-wishlist="${productId}"]`)[0] ||
-                          container.find('.icon-heart-mask:not([zid-visible-wishlist])')[0];
-
-      if (filledButton) {
-        filledButton.style.setProperty('display', 'inline-block', 'important');
-        filledButton.classList.add('filled');
-      } else {
-        elm.style.setProperty('display', 'inline-block', 'important');
-        $(elm).addClass('filled');
-      }
-
-      if (emptyButton) {
-        emptyButton.style.setProperty('display', 'none', 'important');
-      }
-
-      // toastr.success(response.data.message);
+      setWishlistActive(container, true);
     } else {
-      // toastr.error(response.data.message);
-      // Show the original button back on error
-      elm.style.setProperty('display', 'inline-block', 'important');
+      setWishlistActive(container, false);
+      elm.style.setProperty('display', 'inline-flex', 'important');
       container.find('.loader').addClass('d-none');
     }
   });
@@ -309,27 +303,10 @@ function removeFromWishlist(elm, productId) {
       return;
     }
 
-    // Hide the filled button, show the empty button
-    const filledButton = container.find(`[zid-visible-wishlist="${productId}"]`)[0];
-    const emptyButton = container.find(`[zid-hidden-wishlist="${productId}"]`)[0] ||
-                        container.find('.icon-heart-mask:not([zid-visible-wishlist])')[0];
-
-    if (emptyButton) {
-      emptyButton.style.setProperty('display', 'inline-block', 'important');
-      emptyButton.classList.remove('filled');
-    } else {
-      elm.style.setProperty('display', 'inline-block', 'important');
-      $(elm).removeClass('filled');
-    }
-
-    if (filledButton) {
-      filledButton.style.setProperty('display', 'none', 'important');
-      filledButton.classList.remove('filled');
-    }
+    setWishlistActive(container, false);
   }).catch(error => {
     console.error('Failed to remove from wishlist:', error);
-    // Show the original button back on error
-    elm.style.setProperty('display', 'inline-block', 'important');
+    setWishlistActive(container, true);
     container.find('.loader').addClass('d-none');
   });
 }
@@ -408,12 +385,37 @@ function displayActivePaymentSessionBar(cart) {
 }
 
 function fetchCart() {
+  var sideCart = document.getElementById('side-cart');
+  var loading = sideCart && sideCart.querySelector('.loading-cart');
+  if (loading) loading.classList.remove('d-none');
 
   zid.cart.get({ showErrorNotification: true }).then(function (response) {
-    if (response && response.id) {
-      setCartTotalAndBadge(response);
-      displayActivePaymentSessionBar(response.id);
+    var cart =
+      response && response.data && response.data.cart
+        ? response.data.cart
+        : response && response.data
+          ? response.data
+          : response;
+
+    if (!cart) {
+      cart = {
+        products_count: 0,
+        cart_items_quantity: 0,
+        totals: [],
+        products: [],
+      };
     }
+
+    if (cart && (cart.id || cart.cart_items_quantity != null || cart.products_count != null)) {
+      setCartTotalAndBadge(cart);
+      displayActivePaymentSessionBar(cart);
+    }
+
+    if (sideCart && typeof window.renderSideCart === 'function') {
+      window.renderSideCart(cart);
+    }
+  }).finally(function () {
+    if (loading) loading.classList.add('d-none');
   });
 }
 
@@ -468,11 +470,14 @@ function showGiftCart() {
 }
 
 function closeSlidingMenu() {
-  window.slidingMenu.close();
+  if (window.slidingMenu && typeof window.slidingMenu.close === 'function') {
+    window.slidingMenu.close();
+  }
 }
 
 function clearFilters() {
-  $('.form-products-filter input').val('');
+  $('.khalab-pl-filter-form input[type="number"], .khalab-pl-filter-form input[type="checkbox"], .form-products-filter input').val('');
+  $('.khalab-pl-filter-form input[type="checkbox"], .form-products-filter input[type="checkbox"]').prop('checked', false);
   const cleanURL = window.location.origin + window.location.pathname;
   window.location.href = cleanURL;
 }
@@ -942,30 +947,7 @@ function updateUIAfterLogin(customer) {
       document.querySelectorAll('.add-to-wishlist').forEach(container => {
         const productId = container.getAttribute('data-wishlist-id');
         if (!productId) return;
-
-        const isInWishlist = wishlistProductIds.includes(productId);
-        const filledButton = container.querySelector(`[zid-visible-wishlist="${productId}"]`);
-        const emptyButton = container.querySelector(`[zid-hidden-wishlist="${productId}"]`) ||
-                            container.querySelector('.icon-heart-mask:not([zid-visible-wishlist])');
-
-        if (isInWishlist) {
-          if (filledButton) {
-            filledButton.style.setProperty('display', 'inline-block', 'important');
-            filledButton.classList.add('filled');
-          }
-          if (emptyButton) {
-            emptyButton.style.setProperty('display', 'none', 'important');
-          }
-        } else {
-          if (filledButton) {
-            filledButton.style.setProperty('display', 'none', 'important');
-            filledButton.classList.remove('filled');
-          }
-          if (emptyButton) {
-            emptyButton.style.setProperty('display', 'inline-block', 'important');
-            emptyButton.classList.remove('filled');
-          }
-        }
+        setWishlistActive($(container), wishlistProductIds.includes(productId));
       });
     }).catch(error => {
       console.error('Failed to fetch wishlist:', error);

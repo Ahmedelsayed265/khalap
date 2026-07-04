@@ -8,13 +8,19 @@
 
 {% block main_content %}
 <section class="khalab-products-section khalab-products-page khalab-section-solid" aria-label="{{ _('All products') }}">
-    <div class="khalab-products-inner">
-        <header class="khalab-products-header">
-            <div class="khalab-products-title-wrap">
-                <h1 class="khalab-products-title">{{ _("All products") }}</h1>
-            </div>
-        </header>
+    {% if session.lang == 'ar' %}
+        {% set hero_subtitle = 'استكشف مجموعتنا الفنية المتنوعة المصممة بعناية' %}
+    {% else %}
+        {% set hero_subtitle = _('Browse our carefully curated art collection') %}
+    {% endif %}
+    {% set hero_title = _('All products') %}
+    {% set count = products.count %}
+    {% set has_products_filtration = (products.filters|length > 0) %}
+    {% set totalPages = products.pages_count %}
+    {% set currentPage = products.page %}
+    {% include 'components/khalab-products-page-header.jinja' %}
 
+    <div class="khalab-products-inner">
         <div class="khalab-products-toolbar-wrap{% if products.filters|length > 0 %} has-filters{% endif %}">
             <div class="container-fluid khalab-products-layout">
                 {% if products.filters|length > 0 %}
@@ -22,10 +28,6 @@
                 {% endif %}
 
                 <div class="products-container flex-grow-1">
-                    <div class="khalab-products-toolbar">
-                        {% set count=products.count %}{% set has_products_filtration=(products.filters|length > 0) %}{% include 'components/products-filter.jinja' %}
-                    </div>
-
                     <div id="products-list" class="khalab-products-grid products-list row">
                         {% for product in safeget(products, "results", []) %}
                             <div class="prod-col {% if products.filters|length > 0 %}prod-col-attr{% endif %} prod-col-tb">
@@ -47,6 +49,7 @@
 {% block footer %} {% include 'footer.jinja' %} {% endblock %}
 
 {% block footer_scripts %}
+    <script type="text/javascript" src="{{ ('khalab-products-toolbar.js?v=' ~ ver) | asset_url }}" defer></script>
     <script type="text/javascript" src="{{ 'toastr.min.js' | asset_url }}" defer></script>
     <script>
         window.onProductAttributesTriggered = function(){

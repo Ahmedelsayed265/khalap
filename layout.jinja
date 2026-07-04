@@ -171,11 +171,12 @@
   <link rel="stylesheet" type="text/css" href="{{ 'slick-theme.css?v=1.08' | asset_url }}" />
 
   <link rel="stylesheet" type="text/css" href="{{ 'slide-menu.css' | asset_url }}" />
-  <link rel="stylesheet" type="text/css" href="{{ 'slide-menu-style.css?v=1.16' | asset_url }}" />
+  <link rel="stylesheet" type="text/css" href="{{ 'slide-menu-style.css?v=1.17' | asset_url }}" />
 
   <link rel="stylesheet" href="{{ ('main.css?v=' ~ ver) | asset_url }}" />
 
   <link rel="stylesheet" type="text/css" href="{{ 'custom.css?v=1.158' | asset_url }}" />
+  <link rel="stylesheet" type="text/css" href="{{ ('side-cart.css?v=' ~ ver) | asset_url }}" />
 
   {% if session.lang == 'ar' %}
     <link rel="stylesheet" href="{{ 'main.rtl.css?v=1.25' | asset_url }}">
@@ -271,8 +272,10 @@
 <script src="{{ 'slide-menu.ie.js?v=1.06' | asset_url }}"></script>
 
 <script type="text/javascript" src="{{ ('main.js?v=' ~ ver) | asset_url }}" defer></script>
+<script type="text/javascript" src="{{ ('side-cart.js?v=' ~ ver) | asset_url }}" defer></script>
 <script type="text/javascript" src="{{ ('bundle-offers.js?v=' ~ ver) | asset_url }}" defer></script>
 
+{% include 'components/side-cart.jinja' %}
 {% vitrin_body %}
 
 {% if session.template not in ['product_details', 'cart_page', 'page_details'] and safeget(store, "settings.checkout.is_loyalty_enabled", False) %}

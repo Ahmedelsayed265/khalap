@@ -1,0 +1,132 @@
+{# Side Cart — Khalab theme drawer #}
+{% if session.lang == 'ar' %}
+  {% set side_cart_title = 'محتويات السلة' %}
+  {% set side_cart_empty = 'السلة فارغة' %}
+  {% set side_cart_continue = 'متابعة التسوق' %}
+  {% set side_cart_coupon = 'لديك كوبون خصم' %}
+  {% set side_cart_discount_code = 'كود الخصم' %}
+  {% set side_cart_activate = 'تطبيق' %}
+  {% set side_cart_checkout = 'الانتقال للدفع' %}
+{% else %}
+  {% set side_cart_title = _('Cart Contents') %}
+  {% set side_cart_empty = _('Cart is empty') %}
+  {% set side_cart_continue = _('continue shopping') %}
+  {% set side_cart_coupon = _('Have a discount coupon') %}
+  {% set side_cart_discount_code = _('Discount Code') %}
+  {% set side_cart_activate = _('Activate') %}
+  {% set side_cart_checkout = _('Proceed to checkout') %}
+{% endif %}
+
+<aside class="offcanvas offcanvas-end block-side-cart khalab-side-cart" id="side-cart" tabindex="-1" aria-labelledby="side-cart-title"
+  data-empty="{{ side_cart_empty | e }}"
+  data-remove-label="{{ _('Remove') | e }}"
+  data-free-shipping-applied="{{ _('Free shipping applied') | e }}"
+  data-free-shipping-between="{{ _('Free shipping applies for cart total between %(min)s and %(max)s') | e }}"
+  data-free-shipping-add-total="{{ _('Add products with total of %(total)s to get free shipping') | e }}"
+  data-total-label="{{ _('Total') | e }}"
+  data-coupon-applied="{{ _('Coupon applied') | e }}"
+  data-update-quantity-error="{{ _('Failed to update quantity') | e }}">
+
+  <div class="offcanvas-header block-side-cart-header khalab-side-cart-header">
+    <h5 class="offcanvas-title" id="side-cart-title">{{ side_cart_title }}</h5>
+    <button type="button" class="btn-close side-cart-close khalab-side-cart-close"
+      onclick="typeof window.closeSideCart === 'function' && window.closeSideCart()"
+      aria-label="{{ _('Close') }}"></button>
+  </div>
+
+  <div class="offcanvas-body block-side-cart-body">
+    <div class="loading-cart d-none" aria-hidden="true">
+      <span class="loader-cart" aria-hidden="true"></span>
+    </div>
+
+    <div class="cart-list">
+      <div class="empty-cart-box" id="additional-cart">
+        <div class="empty-cart-message d-flex flex-column align-items-center justify-content-center py-5">
+          <span class="empty-cart-icon" aria-hidden="true">
+            <img src="{{ 'empty-cart.svg' | asset_url }}" width="120" height="120" alt="">
+          </span>
+          <h2 class="mt-empty empty-cart-text">{{ side_cart_empty }}</h2>
+          <div class="mt-shopping mt-3">
+            <a href="/" class="khalab-side-cart-continue-btn">
+              {{ side_cart_continue }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-discount-rule-wrapper free-shipping-rule-section mt-2 mb-4 d-none" id="side-cart-free-shipping">
+        <div class="free-shipping-message-text free-shipping-rule-message"></div>
+        <div class="free-shipping-progress-container d-none">
+          <div class="free-shipping-value free-shipping-value-right">
+            <span class="free-shipping-current-subtotal"></span>
+          </div>
+          <div class="free-shipping-track">
+            <div class="free-shipping-track-bg"></div>
+            <div class="free-shipping-track-fill free-shipping-rule-progress" style="width: 0%"></div>
+          </div>
+          <div class="free-shipping-value free-shipping-value-left">
+            <span class="free-shipping-min-total"></span>
+          </div>
+        </div>
+        <div class="free-shipping-read-more free-shipping-rule-read-more d-none">
+          <a data-toggle="modal" data-target="#searchCitiesModal" href="#">{{ _("Read More") }}</a>
+        </div>
+      </div>
+
+      <ul class="item-inside-cart side-cart-items list-unstyled mb-0 d-none"></ul>
+    </div>
+
+    <div class="footer-side-cart d-none">
+      <div class="cart-sidebar-wrapper">
+        <div class="cart-sidebar-card order-summary-card mb-4">
+          <div class="coupon-card mb-3">
+            <div class="coupon-form">
+              <button type="button" class="side-cart-coupon-toggle" aria-expanded="false"
+                aria-controls="side-cart-coupon-content">
+                <span class="side-cart-coupon-toggle-icon" aria-hidden="true">+</span>
+                <span class="side-cart-coupon-title">{{ side_cart_coupon }}</span>
+              </button>
+              <div class="side-cart-coupon-content" id="side-cart-coupon-content">
+                <div class="side-cart-coupon-content-inner">
+                  <form class="side-cart-coupon-form-inner"
+                    onsubmit="event.preventDefault(); if(typeof sendSideCartCoupon === 'function') sendSideCartCoupon();">
+                    <div class="form-group mb-0">
+                      <div class="coupon-capsule">
+                        <input type="text" class="form-control send-coupon side-cart-coupon-input"
+                          placeholder="{{ side_cart_discount_code }}" autocomplete="off">
+                        <button type="submit" class="btn coupon-activate-btn side-cart-coupon-apply"
+                          aria-label="{{ _('Apply discount coupon') }}">
+                          <img class="send-coupon-progress side-cart-coupon-spinner d-none"
+                            src="{{ 'spinner.gif' | asset_url }}" width="15" height="15" alt="">
+                          <span class="side-cart-coupon-apply-text">{{ side_cart_activate }}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="side-cart-coupon-applied d-none message-coupon alert alert-primary mt-2" role="alert">
+                    <span class="side-cart-coupon-code"></span>
+                    <button type="button" class="btn btn-link btn-sm p-0 side-cart-coupon-remove"
+                      onclick="if(typeof deleteSideCartCoupon === 'function') deleteSideCartCoupon();"
+                      aria-label="{{ _('Remove coupon') }}">
+                      <span class="icon-trash-alt" aria-hidden="true"></span>
+                      <img class="delete-coupon-progress d-none" src="{{ 'spinner.gif' | asset_url }}" width="14"
+                        height="14" alt="">
+                    </button>
+                  </div>
+                  <div class="message-coupon side-cart-message-coupon d-none small"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-totals-div" id="cart-side-totals" role="status" aria-live="polite" aria-atomic="true"></div>
+
+          <div class="cart-checkout-section mt-3">
+            <a href="/checkout"
+              class="btn btn-primary btn-lg btn-block cart-checkout-btn btn-side-cart-checkout">{{ side_cart_checkout }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>

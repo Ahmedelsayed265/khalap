@@ -1,0 +1,66 @@
+{# Khalab PDP gallery: main image + color swatches + thumb grid #}
+{% set media_items = product.selected_product.media | default([]) %}
+{% set share_url = product.html_url | default('', true) %}
+{% set share_title = product.name | striptags %}
+{% set video_icon = 'video-play.svg' | asset_url %}
+{% set placeholder_img = 'product-img.svg' | asset_url %}
+
+<div class="khalab-pdp-gallery" id="khalab-pdp-gallery" data-video-icon="{{ video_icon }}">
+  <div class="khalab-pdp-gallery-shell {% if media_items | length <= 0 %}khalab-pdp-gallery-shell--empty{% endif %}">
+    <div class="khalab-pdp-gallery-main-wrap">
+      <div class="khalab-pdp-gallery-thumbs {% if media_items | length <= 1 %}d-none{% endif %}" id="khalab-pdp-gallery-thumbs">
+        {% for image in media_items[:4] %}
+          <button
+            type="button"
+            class="khalab-pdp-gallery-thumb{% if loop.first %} is-active{% endif %}"
+            data-index="{{ loop.index0 }}"
+            aria-label="{{ _('Image') }} {{ loop.index }}"
+          >
+            <img src="{{ image.image.medium }}" alt="" loading="{% if loop.first %}eager{% else %}lazy{% endif %}">
+            {% if image.provider and image.link %}
+              <img class="khalab-pdp-gallery-thumb-play" src="{{ video_icon }}" alt="">
+            {% endif %}
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="khalab-pdp-color-mount" id="khalab-pdp-color-mount" aria-label="{{ _('Color') }}"></div>
+
+      <div class="khalab-pdp-gallery-main" id="khalab-pdp-gallery-main">
+        {% if media_items | length > 0 %}
+          {% set first = media_items[0] %}
+          <button type="button" class="khalab-pdp-gallery-main-btn" data-gallery-index="0" aria-label="{{ _('View image') }}">
+            <img
+              src="{{ first.image.full_size }}"
+              alt="{{ first.alt_text | default(product.name, true) }}"
+              class="khalab-pdp-gallery-main-img"
+              id="khalab-pdp-main-img"
+              loading="eager"
+            >
+            {% if first.provider and first.link %}
+              <img
+                class="khalab-pdp-gallery-play"
+                src="{{ video_icon }}"
+                alt=""
+                data-video-link="{{ first.link }}"
+                onclick="event.stopPropagation(); showIframe(this, '{{ first.link }}');"
+              >
+            {% endif %}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="khalab-pdp-gallery-empty {% if media_items | length > 0 %}d-none{% endif %}" id="khalab-pdp-gallery-empty">
+      <img src="{{ placeholder_img }}" alt="" width="120" height="120">
+    </div>
+  </div>
+
+  {# Legacy hooks for platform variant image updates #}
+  <div class="d-none" aria-hidden="true">
+    <div id="product-images-slick"></div>
+    <div class="product-images-carousel-thumbs"></div>
+  </div>
+
+  <div class="khalab-pdp-variant-bar" id="khalab-pdp-variant-bar"></div>
+</div>

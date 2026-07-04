@@ -109,6 +109,103 @@
           ]
         }
       ]
+    },
+    {
+      "id": "product_page",
+      "icon": "fa fa-tag",
+      "name": {
+        "ar": "صفحة المنتج",
+        "en": "Product page"
+      },
+      "settings": [
+        {
+          "id": "related_background_image",
+          "type": "image",
+          "label": {
+            "ar": "صورة الخلفية (اليد / التمثال)",
+            "en": "Background sculpture image"
+          },
+          "info": {
+            "ar": "PNG بخلفية شفافة — تظهر خلف سلايدر المنتجات المشابهة",
+            "en": "Transparent PNG behind the related products slider"
+          }
+        },
+        {
+          "id": "related_title",
+          "type": "text",
+          "label": {
+            "ar": "عنوان المنتجات المشابهة",
+            "en": "Related products title"
+          },
+          "default": "قد يعجبك أيضاً"
+        },
+        {
+          "id": "related_more_text",
+          "type": "text",
+          "label": {
+            "ar": "نص زر المزيد",
+            "en": "Load more button text"
+          },
+          "default": "للمزيد من اللوحات"
+        },
+        {
+          "id": "related_more_url",
+          "type": "url",
+          "label": {
+            "ar": "رابط زر المزيد",
+            "en": "Load more button link"
+          },
+          "default": "/products"
+        },
+        {
+          "id": "promo_enabled",
+          "type": "checkbox",
+          "label": {
+            "ar": "إظهار قسم الاشتراك والخصم",
+            "en": "Show subscribe promo section"
+          },
+          "default": true
+        },
+        {
+          "id": "promo_title",
+          "type": "text",
+          "label": {
+            "ar": "عنوان قسم الاشتراك",
+            "en": "Promo title"
+          },
+          "default": "اشترك للحصول على خصم 10% على أول طلب لك"
+        },
+        {
+          "id": "promo_email_placeholder",
+          "type": "text",
+          "label": {
+            "ar": "نص حقل البريد",
+            "en": "Email placeholder"
+          },
+          "default": "أدخل بريدك الإلكتروني هنا"
+        },
+        {
+          "id": "promo_form_action",
+          "type": "url",
+          "label": {
+            "ar": "رابط النشرة البريدية",
+            "en": "Newsletter form action"
+          },
+          "default": "/newsletter"
+        },
+        {
+          "id": "promo_frame_image",
+          "type": "image",
+          "label": {
+            "ar": "صورة الإطار المزخرف",
+            "en": "Decorative frame image"
+          },
+          "info": {
+            "ar": "صورة الإطار المائل على يسار بانر الاشتراك",
+            "en": "Tilted frame image on the left of the promo banner"
+          }
+        }
+      ]
     }
   ]
 }

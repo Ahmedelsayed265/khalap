@@ -1,0 +1,28 @@
+{% if session.lang == 'ar' %}
+  {% set pl_filter_title = 'فلتر النتائج' %}
+{% else %}
+  {% set pl_filter_title = _('Filter results') %}
+{% endif %}
+
+<div id="filters-form-collapse-sm" class="collapse khalab-pl-filter-collapse">
+  <div class="khalab-pl-filter-panel">
+    {% include 'components/khalab-products-filter-form.jinja' %}
+  </div>
+</div>
+
+<div class="modal fade khalab-pl-filter-modal" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered khalab-pl-filter-modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header khalab-pl-filter-modal-header">
+        <h2 class="khalab-pl-filter-modal-title" id="filterModalLabel">{{ pl_filter_title }}</h2>
+        <button id="products-list-filter-form-close" type="button" class="khalab-pl-filter-modal-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body khalab-pl-filter-modal-body">
+        {% include 'components/khalab-products-filter-form.jinja' %}
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -109,13 +109,21 @@
     {% endif %}
 
     <section class="khalab-products-section khalab-products-page khalab-section-solid" aria-label="{{ category.name }}">
-        <div class="khalab-products-inner">
-            <header class="khalab-products-header">
-                <div class="khalab-products-title-wrap">
-                    <h1 class="khalab-products-title">{{ category.name }}</h1>
-                </div>
-            </header>
+        {% set hero_title = category.name %}
+        {% if category.description %}
+            {% set hero_subtitle = category.description %}
+        {% elif session.lang == 'ar' %}
+            {% set hero_subtitle = 'لوحات أنيقة تضيف فخامة ودفئاً للمجالس والصالات' %}
+        {% else %}
+            {% set hero_subtitle = _('Elegant artwork to elevate your space') %}
+        {% endif %}
+        {% set count = products.count %}
+        {% set has_products_filtration = (products.filters|length > 0) %}
+        {% set totalPages = products.pages_count %}
+        {% set currentPage = products.page %}
+        {% include 'components/khalab-products-page-header.jinja' %}
 
+        <div class="khalab-products-inner">
             <div class="khalab-products-toolbar-wrap{% if products.filters|length > 0 %} has-filters{% endif %}">
                 <div class="container-fluid khalab-products-layout">
                     {% if products.filters|length > 0 %}
@@ -123,10 +131,6 @@
                     {% endif %}
 
                     <div class="products-container flex-grow-1">
-                        <div class="khalab-products-toolbar">
-                            {% set count=products.count %}{% set has_products_filtration=(products.filters|length > 0) %}{% include 'components/products-filter.jinja' %}
-                        </div>
-
                         <div id="products-list" class="khalab-products-grid products-list row">
                             {% for product in products.results %}
                                 <div class="prod-col {% if products.filters|length > 0 %}prod-col-attr{% endif %} prod-col-tb">
@@ -155,6 +159,7 @@
 
 
 {% block footer_scripts %}
+    <script type="text/javascript" src="{{ ('khalab-products-toolbar.js?v=' ~ ver) | asset_url }}" defer></script>
     <script type="text/javascript" src="{{ 'toastr.min.js' | asset_url }}" defer></script>
     <script>
         window.onProductAttributesTriggered = function(){

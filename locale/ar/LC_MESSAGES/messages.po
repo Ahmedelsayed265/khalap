@@ -34,11 +34,17 @@ msgstr "أضف سؤالك"
 msgid "Added to cart successfully"
 msgstr "تم إضافة المنتج للسلة بنجاح"
 
+msgid "Activate"
+msgstr "تطبيق"
+
 msgid "All products"
 msgstr "صفحة استعراض المنتجات"
 
 msgid "All reviews"
 msgstr "جميع التقييمات"
+
+msgid "Apply discount coupon"
+msgstr "تطبيق كوبون الخصم"
 
 msgid "And"
 msgstr "و"
@@ -70,6 +76,9 @@ msgstr "السلة"
 msgid "Cart is empty"
 msgstr "السلة فارغة"
 
+msgid "Cart Contents"
+msgstr "محتويات السلة"
+
 msgid "Cart items"
 msgstr "عناصر السلة"
 
@@ -97,6 +106,9 @@ msgstr "إغلاق"
 msgid "Complete Order"
 msgstr "إتمام الطلب"
 
+msgid "Coupon applied"
+msgstr "تم تطبيق الكوبون"
+
 msgid "Contact us"
 msgstr "تواصل معنا"
 
@@ -117,6 +129,9 @@ msgstr "خصم"
 
 msgid "Discount coupon"
 msgstr "قسيمة الخصم"
+
+msgid "Discount Code"
+msgstr "كود الخصم"
 
 msgid "Dislike"
 msgstr "لا يعجبني"
@@ -163,6 +178,9 @@ msgstr "فشل في إضافة المنتج للسلة"
 msgid "Failed to send alert request"
 msgstr "فشل في الإرسال"
 
+msgid "Failed to update quantity"
+msgstr "فشل تحديث الكمية"
+
 msgid "Filter"
 msgstr "تصفية"
 
@@ -185,6 +203,14 @@ msgstr "تم تطبيق الشحن المجاني"
 msgid "Free shipping applied for cart total between %min and %max"
 msgstr "يتم تطبيق الشحن المجاني للسلة بإجمالي بين %min و %max"
 
+#, python-format
+msgid "Free shipping applies for cart total between %(min)s and %(max)s"
+msgstr "ينطبق الشحن المجاني على إجمالي سلة بين %(min)s و %(max)s"
+
+#, python-format
+msgid "Add products with total of %(total)s to get free shipping"
+msgstr "أضف منتجات بإجمالي %(total)s للحصول على شحن مجاني"
+
 msgid "From"
 msgstr "من"
 
@@ -193,6 +219,9 @@ msgstr "هدية"
 
 msgid "Gift card removed successfully"
 msgstr "تم حذف بطاقة الهدية بنجاح"
+
+msgid "Have a discount coupon"
+msgstr "لديك كوبون خصم"
 
 msgid "Go to Home"
 msgstr "الانتقال إلى الصفحة الرئيسية"
@@ -330,6 +359,9 @@ msgstr "صور المنتج"
 msgid "Products"
 msgstr "المنتجات"
 
+msgid "Proceed to checkout"
+msgstr "الانتقال للدفع"
+
 msgid "Quantity"
 msgstr "الكمية"
 
@@ -338,6 +370,12 @@ msgstr "أسئلة"
 
 msgid "Read More"
 msgstr "اقرأ المزيد"
+
+msgid "Remove"
+msgstr "حذف"
+
+msgid "Remove coupon"
+msgstr "إزالة الكوبون"
 
 msgid "Recipient"
 msgstr "المستلم"
@@ -421,6 +459,9 @@ msgstr "هذا المنتج غير متوفر في المخزون"
 
 msgid "To"
 msgstr "إلى"
+
+msgid "Total"
+msgstr "المجموع"
 
 msgid "Total "
 msgstr "إجمالي "

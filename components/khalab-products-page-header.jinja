@@ -1,0 +1,25 @@
+{# Products / category listing hero + toolbar #}
+{% set grid_url = ('grid_patern.svg' | asset_url) %}
+
+<div class="khalab-pl-page-header" style="--khalab-pl-grid: url('{{ grid_url }}');">
+  <div class="khalab-pl-page-hero">
+    <div class="khalab-pl-page-hero-grid" aria-hidden="true"></div>
+    <div class="khalab-pl-page-hero-content">
+      <h1 class="khalab-pl-page-hero-title">{{ hero_title }}</h1>
+      {% if hero_subtitle %}
+        <p class="khalab-pl-page-hero-subtitle">{{ hero_subtitle }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="khalab-pl-page-toolbar">
+    <div class="khalab-pl-page-toolbar-grid" aria-hidden="true"></div>
+    <div class="khalab-pl-page-toolbar-inner">
+      {% include 'components/khalab-products-toolbar.jinja' %}
+    </div>
+  </div>
+
+  <span id="product-filter-count" class="khalab-pl-sr-only" aria-hidden="true">{{ count }}</span>
+</div>
+
+{% include 'components/khalab-products-filter-overlays.jinja' %}
