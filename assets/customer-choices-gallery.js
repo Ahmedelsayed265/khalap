@@ -21,7 +21,7 @@
 
     new Swiper(swiperEl, {
       dir: isRtl ? 'rtl' : 'ltr',
-      slidesPerView: 1.12,
+      slidesPerView: 1.4,
       spaceBetween: 16,
       grabCursor: slideCount > 1,
       watchOverflow: true,

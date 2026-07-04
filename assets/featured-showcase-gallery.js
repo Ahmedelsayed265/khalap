@@ -32,6 +32,9 @@
       autoHeight: true,
       loop: slideCount > 1,
       watchOverflow: true,
+      observer: true,
+      observeParents: true,
+      resizeObserver: true,
       allowTouchMove: slideCount > 1,
       navigation:
         slideCount > 1 && prevBtn && nextBtn

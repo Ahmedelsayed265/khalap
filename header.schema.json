@@ -89,12 +89,12 @@
           "id": "logo_mobile",
           "type": "image",
           "label": {
-            "ar": " الشعار للجوال (اختياري)",
-            "en": "Logo mobile (optional)"
+            "ar": "شعار الجوال",
+            "en": "Mobile logo"
           },
           "info": {
-            "ar": "ارفع صورة بحجم 322 * 750 ",
-            "en": "This is an info text sample here"
+            "ar": "يظهر في الهيدر على الشاشات الصغيرة. إن لم تُرفع صورة، يُستخدم الشعار الأساسي.",
+            "en": "Shown in the mobile header pill. Falls back to the main logo if empty."
           }
         },
         {

@@ -42,20 +42,35 @@ window.onscroll = () => fixed_header_to_top();
 
 function menuFiixedHeader() {
   fixed_header = document.getElementById('fixed-header');
-  sticky = fixed_header?.offsetTop;
+  if (!fixed_header) return;
+  sticky = fixed_header.offsetTop;
 }
 
 function fixed_header_to_top() {
-  if (window.pageYOffset > sticky) {
-    if (fixed_header) {
-      fixed_header.classList.add('sticky');
-      $('.app-content').addClass('app-content-padded');
+  if (!fixed_header) return;
+
+  var wrap = document.querySelector('.khalab-header-wrap');
+  var threshold = typeof sticky === 'number' ? sticky : fixed_header.offsetTop;
+  var isSticky = window.pageYOffset > threshold;
+
+  if (isSticky) {
+    if (!fixed_header.classList.contains('sticky')) {
+      var headerHeight = fixed_header.offsetHeight;
+      if (wrap) {
+        wrap.style.setProperty('--khalab-header-height', headerHeight + 'px');
+      }
     }
+
+    fixed_header.classList.add('sticky');
+    if (wrap) wrap.classList.add('khalab-header-wrap--is-fixed');
+    document.body.classList.add('khalab-header-is-sticky');
   } else {
-    if (fixed_header) {
-      fixed_header.classList.remove('sticky');
-      $('.app-content').removeClass('app-content-padded');
+    fixed_header.classList.remove('sticky');
+    if (wrap) {
+      wrap.classList.remove('khalab-header-wrap--is-fixed');
+      wrap.style.removeProperty('--khalab-header-height');
     }
+    document.body.classList.remove('khalab-header-is-sticky');
   }
 }
 
@@ -639,6 +654,11 @@ document.addEventListener('DOMContentLoaded', function () {
   fixMenu();
 
   menuFiixedHeader();
+  fixed_header_to_top();
+  window.addEventListener('resize', function () {
+    menuFiixedHeader();
+    fixed_header_to_top();
+  }, { passive: true });
 });
 
 var fetchProductsSearchDebounce = debounce(function (target) {
